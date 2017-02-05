@@ -1,6 +1,6 @@
 package com.example.ae.smartvisit.modules;
 
-public class TouristicPlaces {
+public class PlaceDataModel {
     private String name;
     private String description;
     private String imageUrl;
@@ -10,7 +10,7 @@ public class TouristicPlaces {
     private String website;
 
 
-    public TouristicPlaces(String name, String description, String imageUrl, String city, int locationCoordinates, String contactNumber, String website) {
+    public PlaceDataModel(String name, String description, String imageUrl, String city, int locationCoordinates, String contactNumber, String website) {
         this.name = name;
         this.description = description;
         this.imageUrl = imageUrl;
