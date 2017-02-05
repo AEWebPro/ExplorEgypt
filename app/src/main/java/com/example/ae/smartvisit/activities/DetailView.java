@@ -1,0 +1,57 @@
+package com.example.ae.smartvisit.activities;
+
+
+import android.os.Bundle;
+
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.Toast;
+
+import com.example.ae.smartvisit.R;
+
+public class DetailView extends AppCompatActivity{
+
+    private boolean isClicked = false;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_detail_view);
+
+
+        ImageView placeImage = (ImageView) findViewById(R.id.placeImage);
+        final ImageButton favButton = (ImageButton) findViewById(R.id.favButton);
+        favButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!isClicked){
+                    isClicked = true;
+                    favButton.setImageResource(R.drawable.fav_icon);
+                    Toast.makeText(getApplication(), "is Favoret", Toast.LENGTH_SHORT).show();
+                }else{
+                    isClicked = false;
+                    favButton.setImageResource(R.drawable.unfav_icon);
+                }
+            }
+        });
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        CollapsingToolbarLayout layout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+
+        layout.setTitle("Place title here");
+    }
+
+}
