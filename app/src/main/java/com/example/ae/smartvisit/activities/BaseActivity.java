@@ -1,6 +1,7 @@
 package com.example.ae.smartvisit.activities;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.LayoutRes;
@@ -21,6 +22,7 @@ public class BaseActivity extends AppCompatActivity {
     protected boolean isTablet;
     protected Toolbar toolbar;
     protected  DrawerLayout navDrawer;
+    public boolean hasNavDrawer = true;
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
@@ -39,7 +41,6 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     public void setContentView(@LayoutRes int layoutResID) {
         super.setContentView(layoutResID);
-
         toolbar = (Toolbar) findViewById(R.id.include_toolbar);
         if(toolbar != null){
             setSupportActionBar(toolbar);
@@ -56,41 +57,48 @@ public class BaseActivity extends AppCompatActivity {
             }
         });
 
-        findViewById(R.id.nav_drawer_createplan_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(BaseActivity.this, "Go to Create A plan Activity",Toast.LENGTH_SHORT).show();
-                navDrawer.closeDrawer(GravityCompat.START);
-            }
-        });
+        if(hasNavDrawer) {
+            findViewById(R.id.nav_drawer_createplan_button).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // Toast.makeText(BaseActivity.this, "Go to Create A plan Activity",Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(application, new Planes().getClass()));
+                    finish();
+                    navDrawer.closeDrawer(GravityCompat.START);
+                }
+            });
 
 
-        findViewById(R.id.nav_drawer_services_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(BaseActivity.this, "Go to Services Activity",Toast.LENGTH_SHORT).show();
-                navDrawer.closeDrawer(GravityCompat.START);
-            }
-        });
+            findViewById(R.id.nav_drawer_services_button).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //Toast.makeText(BaseActivity.this, "Go to Services Activity",Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(application, new Services().getClass()));
+                    finish();
+                    navDrawer.closeDrawer(GravityCompat.START);
+                }
+            });
 
 
-        findViewById(R.id.nav_drawer_settings_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(BaseActivity.this, "Go to Settings Activity",Toast.LENGTH_SHORT).show();
-                navDrawer.closeDrawer(GravityCompat.START);
-            }
-        });
+            findViewById(R.id.nav_drawer_home_button).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //Toast.makeText(BaseActivity.this, "Go to Home Activity", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(application, new HomeActivity().getClass()));
+                    finish();
+                    navDrawer.closeDrawer(GravityCompat.START);
+                }
+            });
 
 
-        findViewById(R.id.nav_drawer_log_out_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(BaseActivity.this, "Logged out!",Toast.LENGTH_SHORT).show();
-                navDrawer.closeDrawer(GravityCompat.START);
-            }
-        });
+            findViewById(R.id.nav_drawer_log_out_button).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(BaseActivity.this, "Logged out!", Toast.LENGTH_SHORT).show();
+                    navDrawer.closeDrawer(GravityCompat.START);
+                }
+            });
 
-
+        }
     }
 }

@@ -43,24 +43,31 @@
             android:orientation="vertical"
             android:id="@+id/include_main_nav_drawer_top_items">
 
-            <Button
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textSize="28sp"
+                android:textStyle="bold"
+                android:text="Home"
+                android:padding="8dp"
+                android:id="@+id/nav_drawer_home_button"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="28sp"
+                android:textStyle="bold"
                 android:text="Create Plan"
+                android:padding="8dp"
                 android:id="@+id/nav_drawer_createplan_button"/>
-
-
-            <Button
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:textSize="28sp"
+                android:textStyle="bold"
                 android:text="Services"
                 android:id="@+id/nav_drawer_services_button"/>
 
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Settings"
-                android:id="@+id/nav_drawer_settings_button"/>
 
         </LinearLayout>
 

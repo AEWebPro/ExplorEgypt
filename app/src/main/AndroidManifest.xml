@@ -18,8 +18,17 @@
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
         </activity>
-
+        <activity android:name=".activities.Services" />
         <activity android:name=".activities.DetailView" />
+        <activity android:name=".activities.Transport" />
+        <activity android:name=".activities.Hospitals" />
+        <activity android:name=".activities.Currency" />
+        <activity android:name=".activities.Embassy" />
+        <activity android:name=".activities.Planes" />
+        <activity android:name=".activities.YourPlanes" />
+        <activity android:name=".activities.RecommandA" />
+        <activity android:name=".activities.RecommandPrograms" />
+        <activity android:name=".activities.YourPlanesA"></activity>
     </application>
 
 </manifest>
