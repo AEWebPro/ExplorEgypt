@@ -11,18 +11,20 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.ae.smartvisit.R;
 
-public class Signup extends AppCompatActivity  {
+public class Signup extends AppCompatActivity implements View.OnClickListener {
 
     EditText name,password,confirm_password,email;
     ImageButton imageperson;
+    Button register;
 
-    public final static   int SELECTED_PICTURE=1;
+    public final static  int SELECTED_PICTURE=1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +35,11 @@ public class Signup extends AppCompatActivity  {
         password=(EditText)findViewById(R.id.password_signup);
         confirm_password=(EditText)findViewById(R.id.confirm_password_signup);
         email=(EditText)findViewById(R.id.email_signup);
+        register=(Button) findViewById(R.id.register);
+
+
+        imageperson.setOnClickListener(this);
+        register.setOnClickListener(this);
 
     }
 
@@ -68,37 +75,38 @@ public class Signup extends AppCompatActivity  {
 
 
 
-    public void image(View v) {
 
-
+    @Override
+    public void onClick(View v) {
+        if(v==imageperson) {
             Intent select = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             startActivityForResult(select, SELECTED_PICTURE);
 
-
-    }
-
-
-
-
-        public void save(View v) {
-
-        if(imageperson.getDrawable()== null || ( password.getText().toString().isEmpty())||(confirm_password.getText().toString().isEmpty())||(email.getText().toString().isEmpty()))
-        {
-            Toast.makeText(Signup.this, "all of the fields are required ", Toast.LENGTH_SHORT).show();
         }
-        else
+        else if(v==register)
         {
-            if(password.getText().toString().equals(confirm_password.getText().toString())) {
-
-                Intent i = new Intent(Signup.this,Login.class);
-                startActivity(i);
-
+            if( ( password.getText().toString().isEmpty())||(confirm_password.getText().toString().isEmpty())||(email.getText().toString().isEmpty()))
+            {
+                Toast.makeText(Signup.this, "Please fill all the empty fields ", Toast.LENGTH_SHORT).show();
             }
             else
             {
-                Toast.makeText(Signup.this, "the password doesn't match ", Toast.LENGTH_SHORT).show();
+                if(password.getText().toString().equals(confirm_password.getText().toString())) {
+
+                    Intent i = new Intent(Signup.this,Login.class);
+                    startActivity(i);
+
+                }
+                else
+                {
+                    Toast.makeText(Signup.this, "the password doesn't match ", Toast.LENGTH_SHORT).show();
+                }
             }
         }
-
     }
+
+
+
+
+
 }

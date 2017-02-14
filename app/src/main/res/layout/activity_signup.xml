@@ -27,27 +27,30 @@
             android:background="@drawable/profilepictre"
             android:id="@+id/imgperson"
             android:layout_gravity="center"
-            android:onClick="image"
+
             />
 
-    <EditText
+
+        <EditText
         android:layout_width="250dp"
         android:layout_height="wrap_content"
+        android:inputType="textPersonName"
         android:layout_gravity="center"
         android:layout_marginTop="40dp"
         android:hint="Name"
         android:id="@+id/name_signup"
         />
-    <EditText
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:id="@+id/password_signup"
-        android:layout_gravity="center"
-        android:hint="Password"
-        />
 
-    <EditText
+        <EditText
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:id="@+id/password_signup"
+            android:layout_gravity="center"
+            android:hint="Password"
+            />
+
+        <EditText
         android:inputType="textPassword"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
@@ -70,8 +73,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="30dp"
-            android:text="save"
-            android:onClick="save"
-            android:id="@+id/button" />
+            android:text="Register"
+
+            android:id="@+id/register" />
     </LinearLayout>
 </RelativeLayout>
