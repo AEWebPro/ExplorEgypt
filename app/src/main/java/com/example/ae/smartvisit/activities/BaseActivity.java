@@ -58,7 +58,7 @@ public class BaseActivity extends AppCompatActivity {
         });
 
         if(hasNavDrawer) {
-            findViewById(R.id.nav_drawer_createplan_button).setOnClickListener(new View.OnClickListener() {
+            findViewById(R.id.nav_drawer_plan_button).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     // Toast.makeText(BaseActivity.this, "Go to Create A plan Activity",Toast.LENGTH_SHORT).show();
@@ -73,7 +73,7 @@ public class BaseActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     //Toast.makeText(BaseActivity.this, "Go to Services Activity",Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(application, new Services().getClass()));
+                    startActivity(new Intent(application, Services.class));
                     finish();
                     navDrawer.closeDrawer(GravityCompat.START);
                 }
@@ -84,7 +84,7 @@ public class BaseActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     //Toast.makeText(BaseActivity.this, "Go to Home Activity", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(application, new HomeActivity().getClass()));
+                    startActivity(new Intent(application, HomeActivity.class));
                     finish();
                     navDrawer.closeDrawer(GravityCompat.START);
                 }
@@ -95,6 +95,7 @@ public class BaseActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     Toast.makeText(BaseActivity.this, "Logged out!", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(application, Login.class));
                     navDrawer.closeDrawer(GravityCompat.START);
                 }
             });
