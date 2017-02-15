@@ -12,17 +12,22 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.ae.smartvisit.R;
+import com.example.ae.smartvisit.modules.PlaceDataModel;
 import com.example.ae.smartvisit.modules.RecommandListModule;
+import com.example.ae.smartvisit.modules.RecommandProgramsListModule;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class RecommandA extends BaseActivity {
     Intent intent;
-    String s;
+    String numberOfPlane;
+    RecommandProgramsListModule planeDisplayed;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recommand_a);
+
         toolbar.setNavigationIcon(R.drawable.ic_keyboard_backspace_black_24dp);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -30,35 +35,37 @@ public class RecommandA extends BaseActivity {
                 finish();
             }
         });
+
         ListView list=(ListView)findViewById(R.id.recommand_list);
+
+
         intent=getIntent();
+        numberOfPlane = intent.getExtras().getString("number");
+        planeDisplayed = intent.getParcelableExtra("plane");
 
-        s = intent.getExtras().getString("number");
-        list.setAdapter(new ListResources(this));
+        list.setAdapter(new ListResources(this, planeDisplayed.getListOfPlacesInPlan()));
 
-        getSupportActionBar().setTitle(s);
+        getSupportActionBar().setTitle(planeDisplayed.getName());
     }
 
     class ListResources extends BaseAdapter {
-        ArrayList<RecommandListModule> mydata;
+        //ArrayList<RecommandListModule> mydata;
         Context context;
-        ListResources(Context context) {
-
-
-
+        List<PlaceDataModel> plcesInPlane;
+        ListResources(Context context, List<PlaceDataModel> placesInPlane) {
 
             this.context = context;
+            this.plcesInPlane = placesInPlane;
 
-            mydata = new ArrayList<RecommandListModule>();
+            /* mydata = new ArrayList<RecommandListModule>();
 
-
-            if (s.equals("0")) {
+            if (numberOfPlane.equals("0")) {
                 mydata.add(new RecommandListModule("Abu Simble ", " 12:00 ", R.drawable.abusimble));
                 mydata.add(new RecommandListModule("temple of karnak ", " 9:00 PM ", R.drawable.templeofkarnak));
                 mydata.add(new RecommandListModule("Temple of Horus  ", " 2:00 ", R.drawable.templeofhorus));
 
             }
-            else if (s.equals("1"))
+            else if (numberOfPlane.equals("1"))
             {
 
                 mydata.add(new RecommandListModule("temple of karnak ", " 9:00 PM ", R.drawable.templeofkarnak));
@@ -66,24 +73,24 @@ public class RecommandA extends BaseActivity {
                 mydata.add(new RecommandListModule("Abu Simble ", " 12:00 ", R.drawable.abusimble));
             }
 
-            else if (s.equals("2"))
+            else if (numberOfPlane.equals("2"))
             {
 
 
                 mydata.add(new RecommandListModule("Temple of Horus  ", " 2:00 ", R.drawable.templeofhorus));
                 mydata.add(new RecommandListModule("temple of karnak ", " 9:00 PM ", R.drawable.templeofkarnak));
                 mydata.add(new RecommandListModule("Abu Simble ", " 12:00 ", R.drawable.abusimble));
-            }
+            }*/
         }
 
         @Override
         public int getCount() {
-            return mydata.size();
+            return plcesInPlane.size();
         }
 
         @Override
         public Object getItem(int position) {
-            return mydata.get(position);
+            return plcesInPlane.get(position);
         }
 
         @Override
@@ -97,13 +104,11 @@ public class RecommandA extends BaseActivity {
             LayoutInflater inflater=getLayoutInflater();
             View row=inflater.inflate(R.layout.activity_recommand_list,parent,false);
             TextView title=(TextView) row.findViewById(R.id.textTitle);
-            TextView time =(TextView) row.findViewById(R.id.textTime);
             ImageView image= (ImageView) row.findViewById(R.id.imageView);
-            RecommandListModule temp=mydata.get(position);
+            PlaceDataModel place = plcesInPlane.get(position);
 
-            title.setText(temp.getName());//variables from RecommandListModule.java
-            time.setText(temp.getTime());
-            image.setImageResource(temp.getImage());
+            title.setText(place.getName());//variables from RecommandListModule.java
+            image.setImageResource(R.mipmap.ic_launcher);
 
             return row;
         }

@@ -39,7 +39,9 @@ public class RecyclerAdapterHome extends RecyclerView.Adapter<RecyclerAdapterHom
     public void itemSelected(Object placeClicked){
         int position = placesSelected.indexOf(placeClicked);
         //Toast.makeText(context,"Item of index :" + position + "Is clicked!", Toast.LENGTH_SHORT).show();
-        context.startActivity(new Intent(context, new DetailView().getClass()));
+        Intent passedIntent = new Intent(context, new DetailView().getClass());
+        passedIntent.putExtra("placeClicked", placesSelected.get(position));
+        context.startActivity(passedIntent);
     }
 
     @Override

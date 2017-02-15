@@ -6,6 +6,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.ae.smartvisit.R;
+import com.example.ae.smartvisit.modules.RecommandProgramsListModule;
+
+import java.util.ArrayList;
 
 public class YourPlanesA extends BaseActivity {
 
@@ -25,10 +28,13 @@ public class YourPlanesA extends BaseActivity {
         });
 
         titleText = (TextView) findViewById(R.id.activity_your_plan_title_text);
+        RecommandProgramsListModule planeDisplayed;
         Intent intent;
         intent = getIntent();
         passedTitle = intent.getExtras().getString("number");
-        titleText.setText(passedTitle);
+        planeDisplayed = intent.getParcelableExtra("plane");
+
+        titleText.setText(planeDisplayed.getListOfPlacesInPlan().get(1).getName());
 
         getSupportActionBar().setTitle(passedTitle);
     }

@@ -1,6 +1,11 @@
 package com.example.ae.smartvisit.modules;
 
-public class PlaceDataModel {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
+
+public class PlaceDataModel implements Parcelable {
     private String name;
     private String description;
     private String imageUrl;
@@ -19,6 +24,33 @@ public class PlaceDataModel {
         this.contactNumber = contactNumber;
         this.website = website;
     }
+
+    public PlaceDataModel(Parcel source){
+        name = source.readString();
+        description = source.readString();
+        imageUrl = source.readString();
+        city = source.readString();
+        locationCoordinates = source.readInt();
+        contactNumber = source.readString();
+        website = source.readString();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(name);
+        parcel.writeString(description);
+        parcel.writeString(imageUrl);
+        parcel.writeString(city);
+        parcel.writeInt(locationCoordinates);
+        parcel.writeString(contactNumber);
+        parcel.writeString(website);
+    }
+
 
     public String getContactNumber() {
         return contactNumber;
@@ -47,4 +79,16 @@ public class PlaceDataModel {
     public int getLocationCoordinates() {
         return locationCoordinates;
     }
+
+    public static final Creator<PlaceDataModel> CREATOR = new Creator<PlaceDataModel>() {
+        @Override
+        public PlaceDataModel[] newArray(int size) {
+            return new PlaceDataModel[size];
+        }
+
+        @Override
+        public PlaceDataModel createFromParcel(Parcel source) {
+            return new PlaceDataModel(source);
+        }
+    };
 }

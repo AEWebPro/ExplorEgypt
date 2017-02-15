@@ -12,18 +12,33 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.ae.smartvisit.R;
+import com.example.ae.smartvisit.modules.PlaceDataModel;
 import com.example.ae.smartvisit.modules.RecommandProgramsListModule;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class RecommandPrograms extends BaseActivity {
 
-
+    List<PlaceDataModel> placesInPlan = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recommand_programs);
+
         getSupportActionBar().setTitle("Recommended Plans");
+        toolbar.setNavigationIcon(R.drawable.ic_keyboard_backspace_black_24dp);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
+        placesInPlan.add(0,new PlaceDataModel("Pyramids","","","",0,"",""));
+        placesInPlan.add(1,new PlaceDataModel("The Sea","","","",1,"",""));
+        placesInPlan.add(2,new PlaceDataModel("The Cairo Tower","","","",2,"",""));
+
 
         ListView list=(ListView)findViewById(R.id.recommand_programs);
         list.setAdapter(new ListResources(this));
@@ -39,10 +54,9 @@ public class RecommandPrograms extends BaseActivity {
                 ListResources(Context context)
                 {
                     this.context=context ;
-                    mydata.add(new RecommandProgramsListModule("Program (A) ", R.drawable.view));
-                    mydata.add(new RecommandProgramsListModule("Program (B) ", R.drawable.view));
-                    mydata.add(new RecommandProgramsListModule("Program (C) ", R.drawable.view));
-
+                    mydata.add(new RecommandProgramsListModule("Program (A) ", R.drawable.view, placesInPlan));
+                    mydata.add(new RecommandProgramsListModule("Program (B) ", R.drawable.view, placesInPlan));
+                    mydata.add(new RecommandProgramsListModule("Program (C) ", R.drawable.view, placesInPlan));
 
                 }
 
@@ -71,13 +85,14 @@ public class RecommandPrograms extends BaseActivity {
                     RecommandProgramsListModule temp=mydata.get(position);
 
                     title.setText(temp.getName());//variables from RecommandProgramList.java
-                    image.setImageResource(temp.getImge());
+                    image.setImageResource(temp.getImage());
 
                     row.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             Intent i = new Intent(RecommandPrograms.this, RecommandA.class);
                             i.putExtra("number", Integer.toString(position));
+                            i.putExtra("plane",mydata.get(position));
                             startActivity(i);
 
                         }

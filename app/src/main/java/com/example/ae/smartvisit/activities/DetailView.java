@@ -1,6 +1,7 @@
 package com.example.ae.smartvisit.activities;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -12,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.ae.smartvisit.R;
+import com.example.ae.smartvisit.modules.PlaceDataModel;
 
 public class DetailView extends AppCompatActivity{
 
@@ -30,7 +32,7 @@ public class DetailView extends AppCompatActivity{
                 if (!isClicked){
                     isClicked = true;
                     favButton.setImageResource(R.drawable.fav_icon);
-                    Toast.makeText(getApplication(), "is Favoret", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplication(), "is favourite", Toast.LENGTH_SHORT).show();
                 }else{
                     isClicked = false;
                     favButton.setImageResource(R.drawable.unfav_icon);
@@ -49,9 +51,11 @@ public class DetailView extends AppCompatActivity{
             }
         });
 
+        Intent intentPassed = getIntent();
+        PlaceDataModel placeDisplayed = (PlaceDataModel) intentPassed.getParcelableExtra("placeClicked");
         CollapsingToolbarLayout layout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
 
-        layout.setTitle("Place title here");
+        layout.setTitle(placeDisplayed.getName());
     }
 
 }
