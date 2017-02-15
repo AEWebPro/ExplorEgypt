@@ -81,7 +81,7 @@ public class Signup extends AppCompatActivity implements View.OnClickListener {
         if(v==imageperson) {
             Intent select = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             startActivityForResult(select, SELECTED_PICTURE);
-
+            finish();
         }
         else if(v==register)
         {
@@ -93,9 +93,9 @@ public class Signup extends AppCompatActivity implements View.OnClickListener {
             {
                 if(password.getText().toString().equals(confirm_password.getText().toString())) {
 
-                    Intent i = new Intent(Signup.this,Login.class);
+                    Intent i = new Intent(Signup.this,HomeActivity.class);
                     startActivity(i);
-
+                    finish();
                 }
                 else
                 {

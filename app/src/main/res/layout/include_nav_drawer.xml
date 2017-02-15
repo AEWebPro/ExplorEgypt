@@ -43,31 +43,64 @@
             android:orientation="vertical"
             android:id="@+id/include_main_nav_drawer_top_items">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="28sp"
-                android:textStyle="bold"
-                android:text="Home"
-                android:padding="8dp"
-                android:id="@+id/nav_drawer_home_button"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="28sp"
-                android:textStyle="bold"
-                android:text="Create Plan"
-                android:padding="8dp"
-                android:id="@+id/nav_drawer_createplan_button"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:textSize="28sp"
-                android:textStyle="bold"
-                android:text="Services"
-                android:id="@+id/nav_drawer_services_button"/>
+                android:padding="8dp">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_home_black_24dp"/>
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:text="Home"
+                    android:layout_marginStart="8dp"
+                    android:id="@+id/nav_drawer_home_button"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_create_black_24dp"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:text="Plans"
+                    android:layout_marginStart="8dp"
+                    android:id="@+id/nav_drawer_plan_button"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_help_black_24dp"/>
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:text="Services"
+                    android:layout_marginStart="8dp"
+                    android:id="@+id/nav_drawer_services_button"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -86,7 +119,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Logout!"
-        android:id="@+id/nav_drawer_log_out_button"/>
+        android:id="@+id/nav_drawer_log_out_button" />
 
 
 </LinearLayout>

@@ -32,12 +32,13 @@ public class Login extends AppCompatActivity  {
             Toast.makeText(Login.this, "welcome", Toast.LENGTH_SHORT).show();
             Intent i = new Intent(Login.this, HomeActivity.class);
             startActivity(i);
+            finish();
 
         }
     }
     public void signup(View v) {
         Intent i = new Intent(Login.this,Signup .class);
         startActivity(i);
-
+        finish();
     }
 }
