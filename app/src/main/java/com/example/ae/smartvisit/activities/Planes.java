@@ -22,7 +22,6 @@ public class Planes extends BaseActivity implements View.OnClickListener {
 
         your_id.setOnClickListener(this);
         recommand_id.setOnClickListener(this);
-
     }
 
     @Override

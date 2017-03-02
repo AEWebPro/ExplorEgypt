@@ -35,9 +35,12 @@
                 app:layout_collapseMode="pin">
 
                 <ImageButton
-                    android:layout_width="100dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/unfav_icon"
+                    android:src="@drawable/ic_favorite_black_24dp"
+                    android:scaleX="2"
+                    android:scaleY="2"
+                    android:layout_marginEnd="20dp"
                     android:background="@android:color/transparent"
                     android:layout_gravity="right"
                     android:id="@+id/favButton"/>

@@ -2,6 +2,7 @@ package com.example.ae.smartvisit.activities;
 
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -31,11 +32,11 @@ public class DetailView extends AppCompatActivity{
             public void onClick(View view) {
                 if (!isClicked){
                     isClicked = true;
-                    favButton.setImageResource(R.drawable.fav_icon);
+                    favButton.setColorFilter(Color.CYAN);
                     Toast.makeText(getApplication(), "is favourite", Toast.LENGTH_SHORT).show();
                 }else{
                     isClicked = false;
-                    favButton.setImageResource(R.drawable.unfav_icon);
+                    favButton.setColorFilter(null);
                 }
             }
         });
