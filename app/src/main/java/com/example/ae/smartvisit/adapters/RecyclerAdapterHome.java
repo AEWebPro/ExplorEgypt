@@ -20,6 +20,7 @@ import java.util.ArrayList;
 
 public class RecyclerAdapterHome extends RecyclerView.Adapter<RecyclerAdapterHome.PlaceVeiwHolder> {
 
+
     private ArrayList<PlaceDataModel> placesSelected;
     private Context context;
     private LayoutInflater inflater;

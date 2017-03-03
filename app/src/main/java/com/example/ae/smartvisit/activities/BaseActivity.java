@@ -95,7 +95,7 @@ public class BaseActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     Toast.makeText(BaseActivity.this, "Logged out!", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(application, Login.class));
+                    startActivity(new Intent(application, LoginActivity.class));
                     navDrawer.closeDrawer(GravityCompat.START);
                 }
             });
