@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".infrastructure.MyApplication"
@@ -14,16 +15,20 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activities.MainActivity" />
-        <activity android:name=".activities.HomeActivity" />
-        <activity android:name=".activities.Login">
+        <activity android:name=".activities.HomeActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activities.Login">
+
+        </activity>
         <activity android:name=".activities.Services" />
-        <activity android:name=".activities.DetailView" />
+        <activity android:name=".activities.DetailView" >
+
+        </activity>
         <activity android:name=".activities.Transport" />
         <activity android:name=".activities.Hospitals" />
         <activity android:name=".activities.Currency" />
@@ -34,6 +39,9 @@
         <activity android:name=".activities.RecommandPrograms" />
         <activity android:name=".activities.YourPlanesA"></activity>
         <activity android:name=".activities.Signup"></activity>
+        <activity android:name=".activities.PictureContainerActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomDialogActivity"/>
     </application>
 
 </manifest>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:padding="8dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/dialog_contact_title"
+        android:text="Contact num:"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:drawableStart="@drawable/ic_phone_black_24dp"
+        android:drawablePadding="4dp" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/dialog_contact_num"
+        android:text="+025205952955"
+        android:textSize="18sp"
+        android:paddingStart="8dp"
+        android:layout_alignBottom="@id/dialog_contact_title"
+        android:layout_toEndOf="@id/dialog_contact_title"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/dialog_email_title"
+        android:text="Web Site:"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:drawableStart="@drawable/ic_link_black_24dp"
+        android:drawablePadding="4dp"
+        android:layout_below="@id/dialog_contact_title"
+        android:paddingTop="8dp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/dialog_email_add"
+        android:text="www.egypt.com"
+        android:textSize="18sp"
+        android:linksClickable="true"
+        android:autoLink="web"
+        android:paddingStart="8dp"
+        android:layout_toEndOf="@id/dialog_email_title"
+        android:layout_below="@id/dialog_contact_num"
+        android:paddingTop="8dp" />
+
+</RelativeLayout>

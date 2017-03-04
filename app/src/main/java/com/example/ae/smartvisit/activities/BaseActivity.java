@@ -44,8 +44,8 @@ public class BaseActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.include_toolbar);
         if(toolbar != null){
             setSupportActionBar(toolbar);
-        }
-        toolbar.setNavigationIcon(R.drawable.ic_menu_black_24dp);
+
+            toolbar.setNavigationIcon(R.drawable.ic_menu_black_24dp);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -54,9 +54,9 @@ public class BaseActivity extends AppCompatActivity {
                 }else{
                     navDrawer.closeDrawer(GravityCompat.START);
                 }
-            }
-        });
-
+                }
+            });
+        }
         if(hasNavDrawer) {
             findViewById(R.id.nav_drawer_plan_button).setOnClickListener(new View.OnClickListener() {
                 @Override
