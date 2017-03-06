@@ -23,6 +23,7 @@ public class RecommandA extends BaseActivity {
     Intent intent;
     String numberOfPlane;
     RecommandProgramsListModule planeDisplayed;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,10 +37,9 @@ public class RecommandA extends BaseActivity {
             }
         });
 
-        ListView list=(ListView)findViewById(R.id.recommand_list);
+        ListView list = (ListView) findViewById(R.id.recommand_list);
 
-
-        intent=getIntent();
+        intent = getIntent();
         numberOfPlane = intent.getExtras().getString("number");
         planeDisplayed = intent.getParcelableExtra("plane");
 
@@ -52,35 +52,11 @@ public class RecommandA extends BaseActivity {
         //ArrayList<RecommandListModule> mydata;
         Context context;
         List<PlaceDataModel> plcesInPlane;
+
         ListResources(Context context, List<PlaceDataModel> placesInPlane) {
 
             this.context = context;
             this.plcesInPlane = placesInPlane;
-
-            /* mydata = new ArrayList<RecommandListModule>();
-
-            if (numberOfPlane.equals("0")) {
-                mydata.add(new RecommandListModule("Abu Simble ", " 12:00 ", R.drawable.abusimble));
-                mydata.add(new RecommandListModule("temple of karnak ", " 9:00 PM ", R.drawable.templeofkarnak));
-                mydata.add(new RecommandListModule("Temple of Horus  ", " 2:00 ", R.drawable.templeofhorus));
-
-            }
-            else if (numberOfPlane.equals("1"))
-            {
-
-                mydata.add(new RecommandListModule("temple of karnak ", " 9:00 PM ", R.drawable.templeofkarnak));
-                mydata.add(new RecommandListModule("Temple of Horus  ", " 2:00 ", R.drawable.templeofhorus));
-                mydata.add(new RecommandListModule("Abu Simble ", " 12:00 ", R.drawable.abusimble));
-            }
-
-            else if (numberOfPlane.equals("2"))
-            {
-
-
-                mydata.add(new RecommandListModule("Temple of Horus  ", " 2:00 ", R.drawable.templeofhorus));
-                mydata.add(new RecommandListModule("temple of karnak ", " 9:00 PM ", R.drawable.templeofkarnak));
-                mydata.add(new RecommandListModule("Abu Simble ", " 12:00 ", R.drawable.abusimble));
-            }*/
         }
 
         @Override
@@ -101,10 +77,10 @@ public class RecommandA extends BaseActivity {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
 
-            LayoutInflater inflater=getLayoutInflater();
-            View row=inflater.inflate(R.layout.activity_recommand_list,parent,false);
-            TextView title=(TextView) row.findViewById(R.id.textTitle);
-            ImageView image= (ImageView) row.findViewById(R.id.imageView);
+            LayoutInflater inflater = getLayoutInflater();
+            View row = inflater.inflate(R.layout.activity_recommand_list, parent, false);
+            TextView title = (TextView) row.findViewById(R.id.textTitle);
+            ImageView image = (ImageView) row.findViewById(R.id.imageView);
             PlaceDataModel place = plcesInPlane.get(position);
 
             title.setText(place.getName());//variables from RecommandListModule.java

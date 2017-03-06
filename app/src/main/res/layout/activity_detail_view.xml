@@ -4,8 +4,7 @@
     android:id="@+id/fullScreen"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:background="#e0f7fa">
+    android:fitsSystemWindows="true">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -141,7 +140,8 @@
             <android.support.v7.widget.RecyclerView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/activity_detail_view_pics_recycler"/>
+                android:id="@+id/activity_detail_view_pics_recycler"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -167,7 +167,8 @@
             <android.support.v7.widget.RecyclerView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/activity_detail_view_similar_places_recycler"/>
+                android:id="@+id/activity_detail_view_similar_places_recycler"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 

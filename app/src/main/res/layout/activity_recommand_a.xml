@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.DrawerLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/drawer_layout">
 
-<LinearLayout
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -13,12 +8,8 @@
     <include layout="@layout/include_toolbar" />
 
     <ListView
+        android:id="@+id/recommand_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/recommand_list">
-    </ListView>
+        android:layout_height="match_parent"></ListView>
 
 </LinearLayout>
-
-    <include layout="@layout/include_nav_drawer" />
-</android.support.v4.widget.DrawerLayout>

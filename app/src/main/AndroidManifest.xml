@@ -15,11 +15,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activities.MainActivity" android:theme="@style/AppTheme.Dark"/>
-        <activity android:name=".activities.HomeActivity" android:theme="@style/AppTheme.Dark"/>
+        <activity android:name=".activities.HomeActivity" android:theme="@style/AppTheme.Dark">
+        </activity>
         <activity android:name=".activities.LoginActivity" android:theme="@style/AppTheme.Dark" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -29,12 +29,10 @@
         <activity android:name=".activities.Hospitals" android:theme="@style/AppTheme.Dark"/>
         <activity android:name=".activities.Currency" android:theme="@style/AppTheme.Dark"/>
         <activity android:name=".activities.Embassy" android:theme="@style/AppTheme.Dark"/>
-        <activity android:name=".activities.Planes" android:theme="@style/AppTheme.Dark"/>
-        <activity android:name=".activities.YourPlanes" android:theme="@style/AppTheme.Dark"/>
         <activity android:name=".activities.RecommandA" android:theme="@style/AppTheme.Dark"/>
         <activity android:name=".activities.RecommandPrograms" android:theme="@style/AppTheme.Dark"/>
-        <activity android:name=".activities.YourPlanesA" android:theme="@style/AppTheme.Dark"></activity>
-
+        <activity android:name=".activities.YourPlanes" android:theme="@style/AppTheme.Dark" />
+        <activity android:name=".activities.YourPlanesA" android:theme="@style/AppTheme.Dark"/>
 
         <activity
             android:name=".activities.Signup"

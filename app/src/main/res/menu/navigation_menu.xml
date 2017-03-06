@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/nav_home" android:title="Home" android:icon="@drawable/ic_home_black_24dp"/>
+    <item android:id="@+id/nav_plans" android:title="Plans" android:icon="@drawable/ic_create_black_24dp"/>
+    <group android:id="@+id/nav_plans_group" android:visible="false" >
+        <item android:id="@+id/nav_create_plan" android:title="Create Plan!" android:icon="@drawable/ic_home_black_24dp"/>
+        <item android:id="@+id/nav_your_plans" android:title="Your Plans" android:icon="@drawable/ic_create_black_24dp"/>
+        <item android:id="@+id/nav_recommended_plans" android:title="Recommended Plans" android:icon="@drawable/ic_help_black_24dp"/>
+    </group>
+    <item android:id="@+id/nav_services" android:title="Services" android:icon="@drawable/ic_help_black_24dp"/>
+
+    <item android:id="@+id/nav_logout"
+        android:title="Log out"
+        android:icon="@drawable/ic_power_settings_new_black_24dp"
+        android:orderInCategory="100"/>
+
+</menu>

@@ -8,16 +8,16 @@ import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 
 import com.example.ae.smartvisit.R;
 import com.example.ae.smartvisit.fragments.ViewedImageFragment;
 
-public class PictureContainerActivity extends BaseActivity {
+public class PictureContainerActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        hasNavDrawer = false;
         setContentView(R.layout.activity_picture_fragment_container);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
