@@ -1,0 +1,19 @@
+<resources>
+    <!--
+    TODO: Before you run your application, you need a Google Maps API key.
+
+    To get one, follow this link, follow the directions and press "Create" at the end:
+
+    https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=02:40:F4:00:2E:0C:9D:29:F4:5E:26:84:05:91:49:FE:BB:1D:B2:C8%3Bcom.example.ae.smartvisit
+
+    You can also add your credentials to an existing key, using this line:
+    02:40:F4:00:2E:0C:9D:29:F4:5E:26:84:05:91:49:FE:BB:1D:B2:C8;com.example.ae.smartvisit
+
+    Alternatively, follow the directions here:
+    https://developers.google.com/maps/documentation/android/start#get-key
+
+    Once you have your key (it starts with "AIza"), replace the "google_maps_key"
+    string in this file.
+    -->
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false"> AIzaSyDAJeKfGoZ7vv_ZblZU-mX2T6WyclByLBY </string>
+</resources>

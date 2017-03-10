@@ -3,4 +3,15 @@
     <string name="temp_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
     <string name="open">Open</string>
     <string name="close">Close</string>
+
+    <string name="pyramids_image">http://cdn-image.travelandleisure.com/sites/default/files/styles/tnl_redesign_article_landing_page/public/1477597558/giza-pyramid-EGYPTSECRETS1016.jpg?itok=2goCGKOA</string>
+    <string name="title_activity_details_map">Map</string>
+
+    <string-array name="pyramids_array_images">
+        <item>https://futurism.com/wp-content/uploads/2014/05/Pyramids1.jpg</item>
+        <item>https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTTJHjXrvLPnxfXlM6LptSL9GDnRYovSTOpVVr-9CujLAYH40PZ</item>
+        <item>http://1.bp.blogspot.com/-VJVjKeJSo0w/UxkK_-cRxUI/AAAAAAAALQs/-ly33uIcsnk/s1600/Egypt+Pyramids+Art.jpg</item>
+        <item>http://perfscience.com/sites/default/files/field/image/hidden-chambers-pyramids.jpg</item>
+        <item>https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRp_0s7jSP8jbMHQfLExUJU3QgkAQW2IpBSb_8xjXAXyHS_CmfbwQ</item>
+    </string-array>
 </resources>

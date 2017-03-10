@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.ae.smartvisit.R;
+import com.example.ae.smartvisit.activities.DetailView;
 import com.example.ae.smartvisit.activities.PictureContainerActivity;
 import com.squareup.picasso.Picasso;
 
@@ -31,6 +32,12 @@ public class RecyclerAdapterPictures extends RecyclerView.Adapter<RecyclerAdapte
         inflater = LayoutInflater.from(context);
     }
 
+    public void itemSelected(String  picUrl){
+        Intent intent = PictureContainerActivity.newIntent(context, picUrl);
+        context.startActivity(intent);
+    }
+
+
     @Override
     public PictureViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View viewHolder = inflater.inflate(R.layout.single_pic_item, parent,false);
@@ -38,9 +45,15 @@ public class RecyclerAdapterPictures extends RecyclerView.Adapter<RecyclerAdapte
     }
 
     @Override
-    public void onBindViewHolder(PictureViewHolder holder, int position) {
+    public void onBindViewHolder(PictureViewHolder holder, final int position) {
         imageUrl = imagesURL.get(position);
         Picasso.with(context).load(imageUrl).resize(100,100).centerCrop().placeholder(R.mipmap.ic_launcher).into( holder.picture);
+        holder.picture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                itemSelected(imagesURL.get(position));
+            }
+        });
     }
 
     @Override
@@ -55,13 +68,6 @@ public class RecyclerAdapterPictures extends RecyclerView.Adapter<RecyclerAdapte
             super(itemView);
 
             picture = (ImageView) itemView.findViewById(R.id.picture_item);
-            picture.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = PictureContainerActivity.newIntent(context, imageUrl);
-                    context.startActivity(intent);
-                }
-            });
         }
     }
 }

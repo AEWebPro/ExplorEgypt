@@ -1,6 +1,7 @@
 package com.example.ae.smartvisit.activities;
 
 
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -47,9 +48,7 @@ public class BaseActivity extends AppCompatActivity {
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                     int id = item.getItemId();
                     if (id == R.id.nav_home) {
-                        startActivity(new Intent(application, HomeActivity.class));
-                        navDrawer.closeDrawer(GravityCompat.START);
-                        finish();
+                        animateTransitionActivity(HomeActivity.class);
                     } else if (id == R.id.nav_plans) {
 
                         if (!navigationView.getMenu().findItem(R.id.nav_create_plan).isVisible()) {
@@ -62,21 +61,23 @@ public class BaseActivity extends AppCompatActivity {
                         }
 
                     } else if (id == R.id.nav_services) {
-                        startActivity(new Intent(application, Services.class));
+                        animateTransitionActivity(Services.class);
+                    }else if(id == R.id.nav_favorite){
+                        Toast.makeText(application, "Open the favorite places page!!", Toast.LENGTH_SHORT).show();
                         navDrawer.closeDrawer(GravityCompat.START);
-                        finish();
-                    } else if (id == R.id.nav_create_plan) {
+                    }
+                    else if (id == R.id.nav_create_plan) {
                         Toast.makeText(application, "Create a Plan", Toast.LENGTH_SHORT).show();
+                        navDrawer.closeDrawer(GravityCompat.START);
                     } else if (id == R.id.nav_your_plans) {
-                        startActivity(new Intent(application, YourPlanes.class));
-                        navDrawer.closeDrawer(GravityCompat.START);
-                        finish();
+                        animateTransitionActivity(YourPlanes.class);
+
                     } else if (id == R.id.nav_recommended_plans) {
-                        startActivity(new Intent(application, RecommandPrograms.class));
-                        navDrawer.closeDrawer(GravityCompat.START);
-                        finish();
+                        animateTransitionActivity(RecommandPrograms.class);
+
                     }else if(id == R.id.nav_logout){
-                        startActivity(new Intent(application, LoginActivity.class));
+                        Intent mIntent = new Intent(application, LoginActivity.class);
+                        startActivity(mIntent);
                         navDrawer.closeDrawer(GravityCompat.START);
                         finish();
                     }
@@ -93,6 +94,18 @@ public class BaseActivity extends AppCompatActivity {
         }
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+    private void animateTransitionActivity (Class<?> activity){
+        if(getClass() != activity) {
+            Intent mIntent = new Intent(application, activity);
+            Bundle bundleanimation =
+                    ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.push_left_in, R.anim.push_left_out).toBundle();
+            startActivity(mIntent, bundleanimation);
+            navDrawer.closeDrawer(GravityCompat.START);
+            finish();
+        }else{
+            navDrawer.closeDrawer(GravityCompat.START);
+        }
     }
 
     @Override
