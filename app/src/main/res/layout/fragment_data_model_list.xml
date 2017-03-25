@@ -3,14 +3,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="4dp">
+    android:layout_height="match_parent">
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/fragment_hotel_places_recyclerView"
-        android:padding="4dp"
+        android:id="@+id/fragment_all_places_recyclerView"
         android:scrollbars="vertical"/>
 
 

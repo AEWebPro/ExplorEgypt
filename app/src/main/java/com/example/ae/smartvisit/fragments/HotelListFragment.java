@@ -4,6 +4,7 @@ package com.example.ae.smartvisit.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
@@ -14,7 +15,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.ae.smartvisit.R;
-import com.example.ae.smartvisit.adapters.RecyclerAdapterHome;
+import com.example.ae.smartvisit.activities.HomeActivity;
+import com.example.ae.smartvisit.adapters.RecyclerAdapterPlaceInCardView;
 import com.example.ae.smartvisit.modules.PlaceDataModel;
 
 import java.util.ArrayList;
@@ -22,7 +24,7 @@ import java.util.ArrayList;
 public class HotelListFragment extends BaseFragment{
 
     ArrayList<PlaceDataModel> placesList;
-    private RecyclerAdapterHome adapter;
+    private RecyclerAdapterPlaceInCardView adapter;
     private RecyclerView recyclerView;
 
     @Nullable
@@ -33,13 +35,13 @@ public class HotelListFragment extends BaseFragment{
 
         placesList = new ArrayList<>();
         for(int i = 0; i < 100; i++ ){
-            placesList.add(i, new PlaceDataModel("place name " + Integer.toString(i),"","","",i,"",""));
+            placesList.add(i, new PlaceDataModel("Hotel name " + Integer.toString(i),getString(R.string.temp_text),getString(R.string.hotel_image),"",i,"",""));
         }
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.fragment_hotel_places_recyclerView);
-        recyclerView.setLayoutManager(new GridLayoutManager(application, 2));
+        recyclerView = (RecyclerView) view.findViewById(R.id.fragment_all_places_recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
 
-        adapter = new RecyclerAdapterHome(getActivity());
+        adapter = new RecyclerAdapterPlaceInCardView(getContext());
         adapter.addPlaces(placesList);
         recyclerView.setAdapter(adapter);
 
@@ -50,7 +52,21 @@ public class HotelListFragment extends BaseFragment{
     public void onPrepareOptionsMenu(Menu menu) {
 
         MenuItem item = menu.findItem(R.id.activity_home_search);
-        SearchView searchView = (SearchView) item.getActionView();
+        final SearchView searchView = (SearchView) item.getActionView();
+        searchView.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((HomeActivity)getActivity()).manageSpinner(false);
+            }
+        });
+
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                ((HomeActivity)getActivity()).manageSpinner(true);
+                return false;
+            }
+        });
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -86,9 +102,9 @@ public class HotelListFragment extends BaseFragment{
 
             }
         }
-        adapter = new RecyclerAdapterHome(getActivity());
+        adapter = new RecyclerAdapterPlaceInCardView(getActivity());
         adapter.addPlaces(filteredModelList);
-        recyclerView.setLayoutManager(new GridLayoutManager(application, 2));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
         return filteredModelList;

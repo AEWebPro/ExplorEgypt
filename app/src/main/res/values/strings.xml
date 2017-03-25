@@ -5,6 +5,8 @@
     <string name="close">Close</string>
 
     <string name="pyramids_image">http://cdn-image.travelandleisure.com/sites/default/files/styles/tnl_redesign_article_landing_page/public/1477597558/giza-pyramid-EGYPTSECRETS1016.jpg?itok=2goCGKOA</string>
+    <string name="hotel_image">http://director.cl/wp-content/uploads/2015/09/hotel.jpg</string>
+    <string name="retaurant_image">https://www.omnihotels.com/-/media/images/hotels/indsev/restaurants/indsev-omni-severin-hotel-1913-restaurant-1.jpg?w=1170</string>
     <string name="title_activity_details_map">Map</string>
 
     <string-array name="pyramids_array_images">
@@ -13,5 +15,11 @@
         <item>http://1.bp.blogspot.com/-VJVjKeJSo0w/UxkK_-cRxUI/AAAAAAAALQs/-ly33uIcsnk/s1600/Egypt+Pyramids+Art.jpg</item>
         <item>http://perfscience.com/sites/default/files/field/image/hidden-chambers-pyramids.jpg</item>
         <item>https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRp_0s7jSP8jbMHQfLExUJU3QgkAQW2IpBSb_8xjXAXyHS_CmfbwQ</item>
+    </string-array>
+
+    <string-array name="drop_down_list">
+        <item>Hotels</item>
+        <item>Sightseeing</item>
+        <item>Restaurants</item>
     </string-array>
 </resources>

@@ -4,21 +4,23 @@ package com.example.ae.smartvisit.activities;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.ae.smartvisit.R;
-import com.example.ae.smartvisit.adapters.RecyclerAdapterHome;
+import com.example.ae.smartvisit.adapters.RecyclerAdapterPlacesWithPics;
 import com.example.ae.smartvisit.adapters.RecyclerAdapterPictures;
 import com.example.ae.smartvisit.infrastructure.MyMapView;
 import com.example.ae.smartvisit.modules.PlaceDataModel;
@@ -32,14 +34,16 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import static java.security.AccessController.getContext;
+
 public class DetailView extends AppCompatActivity implements View.OnClickListener {
 
     private boolean isClicked = false;
     private RecyclerView picturesRecycler;
     private RecyclerView similarPlacesRecycler;
-    private FloatingActionButton favActionButton;
     private View contact_button;
     private View share_button;
+    private Button favorite_button;
     private TextView addressTextView;
     private TextView titleTextView;
     private PlaceDataModel placeDisplayed;
@@ -51,16 +55,22 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_view);
 
+        Intent intentPassed = getIntent();
+        placeDisplayed = (PlaceDataModel) intentPassed.getParcelableExtra("placeClicked");
+        CollapsingToolbarLayout layout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+
+        layout.setTitle(placeDisplayed.getName());
 
         ImageView placeImage = (ImageView) findViewById(R.id.placeImage);
-        favActionButton = (FloatingActionButton) findViewById(R.id.detail_activity_action_button);
         contact_button = findViewById(R.id.activity_detail_view_contact_button);
         share_button = findViewById(R.id.activity_detail_view_share_button);
+        favorite_button =(Button) findViewById(R.id.activity_detail_view_fav_button);
         similarPlacesRecycler = (RecyclerView) findViewById(R.id.activity_detail_view_similar_places_recycler);
         addressTextView = (TextView) findViewById(R.id.activity_detail_view_address);
-        titleTextView = (TextView) findViewById(R.id.activity_detail_view_place_title);
 
-        Picasso.with(this).load(getString(R.string.pyramids_image)).placeholder(R.mipmap.ic_launcher).into( placeImage);
+        Picasso.with(this).load(placeDisplayed.getImageUrl()).placeholder(R.mipmap.ic_launcher).into(placeImage);
+        //Picasso.with(this).load(getString(R.string.pyramids_image)).placeholder(R.mipmap.ic_launcher).into( placeImage);
+
 
         MapsInitializer.initialize(this);
         mMapView = (MyMapView) findViewById(R.id.detail_map_view);
@@ -73,28 +83,13 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
                 // Add a marker in Sydney and move the camera
                 LatLng location = new LatLng(29.978919, 31.134891);
                 mMap.addMarker(new MarkerOptions().position(location).title("Pyramids of Giza"));
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location,15));
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15));
 
             }
         });
         contact_button.setOnClickListener(this);
         share_button.setOnClickListener(this);
-
-
-        favActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!isClicked){
-                    isClicked = true;
-                    favActionButton.setImageResource(R.drawable.fav_icon);
-                    favActionButton.setColorFilter(Color.CYAN);
-                    }else{
-                    isClicked = false;
-                    favActionButton.setImageResource(R.drawable.unfav_icon);
-                    favActionButton.setColorFilter(null);
-                    }
-            }
-        });
+        favorite_button.setOnClickListener(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -107,37 +102,34 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
             }
         });
 
-        Intent intentPassed = getIntent();
-        placeDisplayed = (PlaceDataModel) intentPassed.getParcelableExtra("placeClicked");
-        CollapsingToolbarLayout layout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-
-        layout.setTitle(placeDisplayed.getName());
         setupPicsRecycler();
         setupSimilarPlacesRecycler();
+        picturesRecycler.setNestedScrollingEnabled(false);
+        similarPlacesRecycler.setNestedScrollingEnabled(false);
     }
 
-    private void setupPicsRecycler(){
+    private void setupPicsRecycler() {
         String[] urlPicsString = getResources().getStringArray(R.array.pyramids_array_images);
         ArrayList<String> picsUrls = new ArrayList<>();
         for (int i = 0; i < 5; i++)
-        picsUrls.add(urlPicsString[i]);
+            picsUrls.add(urlPicsString[i]);
 
         picturesRecycler = (RecyclerView) findViewById(R.id.activity_detail_view_pics_recycler);
         RecyclerAdapterPictures adapterPictures = new RecyclerAdapterPictures(this, picsUrls);
-        picturesRecycler.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL,false));
+        picturesRecycler.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
         picturesRecycler.setAdapter(adapterPictures);
         picturesRecycler.hasFixedSize();
     }
 
 
-    private void setupSimilarPlacesRecycler(){
+    private void setupSimilarPlacesRecycler() {
         ArrayList<PlaceDataModel> placesRelatedList = new ArrayList<>();
         for (int i = 0; i < 8; i++)
-            placesRelatedList.add(new PlaceDataModel("place name " + Integer.toString(i),"","","",i,"",""));
+            placesRelatedList.add(new PlaceDataModel("place name " + Integer.toString(i), "", "", "", i, "", ""));
 
-        RecyclerAdapterHome adapterPlaces = new RecyclerAdapterHome(this);
+        RecyclerAdapterPlacesWithPics adapterPlaces = new RecyclerAdapterPlacesWithPics(this);
         adapterPlaces.addPlaces(placesRelatedList);
-        similarPlacesRecycler.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL,false));
+        similarPlacesRecycler.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
         similarPlacesRecycler.setAdapter(adapterPlaces);
         similarPlacesRecycler.hasFixedSize();
     }
@@ -146,14 +138,14 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
     public void onClick(View view) {
         int id = view.getId();
 
-        if(id == R.id.activity_detail_view_contact_button){
+        if (id == R.id.activity_detail_view_contact_button) {
             // custom dialog
             final Dialog dialog = new Dialog(this);
             dialog.setContentView(R.layout.dialog_contacts);
             dialog.setTitle("Contacts info.");
             dialog.show();
 
-        }else if(id == R.id.activity_detail_view_share_button){
+        } else if (id == R.id.activity_detail_view_share_button) {
 
             //Share intent when clicked
             Intent shareIntent = new Intent();
@@ -161,7 +153,30 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
             shareIntent.putExtra(Intent.EXTRA_STREAM, placeDisplayed);
             shareIntent.setType("text/plain");
             startActivity(Intent.createChooser(shareIntent, "Choose"));
+        } else if(id == R.id.activity_detail_view_fav_button){
+            if (!isClicked) {
+                isClicked = true;
+                favorite_button.setCompoundDrawablesWithIntrinsicBounds(0,R.drawable.ic_favorite_accent_24dp,0,0);
+                favorite_button.setTextColor(getResources().getColor(R.color.accent));
+                favorite_button.getBackground().setColorFilter(getResources().getColor(R.color.primary), PorterDuff.Mode.MULTIPLY);
+               } else {
+                isClicked = false;
+                favorite_button.setCompoundDrawablesWithIntrinsicBounds(0,R.drawable.ic_favorite_black_24dp,0,0);
+                favorite_button.setTextColor(getResources().getColor(R.color.primary_text));
+                favorite_button.getBackground().clearColorFilter();
+            }
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            //TODO: try to make the shared element return works
+            supportFinishAfterTransition();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -169,6 +184,7 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
         super.onPause();
         mMapView.onPause();
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -176,20 +192,21 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState)
-    {
-        super.onSaveInstanceState(outState); mMapView.onSaveInstanceState(outState);
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mMapView.onSaveInstanceState(outState);
     }
+
     @Override
-    public void onLowMemory()
-    {
+    public void onLowMemory() {
         super.onLowMemory();
         mMapView.onLowMemory();
     }
+
     @Override
     public void onResume() {
         super.onResume();
         mMapView.onResume();
     }
- }
+}
 

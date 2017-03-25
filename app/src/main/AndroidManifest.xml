@@ -27,11 +27,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activities.MainActivity"
-            android:theme="@style/AppTheme.Dark" />
+            android:name=".activities.MainActivity" />
         <activity
             android:name=".activities.HomeActivity"
-            android:theme="@style/AppTheme.Dark">
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -40,40 +39,40 @@
         </activity>
         <activity
             android:name=".activities.LoginActivity"
-            android:theme="@style/AppTheme.Dark"></activity>
+            android:theme="@style/AppTheme"/>
         <activity
             android:name=".activities.Services"
-            android:theme="@style/AppTheme.Dark" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.DetailView"
-            android:theme="@style/AppTheme.Dark" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.Transport"
-            android:theme="@style/AppTheme.Dark" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.Hospitals"
-            android:theme="@style/AppTheme.Dark" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.Currency"
-            android:theme="@style/AppTheme.Dark" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.Embassy"
-            android:theme="@style/AppTheme.Dark" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.RecommandA"
-            android:theme="@style/AppTheme.Dark" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.RecommandPrograms"
-            android:theme="@style/AppTheme.Dark" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.YourPlanes"
-            android:theme="@style/AppTheme.Dark" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.YourPlanesA"
-            android:theme="@style/AppTheme.Dark" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.Signup"
-            android:theme="@style/AppTheme.Dark" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.PictureContainerActivity"
             android:screenOrientation="portrait"

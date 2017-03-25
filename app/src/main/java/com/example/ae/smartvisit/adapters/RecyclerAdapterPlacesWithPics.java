@@ -9,16 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.ae.smartvisit.R;
 import com.example.ae.smartvisit.activities.DetailView;
-import com.example.ae.smartvisit.activities.HomeActivity;
 import com.example.ae.smartvisit.modules.PlaceDataModel;
 
 import java.util.ArrayList;
 
-public class RecyclerAdapterHome extends RecyclerView.Adapter<RecyclerAdapterHome.PlaceVeiwHolder> {
+public class RecyclerAdapterPlacesWithPics extends RecyclerView.Adapter<RecyclerAdapterPlacesWithPics.PlaceVeiwHolder> {
 
 
     private ArrayList<PlaceDataModel> placesSelected;
@@ -26,7 +24,7 @@ public class RecyclerAdapterHome extends RecyclerView.Adapter<RecyclerAdapterHom
     private LayoutInflater inflater;
     private ArrayList<PlaceDataModel> mPlaceModel;
 
-    public RecyclerAdapterHome(Context context)
+    public RecyclerAdapterPlacesWithPics(Context context)
     {
         placesSelected = new ArrayList<>();
         this.context = context;
@@ -52,7 +50,7 @@ public class RecyclerAdapterHome extends RecyclerView.Adapter<RecyclerAdapterHom
 
     @Override
     public PlaceVeiwHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.list_item_home, parent,false);
+        View view = inflater.inflate(R.layout.list_item_pic_and_title, parent,false);
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -66,7 +64,7 @@ public class RecyclerAdapterHome extends RecyclerView.Adapter<RecyclerAdapterHom
     @Override
     public void onBindViewHolder(PlaceVeiwHolder holder, int position) {
         PlaceDataModel place = placesSelected.get(position);
-        holder.titleTextView.setText( place.getName());
+        holder.placeTitle.setText( place.getName());
         holder.itemView.setTag( place);
     }
 
@@ -77,13 +75,13 @@ public class RecyclerAdapterHome extends RecyclerView.Adapter<RecyclerAdapterHom
     }
 
     protected class PlaceVeiwHolder extends RecyclerView.ViewHolder{
-        private TextView titleTextView;
+        private TextView placeTitle;
         private ImageView pictureImageView;
 
         public PlaceVeiwHolder(View itemView) {
             super(itemView);
 
-            titleTextView = (TextView) itemView.findViewById(R.id.list_item_home_title);
+            placeTitle = (TextView) itemView.findViewById(R.id.list_item_home_title);
             pictureImageView = (ImageView) itemView.findViewById(R.id.list_item_home_picture);
         }
     }

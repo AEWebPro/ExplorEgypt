@@ -4,6 +4,7 @@ package com.example.ae.smartvisit.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
@@ -14,7 +15,9 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.ae.smartvisit.R;
-import com.example.ae.smartvisit.adapters.RecyclerAdapterHome;
+import com.example.ae.smartvisit.activities.HomeActivity;
+import com.example.ae.smartvisit.adapters.RecyclerAdapterPlaceInCardView;
+import com.example.ae.smartvisit.adapters.RecyclerAdapterPlacesWithPics;
 import com.example.ae.smartvisit.modules.PlaceDataModel;
 
 import java.util.ArrayList;
@@ -22,22 +25,23 @@ import java.util.ArrayList;
 public class RestaurantsListFragment extends BaseFragment{
     ArrayList<PlaceDataModel> placesList;
     private RecyclerView recyclerView;
-    private RecyclerAdapterHome adapter;
+    private RecyclerAdapterPlaceInCardView adapter;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_data_model_list, container,false);
+        setHasOptionsMenu(true);
 
         placesList = new ArrayList<>();
         for(int i = 0; i < 100; i++ ){
-            placesList.add(i, new PlaceDataModel("place name " + Integer.toString(i),"","","",i,"",""));
+            placesList.add(i, new PlaceDataModel("Restaurant name " + Integer.toString(i),getString(R.string.temp_text),getString(R.string.retaurant_image),"",i,"",""));
         }
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.fragment_hotel_places_recyclerView);
-        recyclerView.setLayoutManager(new GridLayoutManager(application, 2));
+        recyclerView = (RecyclerView) view.findViewById(R.id.fragment_all_places_recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
 
-        adapter = new RecyclerAdapterHome(getActivity());
+        adapter = new RecyclerAdapterPlaceInCardView(getContext());
         adapter.addPlaces(placesList);
         recyclerView.setAdapter(adapter);
 
@@ -50,6 +54,20 @@ public class RestaurantsListFragment extends BaseFragment{
 
         MenuItem item = menu.findItem(R.id.activity_home_search);
         SearchView searchView = (SearchView) item.getActionView();
+        searchView.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((HomeActivity)getActivity()).manageSpinner(false);
+            }
+        });
+
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                ((HomeActivity)getActivity()).manageSpinner(true);
+                return false;
+            }
+        });
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -85,9 +103,9 @@ public class RestaurantsListFragment extends BaseFragment{
 
             }
         }
-        adapter = new RecyclerAdapterHome(getActivity());
+        adapter = new RecyclerAdapterPlaceInCardView(getActivity());
         adapter.addPlaces(filteredModelList);
-        recyclerView.setLayoutManager(new GridLayoutManager(application, 2));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
         return filteredModelList;
