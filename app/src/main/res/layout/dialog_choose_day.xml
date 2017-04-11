@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="220dp"
+    android:layout_height="150dp"
+    android:orientation="vertical"
+    android:background="@color/cyan"
+    android:weightSum="2">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Choose a day"
+        android:textColor="@color/primary_text"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:paddingStart="5dp"
+        android:paddingTop="4dp"/>
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/dialog_choose_day_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:scrollbars="horizontal" />
+
+    </HorizontalScrollView>
+    <android.support.v4.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/dialog_choose_day_close_btn"
+        android:background="@drawable/button_border_color"
+        android:text="Close"
+        android:textColor="@color/primary_text"
+        android:layout_gravity="end"
+        android:layout_margin="5dp"/>
+
+</LinearLayout>
+

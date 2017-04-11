@@ -78,6 +78,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/CustomDialogActivity" />
 
+        <activity android:name=".activities.CreatePlanActivity"/>
+
+        <activity android:name=".activities.SelectTypeToAddActivity" />
+
+        <activity android:name=".activities.PlanItemsList" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").

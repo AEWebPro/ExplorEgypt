@@ -42,16 +42,22 @@ public class RecyclerAdapterPlaceInCardView extends RecyclerView.Adapter<Recycle
         placesSelected.addAll(places);
         notifyDataSetChanged();
     }
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void itemSelected(Object placeClicked, View view){
         int position = placesSelected.indexOf(placeClicked);
         //Toast.makeText(context,"Item of index :" + position + "Is clicked!", Toast.LENGTH_SHORT).show();
-        Bundle bundle = ActivityOptions.makeSceneTransitionAnimation((HomeActivity)context,
-                Pair.create(view,"selectedPlace")
-        ).toBundle();
+
         Intent passedIntent = new Intent(context, new DetailView().getClass());
         passedIntent.putExtra("placeClicked", placesSelected.get(position));
-        context.startActivity(passedIntent, bundle);
+        passedIntent.putExtra("parent_activity", "HOME");
+
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Bundle bundle = ActivityOptions.makeSceneTransitionAnimation((HomeActivity)context,
+                    Pair.create(view,"selectedPlace")
+            ).toBundle();
+            context.startActivity(passedIntent, bundle);
+        }else {
+            context.startActivity(passedIntent);
+        }
     }
 
     @Override

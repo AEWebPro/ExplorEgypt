@@ -47,6 +47,7 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
+            android:id="@+id/activity_detail_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
@@ -103,13 +104,13 @@
                 android:layout_height="wrap_content"
                 android:background="@color/cyanWhite"
                 android:paddingBottom="4dp"
+                android:paddingEnd="4dp"
+                android:paddingStart="4dp"
                 android:text="@string/temp_text"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/secondary_text"
                 android:textSize="12sp"
-                android:textStyle="italic"
-                android:paddingStart="4dp"
-                android:paddingEnd="4dp"/>
+                android:textStyle="italic" />
 
             <View
                 android:layout_width="match_parent"
@@ -186,12 +187,12 @@
                 android:layout_height="wrap_content"
                 android:background="@color/cyanWhite"
                 android:paddingBottom="4dp"
+                android:paddingEnd="4dp"
+                android:paddingStart="4dp"
                 android:text="@string/temp_text"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/secondary_text"
-                android:textSize="12sp"
-                android:paddingStart="4dp"
-                android:paddingEnd="4dp"/>
+                android:textSize="12sp" />
 
             <com.example.ae.smartvisit.infrastructure.MyMapView
                 android:id="@+id/detail_map_view"
@@ -223,5 +224,19 @@
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/activity_detail_add_floatbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:clickable="true"
+        android:src="@drawable/ic_add_black_24dp"
+        app:borderWidth="0dp"
+        app:elevation="6dp"
+        app:fabSize="normal"
+        app:layout_anchor="@id/activity_detail_container"
+        app:layout_anchorGravity="bottom|right|end"
+        app:pressedTranslationZ="12dp"
+        app:rippleColor="@color/cyanDark" />
 </android.support.design.widget.CoordinatorLayout>
 

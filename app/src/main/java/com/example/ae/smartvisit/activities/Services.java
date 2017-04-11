@@ -26,7 +26,6 @@ public class Services extends BaseActivity implements View.OnClickListener {
         img2.setOnClickListener(this);
         img3.setOnClickListener(this);
         img4.setOnClickListener(this);
-
     }
 
     @Override

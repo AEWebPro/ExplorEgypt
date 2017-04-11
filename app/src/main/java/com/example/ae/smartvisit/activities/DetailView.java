@@ -7,9 +7,12 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.app.ActionBar.LayoutParams;
 
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -17,13 +20,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ae.smartvisit.R;
 import com.example.ae.smartvisit.adapters.RecyclerAdapterPlacesWithPics;
 import com.example.ae.smartvisit.adapters.RecyclerAdapterPictures;
 import com.example.ae.smartvisit.infrastructure.MyMapView;
 import com.example.ae.smartvisit.modules.PlaceDataModel;
+import com.example.ae.smartvisit.modules.Plan;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapsInitializer;
@@ -46,9 +52,12 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
     private Button favorite_button;
     private TextView addressTextView;
     private TextView titleTextView;
+    private FloatingActionButton floatAddBtn;
     private PlaceDataModel placeDisplayed;
     private GoogleMap mMap;
     private MyMapView mMapView;
+
+    private String parentActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +66,7 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
 
         Intent intentPassed = getIntent();
         placeDisplayed = (PlaceDataModel) intentPassed.getParcelableExtra("placeClicked");
+
         CollapsingToolbarLayout layout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
 
         layout.setTitle(placeDisplayed.getName());
@@ -67,6 +77,7 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
         favorite_button =(Button) findViewById(R.id.activity_detail_view_fav_button);
         similarPlacesRecycler = (RecyclerView) findViewById(R.id.activity_detail_view_similar_places_recycler);
         addressTextView = (TextView) findViewById(R.id.activity_detail_view_address);
+        floatAddBtn = (FloatingActionButton) findViewById(R.id.activity_detail_add_floatbtn);
 
         Picasso.with(this).load(placeDisplayed.getImageUrl()).placeholder(R.mipmap.ic_launcher).into(placeImage);
         //Picasso.with(this).load(getString(R.string.pyramids_image)).placeholder(R.mipmap.ic_launcher).into( placeImage);
@@ -80,10 +91,11 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
             public void onMapReady(GoogleMap googleMap) {
                 mMap = googleMap;
 
-                // Add a marker in Sydney and move the camera
+                // Add a marker in Pyramids and move the camera
                 LatLng location = new LatLng(29.978919, 31.134891);
                 mMap.addMarker(new MarkerOptions().position(location).title("Pyramids of Giza"));
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15));
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 20));
+                mMapView.onResume();
 
             }
         });
@@ -91,6 +103,15 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
         share_button.setOnClickListener(this);
         favorite_button.setOnClickListener(this);
 
+        parentActivity = intentPassed.getStringExtra("parent_activity");
+        //check the parent ADD mode or Display mode
+        if(parentActivity.equals("HOME")){
+            floatAddBtn.hide();
+        }else {
+            floatAddBtn.setEnabled(true);
+        }
+
+        floatAddBtn.setOnClickListener(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -165,6 +186,43 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
                 favorite_button.setTextColor(getResources().getColor(R.color.primary_text));
                 favorite_button.getBackground().clearColorFilter();
             }
+        }else if(id == R.id.activity_detail_add_floatbtn){
+            Plan workingPlan = Plan.getPlanInstance();
+            int duration = CreatePlanActivity.getDuration(workingPlan.getPlanStartDate(), workingPlan.getPlanEndDate());
+
+            final Dialog dialog = new Dialog(this);
+            dialog.setContentView(R.layout.dialog_choose_day);
+            dialog.setTitle("Choose a day");
+            dialog.show();
+
+            LinearLayout container = (LinearLayout) dialog.findViewById(R.id.dialog_choose_day_container);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+            for (int i = 0; i < duration; i++) {
+
+
+                Button dayBtn = new Button(this);
+                dayBtn.setId(i + 1);
+                dayBtn.setText("Day " + (i+1));
+                dayBtn.setPadding(4,4,4,4);
+                dayBtn.setLayoutParams(params);
+
+                dayBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        dialog.cancel();
+                    }
+                });
+                container.addView(dayBtn);
+            }
+
+            dialog.findViewById(R.id.dialog_choose_day_close_btn).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.cancel();
+                }
+            });
         }
     }
 

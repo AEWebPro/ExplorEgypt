@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/include_toolbar" android:id="@id/include_toolbar"/>
+
+    <RelativeLayout
+        android:layout_width="100dp"
+        android:layout_height="120dp"
+        android:layout_below="@id/include_toolbar"
+        android:id="@+id/select_place_sight_btn"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:background="@drawable/item_background"
+        android:layout_marginStart="15dp">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/place_sight"
+            android:paddingTop="5dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Places"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"/>
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="100dp"
+        android:layout_height="120dp"
+        android:id="@+id/select_place_hotels_btn"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:background="@drawable/item_background"
+        android:layout_alignBottom="@id/select_place_sight_btn"
+        android:layout_toEndOf="@id/select_place_sight_btn"
+        android:layout_marginStart="15dp">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/hotel_icon"
+            android:paddingTop="5dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hotels"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"/>
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="100dp"
+        android:layout_height="120dp"
+        android:id="@+id/select_place_restaurant_btn"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:background="@drawable/item_background"
+        android:layout_alignBottom="@id/select_place_hotels_btn"
+        android:layout_toEndOf="@id/select_place_hotels_btn"
+        android:layout_marginStart="15dp">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/res_icon"
+            android:paddingTop="5dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Restaurants"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"/>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

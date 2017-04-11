@@ -67,7 +67,8 @@ public class BaseActivity extends AppCompatActivity {
                         navDrawer.closeDrawer(GravityCompat.START);
                     }
                     else if (id == R.id.nav_create_plan) {
-                        Toast.makeText(application, "Create a Plan", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(application, "Create a Plan", Toast.LENGTH_SHORT).show();
+                        animateTransitionActivity(CreatePlanActivity.class);
                         navDrawer.closeDrawer(GravityCompat.START);
                     } else if (id == R.id.nav_your_plans) {
                         animateTransitionActivity(YourPlanes.class);
@@ -102,7 +103,10 @@ public class BaseActivity extends AppCompatActivity {
                     ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.push_left_in, R.anim.push_left_out).toBundle();
             startActivity(mIntent, bundleanimation);
             navDrawer.closeDrawer(GravityCompat.START);
-            finish();
+
+            if(!activity.getSimpleName().equals(CreatePlanActivity.class.getSimpleName())) {
+                finish();
+            }
         }else{
             navDrawer.closeDrawer(GravityCompat.START);
         }

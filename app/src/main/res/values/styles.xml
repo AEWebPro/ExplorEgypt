@@ -38,4 +38,9 @@
         <item name="windowNoTitle">true</item>
         <item name="android:textColor">#fff</item>
     </style>
+
+    <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">8sp</item>
+    </style>
+
 </resources>
