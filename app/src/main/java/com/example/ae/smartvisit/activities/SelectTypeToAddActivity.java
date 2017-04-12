@@ -2,8 +2,11 @@ package com.example.ae.smartvisit.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.example.ae.smartvisit.R;
 import com.example.ae.smartvisit.modules.Plan;
@@ -37,25 +40,62 @@ public class SelectTypeToAddActivity extends BaseActivity {
     }
 
     @OnClick(R.id.select_place_sight_btn)
-    public void openPlacesList(){
+    public void openPlacesList() {
         Intent intent = new Intent(this, PlanItemsList.class);
-        intent.putExtra(PLACE_TYPE,"Places");
+        intent.putExtra(PLACE_TYPE, "Places");
         startActivity(intent);
     }
 
     @OnClick(R.id.select_place_hotels_btn)
-    public void openHotelsList(){
+    public void openHotelsList() {
         Intent intent = new Intent(this, PlanItemsList.class);
-        intent.putExtra(PLACE_TYPE,"Hotels");
+        intent.putExtra(PLACE_TYPE, "Hotels");
         startActivity(intent);
     }
 
 
     @OnClick(R.id.select_place_restaurant_btn)
-    public void openRestaurantsList(){
+    public void openRestaurantsList() {
         Intent intent = new Intent(this, PlanItemsList.class);
-        intent.putExtra(PLACE_TYPE,"Restaurants");
+        intent.putExtra(PLACE_TYPE, "Restaurants");
         startActivity(intent);
     }
 
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.save_discard_plan, menu);
+        menu.findItem(R.id.menu_plan_search).setVisible(false);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.menu_plan_save) {
+            //TODO Save the object of the plan to the DB
+            Toast.makeText(getBaseContext(), "Plan is saved!", Toast.LENGTH_SHORT).show();
+            Plan.getPlanInstance().destroyInstance();
+
+            Intent intent = new Intent(this, HomeActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            finish();
+            return true;
+
+        } else if (id == R.id.menu_plan_delete) {
+            //TODO Save the object of the plan to the DB
+            Toast.makeText(getBaseContext(), "Deleted", Toast.LENGTH_SHORT).show();
+            Plan.getPlanInstance().destroyInstance();
+
+            Intent intent = new Intent(this, HomeActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            finish();
+            return true;
+        }
+
+        return false;
+    }
 }

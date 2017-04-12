@@ -2,16 +2,16 @@ package com.example.ae.smartvisit.modules;
 
 
 import java.util.ArrayList;
-import java.util.Date;
 
 public class Plan {
     private static Plan planInstance;
     private String planName;
     private String planStartDate;
     private String planEndDate;
-    private ArrayList<PlaceDataModel> targetPlaces;
+    private ArrayList<PairOfDayAndPlace> pairOfData = new ArrayList<>();
 
-    private Plan (){}
+    private Plan (){
+    }
 
     public static Plan getPlanInstance(){
         if(planInstance == null){
@@ -48,11 +48,11 @@ public class Plan {
         this.planEndDate = planEndDate;
     }
 
-    public ArrayList<PlaceDataModel> getTargetPlaces() {
-        return targetPlaces;
+    public ArrayList<PairOfDayAndPlace> getPairOfData() {
+        return pairOfData;
     }
 
-    public void addPlaceToPlan(PlaceDataModel addPlace){
-        targetPlaces.add(addPlace);
+    public void addPlaceToPlan(PairOfDayAndPlace addPair){
+        pairOfData.add(addPair);
     }
 }

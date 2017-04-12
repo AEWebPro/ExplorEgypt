@@ -3,21 +3,19 @@ package com.example.ae.smartvisit.activities;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.app.ActionBar.LayoutParams;
 
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -28,6 +26,7 @@ import com.example.ae.smartvisit.R;
 import com.example.ae.smartvisit.adapters.RecyclerAdapterPlacesWithPics;
 import com.example.ae.smartvisit.adapters.RecyclerAdapterPictures;
 import com.example.ae.smartvisit.infrastructure.MyMapView;
+import com.example.ae.smartvisit.modules.PairOfDayAndPlace;
 import com.example.ae.smartvisit.modules.PlaceDataModel;
 import com.example.ae.smartvisit.modules.Plan;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -39,8 +38,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-
-import static java.security.AccessController.getContext;
 
 public class DetailView extends AppCompatActivity implements View.OnClickListener {
 
@@ -74,7 +71,7 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
         ImageView placeImage = (ImageView) findViewById(R.id.placeImage);
         contact_button = findViewById(R.id.activity_detail_view_contact_button);
         share_button = findViewById(R.id.activity_detail_view_share_button);
-        favorite_button =(Button) findViewById(R.id.activity_detail_view_fav_button);
+        favorite_button = (Button) findViewById(R.id.activity_detail_view_fav_button);
         similarPlacesRecycler = (RecyclerView) findViewById(R.id.activity_detail_view_similar_places_recycler);
         addressTextView = (TextView) findViewById(R.id.activity_detail_view_address);
         floatAddBtn = (FloatingActionButton) findViewById(R.id.activity_detail_add_floatbtn);
@@ -94,7 +91,7 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
                 // Add a marker in Pyramids and move the camera
                 LatLng location = new LatLng(29.978919, 31.134891);
                 mMap.addMarker(new MarkerOptions().position(location).title("Pyramids of Giza"));
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 20));
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15));
                 mMapView.onResume();
 
             }
@@ -105,9 +102,9 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
 
         parentActivity = intentPassed.getStringExtra("parent_activity");
         //check the parent ADD mode or Display mode
-        if(parentActivity.equals("HOME")){
+        if (parentActivity.equals("HOME")) {
             floatAddBtn.hide();
-        }else {
+        } else {
             floatAddBtn.setEnabled(true);
         }
 
@@ -174,20 +171,20 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
             shareIntent.putExtra(Intent.EXTRA_STREAM, placeDisplayed);
             shareIntent.setType("text/plain");
             startActivity(Intent.createChooser(shareIntent, "Choose"));
-        } else if(id == R.id.activity_detail_view_fav_button){
+        } else if (id == R.id.activity_detail_view_fav_button) {
             if (!isClicked) {
                 isClicked = true;
-                favorite_button.setCompoundDrawablesWithIntrinsicBounds(0,R.drawable.ic_favorite_accent_24dp,0,0);
+                favorite_button.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_favorite_accent_24dp, 0, 0);
                 favorite_button.setTextColor(getResources().getColor(R.color.accent));
                 favorite_button.getBackground().setColorFilter(getResources().getColor(R.color.primary), PorterDuff.Mode.MULTIPLY);
-               } else {
+            } else {
                 isClicked = false;
-                favorite_button.setCompoundDrawablesWithIntrinsicBounds(0,R.drawable.ic_favorite_black_24dp,0,0);
+                favorite_button.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_favorite_black_24dp, 0, 0);
                 favorite_button.setTextColor(getResources().getColor(R.color.primary_text));
                 favorite_button.getBackground().clearColorFilter();
             }
-        }else if(id == R.id.activity_detail_add_floatbtn){
-            Plan workingPlan = Plan.getPlanInstance();
+        } else if (id == R.id.activity_detail_add_floatbtn) {
+            final Plan workingPlan = Plan.getPlanInstance();
             int duration = CreatePlanActivity.getDuration(workingPlan.getPlanStartDate(), workingPlan.getPlanEndDate());
 
             final Dialog dialog = new Dialog(this);
@@ -197,25 +194,38 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
 
             LinearLayout container = (LinearLayout) dialog.findViewById(R.id.dialog_choose_day_container);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                    LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+                    LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+            /*LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    65,40);*/
+
             for (int i = 0; i < duration; i++) {
 
 
-                Button dayBtn = new Button(this);
+                final Button dayBtn = new Button(this);
                 dayBtn.setId(i + 1);
-                dayBtn.setText("Day " + (i+1));
-                dayBtn.setPadding(4,4,4,4);
+                dayBtn.setText("Day " + (i + 1));
+                dayBtn.setPadding(2, 4, 6, 4);
                 dayBtn.setLayoutParams(params);
+                dayBtn.setBackground(getResources().getDrawable(R.drawable.btn_circle));
 
                 dayBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
+                        PairOfDayAndPlace newPair = new PairOfDayAndPlace(dayBtn.getId(), placeDisplayed);
+                        workingPlan.addPlaceToPlan(newPair);
                         dialog.cancel();
+                        Toast.makeText(DetailView.this, "Added to day " + dayBtn.getId(), Toast.LENGTH_SHORT).show();
                     }
                 });
                 container.addView(dayBtn);
             }
+
+         /*   if (workingPlan.getPairOfData() != null) {
+                for (PairOfDayAndPlace pair : workingPlan.getPairOfData()) {
+                    Log.e("@@@@", pair.getPlace().getName());
+                }
+            }*/
 
             dialog.findViewById(R.id.dialog_choose_day_close_btn).setOnClickListener(new View.OnClickListener() {
                 @Override

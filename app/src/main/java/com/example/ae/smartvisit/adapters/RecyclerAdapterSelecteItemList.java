@@ -18,17 +18,20 @@ import com.example.ae.smartvisit.R;
 import com.example.ae.smartvisit.activities.DetailView;
 import com.example.ae.smartvisit.activities.HomeActivity;
 import com.example.ae.smartvisit.modules.PlaceDataModel;
+import com.example.ae.smartvisit.modules.Plan;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RecyclerAdapterSelecteItemList extends RecyclerView.Adapter<RecyclerAdapterSelecteItemList.ItemInListAdapter> {
-    List<PlaceDataModel> listOfItems;
+    ArrayList<PlaceDataModel> listOfItems;
     Context context;
     String typeToDisplay;
+    ArrayList<PlaceDataModel> filteredPlaces;
 
-    public RecyclerAdapterSelecteItemList(List<PlaceDataModel> listOfItems, Context context, String typeToDisplay) {
+    public RecyclerAdapterSelecteItemList(ArrayList<PlaceDataModel> listOfItems, Context context, String typeToDisplay) {
         this.listOfItems = listOfItems;
         this.context = context;
         this.typeToDisplay = typeToDisplay;
@@ -74,6 +77,13 @@ public class RecyclerAdapterSelecteItemList extends RecyclerView.Adapter<Recycle
     @Override
     public int getItemCount() {
         return listOfItems.size();
+    }
+
+
+    public void setFilter(List<PlaceDataModel> placeModel) {
+        filteredPlaces = new ArrayList<>();
+        filteredPlaces.addAll(placeModel);
+        notifyDataSetChanged();
     }
 
     public static class ItemInListAdapter extends RecyclerView.ViewHolder {

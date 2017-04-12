@@ -22,4 +22,32 @@
         <item>Sightseeing</item>
         <item>Restaurants</item>
     </string-array>
+
+    <string-array name="Hotels_names">
+        <item>Four Seasons Hotel</item>
+        <item>Safir Hotel</item>
+        <item>Pyramisa Casino Hotel</item>
+        <item>Barcelo Cairo Pyramids</item>
+        <item>Mena House Hotel</item>
+        <item>Grand Nile Tower</item>
+    </string-array>
+
+
+    <string-array name="restaurants_names">
+        <item>Birdcage</item>
+        <item>Maestro Italian Restaurant</item>
+        <item>Shogun Japanese Restaurant</item>
+        <item>Sabaya</item>
+        <item>Al Khal Egyptian Restaurant </item>
+        <item>Sequoia</item>
+    </string-array>
+
+    <string-array name="sights_names">
+        <item>Mosque of Ibn Tulun</item>
+        <item>Siwa Oasis</item>
+        <item>Egyptian Museum</item>
+        <item>Abu Simbel </item>
+        <item>Karnak</item>
+        <item>Pyramids</item>
+    </string-array>
 </resources>

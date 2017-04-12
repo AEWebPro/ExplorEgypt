@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/menu_plan_save" android:title="Save plan" android:icon="@drawable/ic_save_black_24dp" app:showAsAction="ifRoom" />
+    <item android:id="@+id/menu_plan_delete" android:title="Delete plan" android:icon="@drawable/ic_delete_black_24dp" app:showAsAction="ifRoom" />
+    <item android:id="@+id/menu_plan_search"
+        android:title="Search list"
+        android:icon="@drawable/ic_search_black_24dp"
+        app:showAsAction="always"
+        app:actionViewClass="android.support.v7.widget.SearchView" />
+
+</menu>

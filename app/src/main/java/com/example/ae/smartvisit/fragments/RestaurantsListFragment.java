@@ -21,6 +21,7 @@ import com.example.ae.smartvisit.adapters.RecyclerAdapterPlacesWithPics;
 import com.example.ae.smartvisit.modules.PlaceDataModel;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class RestaurantsListFragment extends BaseFragment{
     ArrayList<PlaceDataModel> placesList;
@@ -33,10 +34,14 @@ public class RestaurantsListFragment extends BaseFragment{
         View view = inflater.inflate(R.layout.fragment_data_model_list, container,false);
         setHasOptionsMenu(true);
 
+        String[] namesArray = getResources().getStringArray(R.array.restaurants_names);
+        Random randomIndex = new Random();
+
         placesList = new ArrayList<>();
         for(int i = 0; i < 100; i++ ){
-            placesList.add(i, new PlaceDataModel("Restaurant name " + Integer.toString(i),getString(R.string.temp_text),getString(R.string.retaurant_image),"",i,"",""));
+            placesList.add(i, new PlaceDataModel(namesArray[randomIndex.nextInt(6)],getString(R.string.temp_text),getString(R.string.retaurant_image),"",i,"",""));
         }
+
 
         recyclerView = (RecyclerView) view.findViewById(R.id.fragment_all_places_recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
@@ -54,6 +59,7 @@ public class RestaurantsListFragment extends BaseFragment{
 
         MenuItem item = menu.findItem(R.id.activity_home_search);
         SearchView searchView = (SearchView) item.getActionView();
+        searchView.setQueryHint("Enter name");
         searchView.setOnSearchClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

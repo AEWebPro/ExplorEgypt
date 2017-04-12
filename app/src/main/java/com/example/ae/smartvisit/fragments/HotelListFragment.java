@@ -20,6 +20,7 @@ import com.example.ae.smartvisit.adapters.RecyclerAdapterPlaceInCardView;
 import com.example.ae.smartvisit.modules.PlaceDataModel;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class HotelListFragment extends BaseFragment{
 
@@ -32,10 +33,12 @@ public class HotelListFragment extends BaseFragment{
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_data_model_list, container,false);
         setHasOptionsMenu(true);
+        String[] namesArray = getResources().getStringArray(R.array.Hotels_names);
+        Random randomIndex = new Random();
 
         placesList = new ArrayList<>();
         for(int i = 0; i < 100; i++ ){
-            placesList.add(i, new PlaceDataModel("Hotel name " + Integer.toString(i),getString(R.string.temp_text),getString(R.string.hotel_image),"",i,"",""));
+            placesList.add(i, new PlaceDataModel(namesArray[randomIndex.nextInt(6)],getString(R.string.temp_text),getString(R.string.hotel_image),"",i,"",""));
         }
 
         recyclerView = (RecyclerView) view.findViewById(R.id.fragment_all_places_recyclerView);
@@ -53,6 +56,8 @@ public class HotelListFragment extends BaseFragment{
 
         MenuItem item = menu.findItem(R.id.activity_home_search);
         final SearchView searchView = (SearchView) item.getActionView();
+        searchView.setQueryHint("Enter name");
+
         searchView.setOnSearchClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
