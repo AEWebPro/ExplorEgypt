@@ -16,4 +16,11 @@
     <color name="cyanAccent">#00B8D4</color> <!-- A700-->
     <color name="cyanWhite">#E0F7FA</color> <!-- 50-->
 
+
+    <color name="gray_300">#e0e0e0</color>
+    <color name="gray_500">#9E9E9E</color>
+    <color name="black_70">#b2000000</color>
+    <color name="green">#009933</color>
+    <color name="dark_red">#992600</color>
+    <color name="dark_blue">#003366</color>
 </resources>

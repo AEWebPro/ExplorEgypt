@@ -56,7 +56,7 @@ public class HotelListFragment extends BaseFragment{
 
         MenuItem item = menu.findItem(R.id.activity_home_search);
         final SearchView searchView = (SearchView) item.getActionView();
-        searchView.setQueryHint("Enter name");
+        searchView.setQueryHint("Place name");
 
         searchView.setOnSearchClickListener(new View.OnClickListener() {
             @Override

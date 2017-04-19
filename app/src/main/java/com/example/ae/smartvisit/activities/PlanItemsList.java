@@ -13,10 +13,9 @@ import android.widget.Toast;
 import com.example.ae.smartvisit.R;
 import com.example.ae.smartvisit.adapters.RecyclerAdapterSelecteItemList;
 import com.example.ae.smartvisit.modules.PlaceDataModel;
-import com.example.ae.smartvisit.modules.Plan;
+import com.example.ae.smartvisit.modules.SessionPlan;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import butterknife.Bind;
@@ -137,7 +136,7 @@ public class PlanItemsList extends BaseActivity {
         if (id == R.id.menu_plan_delete) {
             //TODO Save the object of the plan to the DB
             Toast.makeText(getBaseContext(), "Deleted", Toast.LENGTH_SHORT).show();
-            Plan.getPlanInstance().destroyInstance();
+            SessionPlan.getSessionPlanInstance().destroyInstance();
 
             Intent intent = new Intent(this, HomeActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -145,9 +144,8 @@ public class PlanItemsList extends BaseActivity {
             finish();
             return true;
         } else if (id == R.id.menu_plan_save) {
-            //TODO Save the object of the plan to the DB
-            Toast.makeText(getBaseContext(), "Plan is saved!", Toast.LENGTH_SHORT).show();
-            Plan.getPlanInstance().destroyInstance();
+            //TODO Convert the object to the plan type and save in the DB
+            Toast.makeText(getBaseContext(), "SessionPlan is saved!", Toast.LENGTH_SHORT).show();
 
             Intent intent = new Intent(this, HomeActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);

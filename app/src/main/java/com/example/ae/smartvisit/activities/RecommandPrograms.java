@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -79,8 +80,8 @@ public class RecommandPrograms extends BaseActivity {
 
             LayoutInflater inflater = getLayoutInflater();
             final View row = inflater.inflate(R.layout.activity_recommand_programs_list, parent, false);
-            final TextView title = (TextView) row.findViewById(R.id.textTitle1);
-            final ImageButton image = (ImageButton) row.findViewById(R.id.imageButton1);
+            final TextView title = (TextView) row.findViewById(R.id.activity_program_list_plan_title);
+            final ImageView image = (ImageView) row.findViewById(R.id.activity_program_list_image_bg);
             RecommandProgramsListModule temp = mydata.get(position);
 
             title.setText(temp.getName());//variables from RecommandProgramList.java

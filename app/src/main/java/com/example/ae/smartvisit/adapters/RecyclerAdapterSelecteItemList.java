@@ -1,24 +1,17 @@
 package com.example.ae.smartvisit.adapters;
 
 
-import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.ae.smartvisit.R;
 import com.example.ae.smartvisit.activities.DetailView;
-import com.example.ae.smartvisit.activities.HomeActivity;
 import com.example.ae.smartvisit.modules.PlaceDataModel;
-import com.example.ae.smartvisit.modules.Plan;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.squareup.picasso.Picasso;
 
@@ -45,7 +38,7 @@ public class RecyclerAdapterSelecteItemList extends RecyclerView.Adapter<Recycle
 
     @Override
     public void onBindViewHolder(ItemInListAdapter holder, final int position) {
-        int placeHolder = 0;
+        int placeHolder ;
         if (typeToDisplay.equals("Places")) {
             placeHolder = R.drawable.place_sight;
         } else if (typeToDisplay.equals("Hotels")) {

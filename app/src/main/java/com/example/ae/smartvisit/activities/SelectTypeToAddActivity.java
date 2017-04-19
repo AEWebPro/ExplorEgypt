@@ -5,17 +5,13 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.ae.smartvisit.R;
-import com.example.ae.smartvisit.modules.Plan;
+import com.example.ae.smartvisit.modules.SessionPlan;
 
-import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-import static android.R.attr.textAppearanceMedium;
 
 public class SelectTypeToAddActivity extends BaseActivity {
 
@@ -34,7 +30,7 @@ public class SelectTypeToAddActivity extends BaseActivity {
                 finish();
             }
         });
-        getSupportActionBar().setTitle(Plan.getPlanInstance().getPlanName());
+        getSupportActionBar().setTitle(SessionPlan.getSessionPlanInstance().getPlanName());
 
         ButterKnife.bind(this);
     }
@@ -74,9 +70,8 @@ public class SelectTypeToAddActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.menu_plan_save) {
-            //TODO Save the object of the plan to the DB
-            Toast.makeText(getBaseContext(), "Plan is saved!", Toast.LENGTH_SHORT).show();
-            Plan.getPlanInstance().destroyInstance();
+            //TODO Convert the object to the plan type and save in the DB
+            Toast.makeText(getBaseContext(), "SessionPlan is saved!", Toast.LENGTH_SHORT).show();
 
             Intent intent = new Intent(this, HomeActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -87,7 +82,7 @@ public class SelectTypeToAddActivity extends BaseActivity {
         } else if (id == R.id.menu_plan_delete) {
             //TODO Save the object of the plan to the DB
             Toast.makeText(getBaseContext(), "Deleted", Toast.LENGTH_SHORT).show();
-            Plan.getPlanInstance().destroyInstance();
+            SessionPlan.getSessionPlanInstance().destroyInstance();
 
             Intent intent = new Intent(this, HomeActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);

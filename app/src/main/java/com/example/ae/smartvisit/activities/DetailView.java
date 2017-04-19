@@ -28,7 +28,7 @@ import com.example.ae.smartvisit.adapters.RecyclerAdapterPictures;
 import com.example.ae.smartvisit.infrastructure.MyMapView;
 import com.example.ae.smartvisit.modules.PairOfDayAndPlace;
 import com.example.ae.smartvisit.modules.PlaceDataModel;
-import com.example.ae.smartvisit.modules.Plan;
+import com.example.ae.smartvisit.modules.SessionPlan;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapsInitializer;
@@ -38,6 +38,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class DetailView extends AppCompatActivity implements View.OnClickListener {
 
@@ -184,8 +185,8 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
                 favorite_button.getBackground().clearColorFilter();
             }
         } else if (id == R.id.activity_detail_add_floatbtn) {
-            final Plan workingPlan = Plan.getPlanInstance();
-            int duration = CreatePlanActivity.getDuration(workingPlan.getPlanStartDate(), workingPlan.getPlanEndDate());
+            final SessionPlan workingSessionPlan = SessionPlan.getSessionPlanInstance();
+            int duration = CreatePlanActivity.getDuration(workingSessionPlan.getPlanStartDate(), workingSessionPlan.getPlanEndDate());
 
             final Dialog dialog = new Dialog(this);
             dialog.setContentView(R.layout.dialog_choose_day);
@@ -212,8 +213,11 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
                 dayBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        PairOfDayAndPlace newPair = new PairOfDayAndPlace(dayBtn.getId(), placeDisplayed);
-                        workingPlan.addPlaceToPlan(newPair);
+                        List<PlaceDataModel> placeDataModels = new ArrayList<PlaceDataModel>();
+                        placeDataModels.add(placeDisplayed);
+
+                        PairOfDayAndPlace newPair = new PairOfDayAndPlace(dayBtn.getId(),placeDataModels);
+                        workingSessionPlan.addPlaceToPlan(newPair);
                         dialog.cancel();
                         Toast.makeText(DetailView.this, "Added to day " + dayBtn.getId(), Toast.LENGTH_SHORT).show();
                     }
@@ -221,8 +225,8 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
                 container.addView(dayBtn);
             }
 
-         /*   if (workingPlan.getPairOfData() != null) {
-                for (PairOfDayAndPlace pair : workingPlan.getPairOfData()) {
+         /*   if (workingSessionPlan.getPairOfData() != null) {
+                for (PairOfDayAndPlace pair : workingSessionPlan.getPairOfData()) {
                     Log.e("@@@@", pair.getPlace().getName());
                 }
             }*/

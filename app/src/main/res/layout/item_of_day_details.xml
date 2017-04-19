@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/item1_background_selected">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/item_day_place_number"
+        android:text="1-"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@color/primary_text"
+        android:layout_marginEnd="2dp"
+        android:layout_gravity="center_vertical"/>
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:id="@+id/item_day_image_view"
+        android:src="@mipmap/ic_launcher"
+        android:scaleType="fitCenter"
+        app:riv_corner_radius="30dip"
+        app:riv_border_width="1dip"
+        app:riv_border_color="@color/cyanDark"
+        app:riv_mutate_background="true"
+        app:riv_oval="true"
+        android:layout_marginTop="15dp"
+        android:padding="5dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/item_day_place_title"
+        android:text="Title"
+        android:textSize="20sp"
+        android:textColor="@color/primary_text"
+        android:layout_gravity="center"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"/>
+</LinearLayout>

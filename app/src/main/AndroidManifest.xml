@@ -64,7 +64,7 @@
             android:name=".activities.YourPlanes"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".activities.YourPlanesA"
+            android:name=".activities.YourPlanDetails"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.Signup"
@@ -79,6 +79,8 @@
         <activity android:name=".activities.SelectTypeToAddActivity" />
 
         <activity android:name=".activities.PlanItemsList" />
+
+        <activity android:name=".activities.DayDetailsActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").

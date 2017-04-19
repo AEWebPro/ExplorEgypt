@@ -4,19 +4,14 @@ package com.example.ae.smartvisit.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.borax12.materialdaterangepicker.date.DatePickerDialog;
 import com.example.ae.smartvisit.R;
-import com.example.ae.smartvisit.modules.Plan;
+import com.example.ae.smartvisit.modules.SessionPlan;
 
-import java.security.PublicKey;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -67,7 +62,7 @@ public class CreatePlanActivity extends BaseActivity implements DatePickerDialog
 
     @OnClick(R.id.activity_create_plan_btn)
     public void openSelectPlaceTypeScreen(){
-        Plan createdPlan = Plan.getPlanInstance();
+        SessionPlan createdSessionPlan = SessionPlan.getSessionPlanInstance();
         //check if not empty
         if(activityPlanName.getText().toString().isEmpty()){
             Toast.makeText(this,"The Trip plan must have a title!",Toast.LENGTH_SHORT).show();
@@ -78,9 +73,9 @@ public class CreatePlanActivity extends BaseActivity implements DatePickerDialog
             return;
         }
 
-        createdPlan.setPlanName(activityPlanName.getText().toString());
-        createdPlan.setPlanStartDate(startDate);
-        createdPlan.setPlanEndDate(endDate);
+        createdSessionPlan.setPlanName(activityPlanName.getText().toString());
+        createdSessionPlan.setPlanStartDate(startDate);
+        createdSessionPlan.setPlanEndDate(endDate);
 
         startActivity(new Intent(this, SelectTypeToAddActivity.class));
 

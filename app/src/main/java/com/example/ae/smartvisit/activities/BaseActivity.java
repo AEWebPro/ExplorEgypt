@@ -67,7 +67,7 @@ public class BaseActivity extends AppCompatActivity {
                         navDrawer.closeDrawer(GravityCompat.START);
                     }
                     else if (id == R.id.nav_create_plan) {
-//                        Toast.makeText(application, "Create a Plan", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(application, "Create a SessionPlan", Toast.LENGTH_SHORT).show();
                         animateTransitionActivity(CreatePlanActivity.class);
                         navDrawer.closeDrawer(GravityCompat.START);
                     } else if (id == R.id.nav_your_plans) {

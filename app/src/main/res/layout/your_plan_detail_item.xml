@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/item_background"
+    android:clickable="true"
+    android:layout_marginBottom="4dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/plan_detail_item_day_text"
+        android:gravity="center"
+        android:text="day 1"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/black_70"
+        android:textSize="20sp"
+        android:maxLines="1"
+        android:layout_centerInParent="true"
+        android:background="@drawable/circle_text"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="@dimen/vertical_margin_with_border"
+        android:background="?android:attr/listDivider"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:layout_marginBottom="4dp"/>
+
+    <HorizontalScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/plan_detail_day_items_container"
+            android:orientation="horizontal"
+            android:layout_marginStart="24dp" />
+
+    </HorizontalScrollView>
+
+</LinearLayout>
