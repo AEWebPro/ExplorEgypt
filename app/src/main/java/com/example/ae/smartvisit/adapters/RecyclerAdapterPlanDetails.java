@@ -62,7 +62,7 @@ public class RecyclerAdapterPlanDetails extends RecyclerView.Adapter<RecyclerAda
             placeImage.setOval(true);
             placeImage.setCornerRadius(30);
             placeImage.setLayoutParams(params);
-            placeImage.setPadding(4,4,4,4);
+            placeImage.setPadding(4,4,4,6);
 
             Picasso.with(context).load(pair.getPlace().get(i).getImageUrl()).centerCrop().fit().into(placeImage);
 

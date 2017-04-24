@@ -3,22 +3,23 @@ package com.example.ae.smartvisit.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.view.ActionMode;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ae.smartvisit.R;
 import com.example.ae.smartvisit.adapters.RecyclerAdapterPlanDetails;
 import com.example.ae.smartvisit.modules.PairOfDayAndPlace;
-import com.example.ae.smartvisit.modules.PlaceDataModel;
 import com.example.ae.smartvisit.modules.Plan;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Set;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -31,6 +32,9 @@ public class YourPlanDetails extends BaseActivity implements Comparable{
     RecyclerView activityYourPlanDetailRecyclerView;
 
     private Plan planeDisplayed;
+    //Action Mode for toolbar
+    private ActionMode mActionMode;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +54,7 @@ public class YourPlanDetails extends BaseActivity implements Comparable{
         planeDisplayed = intent.getParcelableExtra("PlanDetails");
 
 
-        activityYourPlanDetailStartDateText.setText(planeDisplayed.getPlanStartDate());
+        activityYourPlanDetailStartDateText.setText("o the plan starts on :" + planeDisplayed.getPlanStartDate());
 
         ArrayList<PairOfDayAndPlace> orderedPairs = orderThePairs(planeDisplayed.getPairOfData());
         activityYourPlanDetailRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -60,6 +64,7 @@ public class YourPlanDetails extends BaseActivity implements Comparable{
         toolbar.setTitle(planeDisplayed.getPlanName());
         getSupportActionBar().setTitle(planeDisplayed.getPlanName());
     }
+
 
     //Order the list of pairs and collect the duplicated ones.
     public ArrayList<PairOfDayAndPlace> orderThePairs(ArrayList<PairOfDayAndPlace> passedPair) {

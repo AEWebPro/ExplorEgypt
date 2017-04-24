@@ -50,4 +50,5 @@
         <item>Karnak</item>
         <item>Pyramids</item>
     </string-array>
+    <string name="title_activity_day_places_path_map">Map</string>
 </resources>

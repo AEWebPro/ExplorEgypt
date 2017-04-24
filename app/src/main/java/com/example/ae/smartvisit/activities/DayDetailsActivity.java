@@ -4,7 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.ae.smartvisit.R;
 import com.example.ae.smartvisit.adapters.RecyclerAdapterDayInfo;
@@ -43,5 +46,26 @@ public class DayDetailsActivity extends BaseActivity {
         activityDayDetailsRecycler.setAdapter(adapterDayInfo);
 
         getSupportActionBar().setTitle("Day " + Integer.toString(pairToDisplay.getDay()));
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.plan_details_menu, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if(id == R.id.activity_plan_detail_map_icon){
+            Intent passingIntent = new Intent(this, DayPlacesPathMapActivity.class);
+            startActivity(passingIntent);
+            return true;
+        }
+
+        return false;
     }
 }

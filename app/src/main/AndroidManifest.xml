@@ -35,7 +35,7 @@
         </activity>
         <activity
             android:name=".activities.LoginActivity"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.Services"
             android:theme="@style/AppTheme" />
@@ -73,13 +73,9 @@
             android:name=".activities.PictureContainerActivity"
             android:screenOrientation="portrait"
             android:theme="@style/CustomDialogActivity" />
-
-        <activity android:name=".activities.CreatePlanActivity"/>
-
+        <activity android:name=".activities.CreatePlanActivity" />
         <activity android:name=".activities.SelectTypeToAddActivity" />
-
         <activity android:name=".activities.PlanItemsList" />
-
         <activity android:name=".activities.DayDetailsActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -87,7 +83,7 @@
              Note that the API key is linked to the encryption key used to sign the APK.
              You need a different API key for each encryption key, including the release key that is used to
              sign the APK for publishing.
-             You can define the keys for the debug and release targets in src/debug/ and src/release/. 
+             You can define the keys for the debug and release targets in src/debug/ and src/release/.
         -->
 
         <meta-data
@@ -97,6 +93,9 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
+        <activity
+            android:name=".activities.DayPlacesPathMapActivity"
+            android:label="@string/title_activity_day_places_path_map"></activity>
     </application>
 
 </manifest>

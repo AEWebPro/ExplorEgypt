@@ -13,7 +13,7 @@
         android:id="@+id/activity_your_plan_detail_startDate_text"
         android:text="o the plan starts on : 00/00/0000"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@color/secondary_text"
+        android:textColor="@color/mdtp_light_gray"
         android:textSize="20sp"
         android:maxLines="1"
         android:layout_marginBottom="4dp"

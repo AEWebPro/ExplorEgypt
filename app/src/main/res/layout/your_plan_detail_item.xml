@@ -41,7 +41,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/plan_detail_day_items_container"
             android:orientation="horizontal"
-            android:layout_marginStart="24dp" />
+            android:layout_marginStart="24dp"
+            android:layout_marginBottom="8dp"/>
 
     </HorizontalScrollView>
 
