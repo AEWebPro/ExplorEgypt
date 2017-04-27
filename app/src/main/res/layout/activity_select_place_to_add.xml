@@ -19,7 +19,7 @@
         <ImageView
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:src="@drawable/place_sight"
+            android:src="@drawable/pyramids"
             android:paddingTop="5dp"/>
 
         <TextView
@@ -48,7 +48,7 @@
         <ImageView
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:src="@drawable/hotel_icon"
+            android:src="@drawable/hotel_pic"
             android:paddingTop="5dp"/>
 
         <TextView
@@ -77,7 +77,7 @@
         <ImageView
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:src="@drawable/res_icon"
+            android:src="@drawable/restaurant_pic"
             android:paddingTop="5dp"/>
 
         <TextView

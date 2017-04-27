@@ -3,33 +3,35 @@ package com.example.ae.smartvisit.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.view.ActionMode;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.RadioButton;
-import android.widget.Switch;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ae.smartvisit.R;
+import com.example.ae.smartvisit.adapters.RecyclerAdapterYourPlans;
+import com.example.ae.smartvisit.infrastructure.RecyclerClick_Listener;
+import com.example.ae.smartvisit.infrastructure.RecyclerTouchListener;
+import com.example.ae.smartvisit.infrastructure.Toolbar_ActionMode_Callback;
 import com.example.ae.smartvisit.modules.PairOfDayAndPlace;
 import com.example.ae.smartvisit.modules.PlaceDataModel;
 import com.example.ae.smartvisit.modules.Plan;
-import com.example.ae.smartvisit.modules.SessionPlan;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class YourPlanes extends BaseActivity {
 
-    ArrayList<PairOfDayAndPlace> placesInPlan = new ArrayList<>();
+    //Action Mode for toolbar
+    private ActionMode mActionMode;
+    private ArrayList<Plan> myPlans = new ArrayList<>();
+    private RecyclerAdapterYourPlans adapter;
+    private RecyclerView plansList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,9 @@ public class YourPlanes extends BaseActivity {
         ArrayList<PlaceDataModel> listOfPlaces2 = new ArrayList<>();
         listOfPlaces2.add(new PlaceDataModel("Pyramid",getString(R.string.temp_text),getString(R.string.pyramids_image),"",2,"",""));
 
+        ArrayList<PairOfDayAndPlace> placesInPlan = new ArrayList<>();
+        ArrayList<PairOfDayAndPlace> placesInPlan2 = new ArrayList<>();
+
         placesInPlan.add(new PairOfDayAndPlace(3,listOfPlaces1));
 
         placesInPlan.add(new PairOfDayAndPlace(1,listOfPlaces1));
@@ -56,102 +61,24 @@ public class YourPlanes extends BaseActivity {
         placesInPlan.add(new PairOfDayAndPlace(1,listOfPlaces1));
         placesInPlan.add(new PairOfDayAndPlace(1,listOfPlaces1));
 
+        placesInPlan2.add(new PairOfDayAndPlace(2,listOfPlaces2));
+        placesInPlan2.add(new PairOfDayAndPlace(2,listOfPlaces2));
+        placesInPlan2.add(new PairOfDayAndPlace(3,listOfPlaces1));
 
-        ListView list = (ListView) findViewById(R.id.your_list);
-        list.setAdapter(new ListResources(this, placesInPlan));
+        placesInPlan2.add(new PairOfDayAndPlace(1,listOfPlaces1));
+        placesInPlan2.add(new PairOfDayAndPlace(3,listOfPlaces1));
+        placesInPlan2.add(new PairOfDayAndPlace(1,listOfPlaces1));
 
-    }
+        myPlans.add(new Plan("Visit egypt", "22/5/2020","30/5/2020",false,placesInPlan));
+        myPlans.add(new Plan("Giza is near", "1/8/2020","30/9/2020",true,placesInPlan2));
 
-    private class ListResources extends BaseAdapter {
-        ArrayList<Plan> myPlans = new ArrayList<>();
-        Context context;
+        plansList = (RecyclerView) findViewById(R.id.activity_your_plans_recyclerView);
+        plansList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false));
+        adapter = new RecyclerAdapterYourPlans(myPlans, this);
+        plansList.setAdapter(adapter);
 
-        ListResources(Context context, ArrayList<PairOfDayAndPlace> listOfPairs) {
-            this.context = context;
-            myPlans.add(new Plan("Visit egypt", "22/5/2020","30/5/2020",false,listOfPairs));
-            myPlans.add(new Plan("Giza is near", "1/8/2020","30/9/2020",true,listOfPairs));
+        implementRecyclerViewClickListeners();
 
-
-        }
-
-        @Override
-        public int getCount() {
-            return myPlans.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return myPlans.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(final int position, View convertView, ViewGroup parent) {
-            final PlanViewHolder planViewHolder;
-
-            if(convertView == null){
-                LayoutInflater inflater = getLayoutInflater();
-                convertView = inflater.inflate(R.layout.activity_recommand_programs_list, parent, false);
-                planViewHolder = new PlanViewHolder();
-
-                planViewHolder.planTitle = (TextView) convertView.findViewById(R.id.activity_program_list_plan_title);
-                planViewHolder.planStartDate = (TextView) convertView.findViewById(R.id.activity_program_list_plan_startDate);
-                planViewHolder.planIsActive = (Switch) convertView.findViewById(R.id.activity_program_list_active_radio_btn);
-                planViewHolder.planBgImage = (ImageView) convertView.findViewById(R.id.activity_program_list_image_bg);
-                planViewHolder.planProgress = (ProgressBar) convertView.findViewById(R.id.activity_program_list_image_progress);
-                convertView.setTag(planViewHolder);
-            }else {
-                planViewHolder = (PlanViewHolder) convertView.getTag();
-            }
-
-            final Plan plan = myPlans.get(position);
-            planViewHolder.planTitle.setText( plan.getPlanName());
-            planViewHolder.planStartDate.setText("o start date:" + plan.getPlanStartDate());
-            Picasso.with(context)
-                    .load(plan.getPairOfData().get(0).getPlace().get(0).getImageUrl())
-                    .centerCrop()
-                    .fit()
-                    .into(planViewHolder.planBgImage, new Callback() {
-                        @Override
-                        public void onSuccess() {
-                            planViewHolder.planProgress.setVisibility(View.GONE);
-                        }
-
-                        @Override
-                        public void onError() {
-
-                        }
-                    }) ;
-            planViewHolder.planIsActive.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Toast.makeText(getBaseContext(),Integer.toString(position) +  " is clicked",Toast.LENGTH_SHORT).show();
-                }
-            });
-
-            planViewHolder.planBgImage.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent planIntent = new Intent(YourPlanes.this,YourPlanDetails.class);
-                    planIntent.putExtra("PlanDetails", plan);
-                    startActivity(planIntent);
-                }
-            });
-
-            return convertView;
-        }
-    }
-
-    private class PlanViewHolder{
-        private TextView planTitle;
-        private TextView planStartDate;
-        private ImageView planBgImage;
-        private Switch planIsActive;
-        private ProgressBar planProgress;
     }
 
     @Override
@@ -160,5 +87,92 @@ public class YourPlanes extends BaseActivity {
             return true;
         }
         return false;
+    }
+
+
+    //Implement item click and long click over recycler view
+    private void implementRecyclerViewClickListeners() {
+        plansList.
+                addOnItemTouchListener(new RecyclerTouchListener(this, plansList, new RecyclerClick_Listener() {
+                    @Override
+                    public void onClick(View view, int position) {
+                        //If ActionMode not null select item
+                        if (mActionMode != null)
+                            onListItemSelect(position);
+                    }
+
+                    @Override
+                    public void onLongClick(View view, int position) {
+                        //Select item on long click
+                        onListItemSelect(position);
+                    }
+                }));
+    }
+
+    //List item select method
+    private void onListItemSelect(int position) {
+        adapter.toggleSelection(position);//Toggle the selection
+
+        boolean hasCheckedItems = adapter.getSelectedCount() > 0;//Check if any items are already selected or not
+
+        if (hasCheckedItems && mActionMode == null)
+            // there are some selected items, start the actionMode
+            mActionMode = startSupportActionMode(new Toolbar_ActionMode_Callback( this,adapter, myPlans, this));
+        else if (!hasCheckedItems && mActionMode != null) {
+            // there no selected items, finish the actionMode
+            mActionMode.finish();
+            adapter.removeSelection();
+        }
+            //for the edit option if selected more than one item
+        if(mActionMode != null) {
+            if (adapter.getSelectedCount() > 1) {
+                mActionMode.getMenu().findItem(R.id.activity_your_plans_menu_edit).setVisible(false);
+            } else {
+                mActionMode.getMenu().findItem(R.id.activity_your_plans_menu_edit).setVisible(true);
+            }
+        }
+        if (mActionMode != null)
+            //set action mode title on item selection
+            mActionMode.setTitle(String.valueOf(adapter
+                    .getSelectedCount()) + " selected");
+    }
+    //Set action mode null after use
+    public void setNullToActionMode() {
+        if (mActionMode != null)
+            mActionMode = null;
+    }
+
+    //Delete selected rows
+    public void deleteRows() {
+        SparseBooleanArray selected = adapter
+                .getSelectedIds();//Get selected ids
+
+        //Loop all selected ids
+        for (int i = (selected.size() - 1); i >= 0; i--) {
+            if (selected.valueAt(i)) {
+                //If current id is selected remove the item via key
+                myPlans.remove(selected.keyAt(i));
+                //TODO: update the database with the deleted plan
+                adapter.notifyDataSetChanged();//notify adapter
+
+            }
+        }
+        Toast.makeText(this, selected.size() + " item deleted.", Toast.LENGTH_SHORT).show();//Show Toast
+        mActionMode.finish();//Finish action mode after use
+
+    }
+
+    //Edit existing plan
+    public void editPlan(){
+
+        //TODO: think about how to handle this object after leaving the activity
+        mActionMode.finish();
+        setNullToActionMode();
+
+        Intent editIntent = new Intent(getApplication(),CreatePlanActivity.class);
+        SparseBooleanArray itemSelected = adapter.getSelectedIds();
+        Plan passedPlan = myPlans.get(itemSelected.keyAt(0));
+        editIntent.putExtra("edit_plan", passedPlan);
+        startActivity(editIntent);
     }
 }

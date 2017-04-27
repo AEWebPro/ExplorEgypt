@@ -12,11 +12,10 @@
 
         <include layout="@layout/include_toolbar" />
 
-        <ListView
-            android:id="@+id/your_list"
+        <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
+            android:layout_height="match_parent"
+            android:id="@+id/activity_your_plans_recyclerView"/>
     </LinearLayout>
 
     <android.support.design.widget.NavigationView

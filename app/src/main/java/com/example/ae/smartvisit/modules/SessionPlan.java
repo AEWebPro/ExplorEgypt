@@ -55,4 +55,17 @@ public class SessionPlan {
     public void addPlaceToPlan(PairOfDayAndPlace addPair){
         pairOfData.add(addPair);
     }
+
+    public void removePlaceFromPlan(String placeName){
+        ArrayList<PairOfDayAndPlace> tempList = new ArrayList<>();
+        for (PairOfDayAndPlace pairToSearch: pairOfData) {
+            if (pairToSearch.getPlace().get(0).getName().equals(placeName)){
+                tempList.add(pairToSearch);
+            }
+        }
+        pairOfData.removeAll(tempList);
+    }
+    public void setPairOfData(ArrayList<PairOfDayAndPlace> pairOfData) {
+        this.pairOfData = pairOfData;
+    }
 }

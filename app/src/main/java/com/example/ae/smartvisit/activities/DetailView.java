@@ -2,13 +2,16 @@ package com.example.ae.smartvisit.activities;
 
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.PorterDuff;
+import android.os.Build;
 import android.os.Bundle;
 import android.app.ActionBar.LayoutParams;
 
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -56,6 +59,7 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
     private MyMapView mMapView;
 
     private String parentActivity;
+    private Boolean isAdded;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,6 +111,15 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
             floatAddBtn.hide();
         } else {
             floatAddBtn.setEnabled(true);
+            isAdded = false;
+            ArrayList<PairOfDayAndPlace> pairsInPlan = SessionPlan.getSessionPlanInstance().getPairOfData();
+
+            for (int i = 0; i < pairsInPlan.size(); i++) {
+                if (placeDisplayed.getName().equals(pairsInPlan.get(i).getPlace().get(0).getName())) {
+                    isAdded = true;
+                    floatAddBtn.setImageDrawable(getResources().getDrawable(R.drawable.ic_cancel_black_24dp));
+                }
+            }
         }
 
         floatAddBtn.setOnClickListener(this);
@@ -186,44 +199,47 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
             }
         } else if (id == R.id.activity_detail_add_floatbtn) {
             final SessionPlan workingSessionPlan = SessionPlan.getSessionPlanInstance();
-            int duration = CreatePlanActivity.getDuration(workingSessionPlan.getPlanStartDate(), workingSessionPlan.getPlanEndDate());
+            if (!isAdded) {
+                int duration = CreatePlanActivity.getDuration(workingSessionPlan.getPlanStartDate(), workingSessionPlan.getPlanEndDate());
 
-            final Dialog dialog = new Dialog(this);
-            dialog.setContentView(R.layout.dialog_choose_day);
-            dialog.setTitle("Choose a day");
-            dialog.show();
+                final Dialog dialog = new Dialog(this);
+                dialog.setContentView(R.layout.dialog_choose_day);
+                dialog.setTitle("Choose a day");
+                dialog.show();
 
-            LinearLayout container = (LinearLayout) dialog.findViewById(R.id.dialog_choose_day_container);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                    LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                LinearLayout container = (LinearLayout) dialog.findViewById(R.id.dialog_choose_day_container);
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                        LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
             /*LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                     65,40);*/
 
-            for (int i = 0; i < duration; i++) {
+                for (int i = 0; i < duration; i++) {
 
 
-                final Button dayBtn = new Button(this);
-                dayBtn.setId(i + 1);
-                dayBtn.setText("Day " + (i + 1));
-                dayBtn.setPadding(2, 4, 6, 4);
-                dayBtn.setLayoutParams(params);
-                dayBtn.setBackground(getResources().getDrawable(R.drawable.btn_circle));
+                    final Button dayBtn = new Button(this);
+                    dayBtn.setId(i + 1);
+                    dayBtn.setText("Day " + (i + 1));
+                    dayBtn.setPadding(2, 4, 6, 4);
+                    dayBtn.setLayoutParams(params);
+                    dayBtn.setBackground(getResources().getDrawable(R.drawable.btn_circle));
 
-                dayBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        List<PlaceDataModel> placeDataModels = new ArrayList<PlaceDataModel>();
-                        placeDataModels.add(placeDisplayed);
+                    dayBtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            List<PlaceDataModel> placeDataModels = new ArrayList<PlaceDataModel>();
+                            placeDataModels.add(placeDisplayed);
 
-                        PairOfDayAndPlace newPair = new PairOfDayAndPlace(dayBtn.getId(),placeDataModels);
-                        workingSessionPlan.addPlaceToPlan(newPair);
-                        dialog.cancel();
-                        Toast.makeText(DetailView.this, "Added to day " + dayBtn.getId(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-                container.addView(dayBtn);
-            }
+                            PairOfDayAndPlace newPair = new PairOfDayAndPlace(dayBtn.getId(), placeDataModels);
+                            workingSessionPlan.addPlaceToPlan(newPair);
+                            floatAddBtn.setImageDrawable(getResources().getDrawable(R.drawable.ic_cancel_black_24dp));
+                            isAdded = true;
+                            dialog.cancel();
+                            Toast.makeText(DetailView.this, "Added to day " + dayBtn.getId(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    container.addView(dayBtn);
+                }
 
          /*   if (workingSessionPlan.getPairOfData() != null) {
                 for (PairOfDayAndPlace pair : workingSessionPlan.getPairOfData()) {
@@ -231,12 +247,50 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
                 }
             }*/
 
-            dialog.findViewById(R.id.dialog_choose_day_close_btn).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    dialog.cancel();
-                }
-            });
+                dialog.findViewById(R.id.dialog_choose_day_close_btn).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.cancel();
+                    }
+                });
+            }else {
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                        this);
+
+                // set title
+                alertDialogBuilder.setTitle("Remove place");
+
+                // set dialog message
+                alertDialogBuilder
+                        .setMessage("Sure you want to remove the place")
+                        .setCancelable(false)
+                        .setPositiveButton("Yes",new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int id) {
+
+                                // if this button is clicked, remove it from the plan
+                                workingSessionPlan.removePlaceFromPlan(placeDisplayed.getName());
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                    floatAddBtn.setImageDrawable(getDrawable(R.drawable.ic_add_black_24dp));
+                                }else {
+                                    floatAddBtn.setImageDrawable(getResources().getDrawable(R.drawable.ic_add_black_24dp));
+                                }
+                                isAdded = false;
+                            }
+                        })
+                        .setNegativeButton("No",new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // if this button is clicked, just close
+                                // the dialog box and do nothing
+                                dialog.cancel();
+                            }
+                        });
+
+                // create alert dialog
+                AlertDialog alertDialog = alertDialogBuilder.create();
+
+                // show it
+                alertDialog.show();
+            }
         }
     }
 

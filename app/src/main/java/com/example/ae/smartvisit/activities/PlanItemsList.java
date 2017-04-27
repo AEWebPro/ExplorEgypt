@@ -63,6 +63,7 @@ public class PlanItemsList extends BaseActivity {
             namesArray = getResources().getStringArray(R.array.Hotels_names);
             image = getResources().getString(R.string.hotel_image);
         } else if (typeToDisplay.equals("Restaurants")) {
+            namesArray = getResources().getStringArray(R.array.restaurants_names);
             image = getResources().getString(R.string.retaurant_image);
         }
 

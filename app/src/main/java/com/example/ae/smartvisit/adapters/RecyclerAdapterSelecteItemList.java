@@ -40,11 +40,11 @@ public class RecyclerAdapterSelecteItemList extends RecyclerView.Adapter<Recycle
     public void onBindViewHolder(ItemInListAdapter holder, final int position) {
         int placeHolder ;
         if (typeToDisplay.equals("Places")) {
-            placeHolder = R.drawable.place_sight;
+            placeHolder = R.drawable.pyramids;
         } else if (typeToDisplay.equals("Hotels")) {
-            placeHolder = R.drawable.hotel_icon;
+            placeHolder = R.drawable.hotel_pic;
         } else if (typeToDisplay.equals("Restaurants")) {
-            placeHolder = R.drawable.res_icon;
+            placeHolder = R.drawable.restaurant_pic;
         } else {
             placeHolder = R.mipmap.ic_launcher;
         }

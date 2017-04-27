@@ -3,9 +3,11 @@ package com.example.ae.smartvisit.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.SparseBooleanArray;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,6 +16,8 @@ import android.widget.Toast;
 
 import com.example.ae.smartvisit.R;
 import com.example.ae.smartvisit.adapters.RecyclerAdapterPlanDetails;
+import com.example.ae.smartvisit.infrastructure.RecyclerClick_Listener;
+import com.example.ae.smartvisit.infrastructure.RecyclerTouchListener;
 import com.example.ae.smartvisit.modules.PairOfDayAndPlace;
 import com.example.ae.smartvisit.modules.Plan;
 
@@ -32,8 +36,9 @@ public class YourPlanDetails extends BaseActivity implements Comparable{
     RecyclerView activityYourPlanDetailRecyclerView;
 
     private Plan planeDisplayed;
-    //Action Mode for toolbar
-    private ActionMode mActionMode;
+
+    private RecyclerAdapterPlanDetails adapter;
+    private ArrayList<PairOfDayAndPlace> orderedPairs;
 
 
     @Override
@@ -56,10 +61,10 @@ public class YourPlanDetails extends BaseActivity implements Comparable{
 
         activityYourPlanDetailStartDateText.setText("o the plan starts on :" + planeDisplayed.getPlanStartDate());
 
-        ArrayList<PairOfDayAndPlace> orderedPairs = orderThePairs(planeDisplayed.getPairOfData());
+        orderedPairs = orderThePairs(planeDisplayed.getPairOfData());
         activityYourPlanDetailRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        RecyclerAdapterPlanDetails adapterPlanDetails = new RecyclerAdapterPlanDetails(this, orderedPairs);
-        activityYourPlanDetailRecyclerView.setAdapter(adapterPlanDetails);
+        adapter = new RecyclerAdapterPlanDetails(this, orderedPairs);
+        activityYourPlanDetailRecyclerView.setAdapter(adapter);
 
         toolbar.setTitle(planeDisplayed.getPlanName());
         getSupportActionBar().setTitle(planeDisplayed.getPlanName());
@@ -105,9 +110,9 @@ public class YourPlanDetails extends BaseActivity implements Comparable{
 
         return returnPairsList;
     }
-
     @Override
     public int compareTo(@NonNull Object o) {
         return 0;
     }
+
 }

@@ -5,11 +5,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.borax12.materialdaterangepicker.date.DatePickerDialog;
 import com.example.ae.smartvisit.R;
+import com.example.ae.smartvisit.modules.Plan;
 import com.example.ae.smartvisit.modules.SessionPlan;
 
 import java.text.ParseException;
@@ -24,18 +26,19 @@ import butterknife.OnClick;
 
 public class CreatePlanActivity extends BaseActivity implements DatePickerDialog.OnDateSetListener {
 
-    @Bind(R.id.activity_plan_name)
-    TextInputEditText activityPlanName;
-    @Bind(R.id.activity_plan_duration)
-    TextView activityPlanDuration;
-
     String startDate = "";
     String endDate = "";
+
+    private TextInputEditText planName;
+    private TextView planDuration;
+
+    private SessionPlan createdSessionPlan;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_plan);
+
         toolbar.setNavigationIcon(R.drawable.ic_keyboard_backspace_black_24dp);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,12 +47,32 @@ public class CreatePlanActivity extends BaseActivity implements DatePickerDialog
             }
         });
 
+        createdSessionPlan = SessionPlan.getSessionPlanInstance();
+        planName = (TextInputEditText) findViewById(R.id.activity_plan_name);
+        planDuration = (TextView) findViewById(R.id.activity_plan_duration);
+
+        Button saveButton = (Button) findViewById(R.id.activity_create_plan_btn);
+
+        Plan receivedPlan = getIntent().getParcelableExtra("edit_plan");
+        if (receivedPlan != null) {
+            saveButton.setText("Save");
+
+            createdSessionPlan.setPlanName(receivedPlan.getPlanName());
+            createdSessionPlan.setPlanStartDate(receivedPlan.getPlanStartDate());
+            createdSessionPlan.setPlanEndDate(receivedPlan.getPlanStartDate());
+            createdSessionPlan.setPairOfData(receivedPlan.getPairOfData());
+
+            planName.setText(receivedPlan.getPlanName());
+            planDuration.setText(Integer.toString(getDuration(receivedPlan.getPlanStartDate(), receivedPlan.getPlanEndDate())));
+
+        }
+
         ButterKnife.bind(this);
 
     }
 
     @OnClick(R.id.activity_plan_date)
-    public void createDatePickerDialoge(){
+    public void createDatePickerDialoge() {
         Calendar now = Calendar.getInstance();
         DatePickerDialog dpd = DatePickerDialog.newInstance(
                 CreatePlanActivity.this,
@@ -61,39 +84,40 @@ public class CreatePlanActivity extends BaseActivity implements DatePickerDialog
     }
 
     @OnClick(R.id.activity_create_plan_btn)
-    public void openSelectPlaceTypeScreen(){
-        SessionPlan createdSessionPlan = SessionPlan.getSessionPlanInstance();
+    public void openSelectPlaceTypeScreen() {
+
         //check if not empty
-        if(activityPlanName.getText().toString().isEmpty()){
-            Toast.makeText(this,"The Trip plan must have a title!",Toast.LENGTH_SHORT).show();
+        if (planName.getText().toString().isEmpty()) {
+            Toast.makeText(this, "The Trip plan must have a title!", Toast.LENGTH_SHORT).show();
             return;
         }
-        if(activityPlanDuration.getText().toString().isEmpty()){
-            Toast.makeText(this,"Start & End date can't be empty",Toast.LENGTH_SHORT).show();
+        if (planDuration.getText().toString().isEmpty()) {
+            Toast.makeText(this, "Start & End date can't be empty", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        createdSessionPlan.setPlanName(activityPlanName.getText().toString());
+        createdSessionPlan.setPlanName(planName.getText().toString());
         createdSessionPlan.setPlanStartDate(startDate);
         createdSessionPlan.setPlanEndDate(endDate);
 
+        //TODO: add a Notification when is created
         startActivity(new Intent(this, SelectTypeToAddActivity.class));
 
     }
 
     @Override
-    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth,int yearEnd, int monthOfYearEnd, int dayOfMonthEnd) {
+    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth, int yearEnd, int monthOfYearEnd, int dayOfMonthEnd) {
 
-        startDate = Integer.toString(dayOfMonth) + "/" +Integer.toString(monthOfYear) + "/" +Integer.toString(year);
-        endDate = Integer.toString(dayOfMonthEnd) + "/" +Integer.toString(monthOfYearEnd) + "/" +Integer.toString(yearEnd);
+        startDate = Integer.toString(dayOfMonth) + "/" + Integer.toString(monthOfYear) + "/" + Integer.toString(year);
+        endDate = Integer.toString(dayOfMonthEnd) + "/" + Integer.toString(monthOfYearEnd) + "/" + Integer.toString(yearEnd);
 
-        activityPlanDuration.setText(Integer.toString(getDuration(startDate, endDate)));
+        planDuration.setText(Integer.toString(getDuration(startDate, endDate)));
     }
 
-    public static int getDuration (String startDate, String endDate){
+    public static int getDuration(String startDate, String endDate) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
 
-        Date Created_convertedDate = null, Expire_CovertedDate = null ;
+        Date Created_convertedDate = null, Expire_CovertedDate = null;
         try {
             Created_convertedDate = dateFormat.parse(startDate);
             Expire_CovertedDate = dateFormat.parse(endDate);
@@ -107,9 +131,9 @@ public class CreatePlanActivity extends BaseActivity implements DatePickerDialog
         Calendar e_cal = Calendar.getInstance();
         e_cal.setTime(Expire_CovertedDate);
 
-        long diff = e_cal.getTimeInMillis() - s_cal.getTimeInMillis() ;
+        long diff = e_cal.getTimeInMillis() - s_cal.getTimeInMillis();
         float dayCount = (float) diff / (24 * 60 * 60 * 1000);
-        int duration = (int)Math.ceil(dayCount);
+        int duration = (int) Math.ceil(dayCount);
 
         return duration;
     }

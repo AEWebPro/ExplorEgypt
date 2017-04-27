@@ -4,11 +4,13 @@ package com.example.ae.smartvisit.adapters;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.RecyclerView;
 import android.util.Pair;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +34,7 @@ public class RecyclerAdapterPlanDetails extends RecyclerView.Adapter<RecyclerAda
 
     private Context context;
     private ArrayList<PairOfDayAndPlace> listOfPairs;
+
 
     public RecyclerAdapterPlanDetails(Context context, ArrayList<PairOfDayAndPlace> listOfPairs) {
         this.context = context;
@@ -82,7 +85,6 @@ public class RecyclerAdapterPlanDetails extends RecyclerView.Adapter<RecyclerAda
             holder.placesContainer.addView(placeImage);
         }
 
-
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -109,4 +111,5 @@ public class RecyclerAdapterPlanDetails extends RecyclerView.Adapter<RecyclerAda
             placesContainer = (LinearLayout) itemView.findViewById(R.id.plan_detail_day_items_container);
         }
     }
+
 }
