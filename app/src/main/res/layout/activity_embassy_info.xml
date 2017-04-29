@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/cyanWhite">
+
+    <include layout="@layout/include_toolbar" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/activity_embassy_info_contact_no"
+        android:text="0200555025"
+        android:textColor="@color/primary_text"
+        android:textSize="20sp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="@dimen/vertical_margin_with_border"
+        android:background="?android:attr/listDivider"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/activity_embassy_info_address"
+        android:text="giza"
+        android:maxLines="4"
+        android:textColor="@color/primary_text"
+        android:textSize="20sp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"/>
+
+
+    <com.example.ae.smartvisit.infrastructure.MyMapView
+        android:id="@+id/embassy_map_view"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_marginTop="@dimen/vertical_margin_with_border" />
+
+
+
+</LinearLayout>

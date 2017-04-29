@@ -38,9 +38,9 @@ public class RecommandPrograms extends BaseActivity {
             }
         });
 */
-        placesInPlan.add(0, new PlaceDataModel("Pyramids", "", "", "", 0, "", ""));
-        placesInPlan.add(1, new PlaceDataModel("The Sea", "", "", "", 1, "", ""));
-        placesInPlan.add(2, new PlaceDataModel("The Cairo Tower", "", "", "", 2, "", ""));
+        placesInPlan.add(0, new PlaceDataModel("Pyramids", "", "","", "", "0", "", ""));
+        placesInPlan.add(1, new PlaceDataModel("The Sea", "", "","", "", "1", "", ""));
+        placesInPlan.add(2, new PlaceDataModel("The Cairo Tower","", "", "", "", "2", "", ""));
 
 
         ListView list = (ListView) findViewById(R.id.recommand_programs);

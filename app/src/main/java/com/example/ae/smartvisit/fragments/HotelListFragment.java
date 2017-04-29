@@ -38,7 +38,7 @@ public class HotelListFragment extends BaseFragment{
 
         placesList = new ArrayList<>();
         for(int i = 0; i < 100; i++ ){
-            placesList.add(i, new PlaceDataModel(namesArray[randomIndex.nextInt(6)],getString(R.string.temp_text),getString(R.string.hotel_image),"",i,"",""));
+            placesList.add(i, new PlaceDataModel(namesArray[randomIndex.nextInt(6)],getString(R.string.temp_text),getString(R.string.hotel_image),"","",Integer.toString(i),"",""));
         }
 
         recyclerView = (RecyclerView) view.findViewById(R.id.fragment_all_places_recyclerView);

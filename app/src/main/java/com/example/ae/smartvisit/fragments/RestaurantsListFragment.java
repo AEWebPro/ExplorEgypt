@@ -39,7 +39,7 @@ public class RestaurantsListFragment extends BaseFragment{
 
         placesList = new ArrayList<>();
         for(int i = 0; i < 100; i++ ){
-            placesList.add(i, new PlaceDataModel(namesArray[randomIndex.nextInt(6)],getString(R.string.temp_text),getString(R.string.retaurant_image),"",i,"",""));
+            placesList.add(i, new PlaceDataModel(namesArray[randomIndex.nextInt(6)],getString(R.string.temp_text),getString(R.string.retaurant_image),"","",Integer.toString(i),"",""));
         }
 
 

@@ -41,10 +41,10 @@ public class YourPlanes extends BaseActivity {
         getSupportActionBar().setTitle("Your Plans");
 
         ArrayList<PlaceDataModel> listOfPlaces1 = new ArrayList<>();
-        listOfPlaces1.add(new PlaceDataModel("Hotel",getString(R.string.temp_text),getString(R.string.hotel_image),"",1,"",""));
+        listOfPlaces1.add(new PlaceDataModel("Hotel",getString(R.string.temp_text),getString(R.string.hotel_image),"","","1","",""));
 
         ArrayList<PlaceDataModel> listOfPlaces2 = new ArrayList<>();
-        listOfPlaces2.add(new PlaceDataModel("Pyramid",getString(R.string.temp_text),getString(R.string.pyramids_image),"",2,"",""));
+        listOfPlaces2.add(new PlaceDataModel("Pyramid",getString(R.string.temp_text),getString(R.string.pyramids_image),"","","2","",""));
 
         ArrayList<PairOfDayAndPlace> placesInPlan = new ArrayList<>();
         ArrayList<PairOfDayAndPlace> placesInPlan2 = new ArrayList<>();

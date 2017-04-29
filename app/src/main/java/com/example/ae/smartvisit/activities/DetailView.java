@@ -157,7 +157,7 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
     private void setupSimilarPlacesRecycler() {
         ArrayList<PlaceDataModel> placesRelatedList = new ArrayList<>();
         for (int i = 0; i < 8; i++)
-            placesRelatedList.add(new PlaceDataModel("place name " + Integer.toString(i), "", "", "", i, "", ""));
+            placesRelatedList.add(new PlaceDataModel("place name " + Integer.toString(i),"", "", "", "", Integer.toString(i), "", ""));
 
         RecyclerAdapterPlacesWithPics adapterPlaces = new RecyclerAdapterPlacesWithPics(this);
         adapterPlaces.addPlaces(placesRelatedList);

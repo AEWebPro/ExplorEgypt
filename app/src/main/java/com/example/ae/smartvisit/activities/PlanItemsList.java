@@ -72,8 +72,9 @@ public class PlanItemsList extends BaseActivity {
             placesList.add(i,new PlaceDataModel(
                     namesArray[randomIndex.nextInt(6)]
                     , getString(R.string.temp_text)
+                    ,""
                     , image
-                    , "Cairo", i, "", ""));
+                    , "Cairo", Integer.toString(i), "", ""));
 
         }
 
