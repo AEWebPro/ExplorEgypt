@@ -3,12 +3,8 @@
     package="com.example.ae.smartvisit">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CAMERA" />
-
-    <uses-feature android:name="android.hardware.camera" />
-    <uses-feature android:name="android.hardware.camera.autofocus" />
-
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -46,9 +42,6 @@
             android:name=".activities.Transport"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".activities.Hospitals"
-            android:theme="@style/AppTheme" />
-        <activity
             android:name=".activities.CurrencyActivity"
             android:theme="@style/AppTheme"></activity>
         <activity
@@ -78,6 +71,7 @@
         <activity android:name=".activities.PlanItemsList" />
         <activity android:name=".activities.DayDetailsActivity" />
         <activity android:name=".activities.EmbassyInformation" />
+        <activity android:name=".map.HospitalsMapsActivity" android:theme="@style/AppTheme"/>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").

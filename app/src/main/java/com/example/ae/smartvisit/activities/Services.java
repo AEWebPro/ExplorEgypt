@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ImageButton;
 
 import com.example.ae.smartvisit.R;
+import com.example.ae.smartvisit.map.HospitalsMapsActivity;
 
 public class Services extends BaseActivity implements View.OnClickListener {
 
@@ -34,7 +35,7 @@ public class Services extends BaseActivity implements View.OnClickListener {
             Intent i = new Intent(Services.this, Transport.class);
             startActivity(i);
         } else if (v == img2) {
-            Intent i = new Intent(Services.this, Hospitals.class);
+            Intent i = new Intent(Services.this, HospitalsMapsActivity.class);
             startActivity(i);
         } else if (v == img3) {
             Intent i = new Intent(Services.this, CurrencyActivity.class);
