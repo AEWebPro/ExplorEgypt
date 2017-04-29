@@ -43,7 +43,12 @@ dependencies {
 
     //Date Picker
     compile 'com.borax12.materialdaterangepicker:library:1.9'
-
+    //CurrencyActivity Views lib
+    compile 'com.wajahatkarim3.EasyMoney-Widgets:EasyMoney-Widgets:1.0.0'
+    //retrofit
+    compile 'com.google.code.gson:gson:2.6.2'
+    compile 'com.squareup.retrofit2:retrofit:2.2.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     //Direction lib
     compile 'com.github.jd-alexander:library:1.1.0'
     testCompile 'junit:junit:4.12'

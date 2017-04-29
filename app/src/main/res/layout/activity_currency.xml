@@ -1,16 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:layout_height="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:orientation="vertical"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <include layout="@layout/include_toolbar" />
+    <include
+        layout="@layout/include_toolbar" android:id="@+id/include_toolbar" />
+
+    <LinearLayout
+        android:id="@+id/text_title_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/include_toolbar"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <TextView
+            android:id="@+id/currency_from_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:text="From"
+            android:textColor="@color/gray_500"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/currency_to_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:text="To"
+            android:textColor="@color/gray_500"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/spinner_countries_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_title_container"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <Spinner
+            android:id="@+id/currency_from_spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="EG pound"
+            android:textSize="22sp"
+            android:textColor="@color/gray_700"
+            android:layout_weight="1"
+            android:gravity="center"/>
+    </LinearLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/currency_edit_text_layout"
+        android:layout_below="@id/spinner_countries_container"
+        android:hint="Enter amount"
+        android:textColorHint="@color/green">
+
+        <com.wajahatkarim3.easymoneywidgets.EasyMoneyEditText
+            android:id="@+id/currency_moneyEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:inputType="numberDecimal"
+            app:currency_symbol="$"
+            app:show_commas="true"
+            app:show_currency="true" />
+    </android.support.design.widget.TextInputLayout>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/currency_convert_btn"
+        android:layout_below="@id/currency_edit_text_layout"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dp"
+        android:text="Convert"
+        android:textColor="@color/green" />
 
     <TextView
-        android:layout_gravity="center"
-        android:layout_height="wrap_content"
+        android:id="@+id/currency_after_convert_text"
         android:layout_width="wrap_content"
-        android:text="Currency"
-        android:textSize="35sp" />
-</LinearLayout>
+        android:layout_height="wrap_content"
+        android:layout_below="@id/currency_convert_btn"
+        android:layout_marginStart="10dp"
+        android:text="Currency type"
+        android:textColor="@color/green"
+        android:textSize="20sp" />
+
+    <com.wajahatkarim3.easymoneywidgets.EasyMoneyTextView
+        android:id="@+id/currency_moneyTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/currency_after_convert_text"
+        android:textSize="24sp"
+        app:show_currency="true"
+        app:show_commas="true"
+        app:currency_symbol="$"
+        android:textColor="@color/gray_700"
+        android:layout_marginStart="15dp"/>
+
+</RelativeLayout>
 

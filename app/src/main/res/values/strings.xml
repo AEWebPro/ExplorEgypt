@@ -23,6 +23,13 @@
         <item>Restaurants</item>
     </string-array>
 
+    <string-array name="currencies_spinner_list">
+        <item>US Dollar</item>
+        <item>EUR Euro</item>
+        <item>AE Dirham</item>
+        <item>IN Rupee</item>
+    </string-array>
+
     <string-array name="Hotels_names">
         <item>Four Seasons Hotel</item>
         <item>Safir Hotel</item>

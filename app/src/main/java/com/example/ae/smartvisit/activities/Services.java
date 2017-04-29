@@ -37,7 +37,7 @@ public class Services extends BaseActivity implements View.OnClickListener {
             Intent i = new Intent(Services.this, Hospitals.class);
             startActivity(i);
         } else if (v == img3) {
-            Intent i = new Intent(Services.this, Currency.class);
+            Intent i = new Intent(Services.this, CurrencyActivity.class);
             startActivity(i);
         } else if (v == img4) {
             Intent i = new Intent(Services.this, Embassy.class);

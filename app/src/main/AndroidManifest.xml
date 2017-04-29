@@ -49,8 +49,8 @@
             android:name=".activities.Hospitals"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".activities.Currency"
-            android:theme="@style/AppTheme" />
+            android:name=".activities.CurrencyActivity"
+            android:theme="@style/AppTheme"></activity>
         <activity
             android:name=".activities.Embassy"
             android:theme="@style/AppTheme" />
