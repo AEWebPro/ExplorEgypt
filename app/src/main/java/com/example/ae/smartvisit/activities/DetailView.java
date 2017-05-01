@@ -4,6 +4,8 @@ package com.example.ae.smartvisit.activities;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
@@ -111,13 +113,15 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
             floatAddBtn.hide();
         } else {
             floatAddBtn.setEnabled(true);
+            floatAddBtn.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.accent)));
             isAdded = false;
             ArrayList<PairOfDayAndPlace> pairsInPlan = SessionPlan.getSessionPlanInstance().getPairOfData();
 
             for (int i = 0; i < pairsInPlan.size(); i++) {
                 if (placeDisplayed.getName().equals(pairsInPlan.get(i).getPlace().get(0).getName())) {
                     isAdded = true;
-                    floatAddBtn.setImageDrawable(getResources().getDrawable(R.drawable.ic_cancel_black_24dp));
+                    floatAddBtn.setImageDrawable(getResources().getDrawable(R.drawable.delete_24));
+                    floatAddBtn.setBackgroundTintList(ColorStateList.valueOf(Color.CYAN));
                 }
             }
         }
@@ -232,7 +236,9 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
 
                             PairOfDayAndPlace newPair = new PairOfDayAndPlace(dayBtn.getId(), placeDataModels);
                             workingSessionPlan.addPlaceToPlan(newPair);
-                            floatAddBtn.setImageDrawable(getResources().getDrawable(R.drawable.ic_cancel_black_24dp));
+                            floatAddBtn.setImageDrawable(getResources().getDrawable(R.drawable.delete_24));
+                            floatAddBtn.setBackgroundTintList(ColorStateList.valueOf(Color.CYAN));
+
                             isAdded = true;
                             dialog.cancel();
                             Toast.makeText(DetailView.this, "Added to day " + dayBtn.getId(), Toast.LENGTH_SHORT).show();
@@ -271,8 +277,10 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
                                 workingSessionPlan.removePlaceFromPlan(placeDisplayed.getName());
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                                     floatAddBtn.setImageDrawable(getDrawable(R.drawable.ic_add_black_24dp));
+                                    floatAddBtn.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.accent)));
                                 }else {
                                     floatAddBtn.setImageDrawable(getResources().getDrawable(R.drawable.ic_add_black_24dp));
+                                    floatAddBtn.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.accent)));
                                 }
                                 isAdded = false;
                             }

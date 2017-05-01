@@ -109,6 +109,7 @@ public class HospitalsMapsActivity extends FragmentActivity implements OnMapRead
         }
 
 
+
         Button btnHospital = (Button) findViewById(R.id.btnHospital);
         btnHospital.setOnClickListener(new View.OnClickListener() {
             String Hospital = "hospital";
@@ -126,8 +127,8 @@ public class HospitalsMapsActivity extends FragmentActivity implements OnMapRead
                 Toast.makeText(HospitalsMapsActivity.this,"Nearby Hospitals", Toast.LENGTH_SHORT).show();
             }
         });
-
     }
+
 
     protected synchronized void buildGoogleApiClient() {
         mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -189,7 +190,7 @@ public class HospitalsMapsActivity extends FragmentActivity implements OnMapRead
 
         //move map camera
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(11));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
         Toast.makeText(HospitalsMapsActivity.this, "Your Current Location", Toast.LENGTH_LONG).show();
 
         Log.d("onLocationChanged", String.format("latitude:%.3f longitude:%.3f", latitude, longitude));
