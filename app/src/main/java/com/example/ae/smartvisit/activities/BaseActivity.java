@@ -73,9 +73,6 @@ public class BaseActivity extends AppCompatActivity {
                     } else if (id == R.id.nav_your_plans) {
                         animateTransitionActivity(YourPlanes.class);
 
-                    } else if (id == R.id.nav_recommended_plans) {
-                        animateTransitionActivity(RecommandPrograms.class);
-
                     }else if(id == R.id.nav_logout){
                         Intent mIntent = new Intent(application, LoginActivity.class);
                         startActivity(mIntent);

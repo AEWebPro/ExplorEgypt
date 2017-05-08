@@ -53,7 +53,6 @@ public class RecyclerAdapterSelecteItemList extends RecyclerView.Adapter<Recycle
         Picasso.with(context).load(place.getImageUrl()).resize(110, 110).centerCrop()
                 .placeholder(placeHolder).into(holder.itemImage);
         holder.itemTitle.setText(place.getName());
-        holder.itemCity.setText(place.getCity());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,14 +82,12 @@ public class RecyclerAdapterSelecteItemList extends RecyclerView.Adapter<Recycle
 
         RoundedImageView itemImage;
         TextView itemTitle;
-        TextView itemCity;
 
         public ItemInListAdapter(View itemView) {
             super(itemView);
 
             itemImage = (RoundedImageView) itemView.findViewById(R.id.item_select_image_view);
             itemTitle = (TextView) itemView.findViewById(R.id.item_select_place_title);
-            itemCity = (TextView) itemView.findViewById(R.id.item_select_place_city);
         }
     }
 }

@@ -8,11 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.ae.smartvisit.R;
 import com.example.ae.smartvisit.activities.DetailView;
 import com.example.ae.smartvisit.modules.PlaceDataModel;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -24,22 +27,24 @@ public class RecyclerAdapterPlacesWithPics extends RecyclerView.Adapter<Recycler
     private LayoutInflater inflater;
     private ArrayList<PlaceDataModel> mPlaceModel;
 
-    public RecyclerAdapterPlacesWithPics(Context context)
-    {
+    public RecyclerAdapterPlacesWithPics(Context context) {
         placesSelected = new ArrayList<>();
         this.context = context;
         inflater = LayoutInflater.from(context);
     }
 
-    public void addPlaces(ArrayList<PlaceDataModel> places){
+    public void addPlaces(ArrayList<PlaceDataModel> places) {
         placesSelected.addAll(places);
         notifyDataSetChanged();
     }
-    public void itemSelected(Object placeClicked){
+
+    public void itemSelected(Object placeClicked) {
         int position = placesSelected.indexOf(placeClicked);
         //Toast.makeText(context,"Item of index :" + position + "Is clicked!", Toast.LENGTH_SHORT).show();
         Intent passedIntent = new Intent(context, new DetailView().getClass());
         passedIntent.putExtra("placeClicked", placesSelected.get(position));
+        passedIntent.putExtra("parent_activity", "HOME");
+
         context.startActivity(passedIntent);
     }
 
@@ -50,7 +55,7 @@ public class RecyclerAdapterPlacesWithPics extends RecyclerView.Adapter<Recycler
 
     @Override
     public PlaceVeiwHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.list_item_pic_and_title, parent,false);
+        View view = inflater.inflate(R.layout.list_item_pic_and_title, parent, false);
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -62,10 +67,12 @@ public class RecyclerAdapterPlacesWithPics extends RecyclerView.Adapter<Recycler
     }
 
     @Override
-    public void onBindViewHolder(PlaceVeiwHolder holder, int position) {
+    public void onBindViewHolder(final PlaceVeiwHolder holder, int position) {
         PlaceDataModel place = placesSelected.get(position);
-        holder.placeTitle.setText( place.getName());
-        holder.itemView.setTag( place);
+        holder.placeTitle.setText(place.getName());
+        Picasso.with(context).load(place.getImageUrl()).centerCrop().fit().into(holder.pictureImageView);
+
+        holder.itemView.setTag(place);
     }
 
     public void setFilter(ArrayList<PlaceDataModel> placeModel) {
@@ -74,7 +81,7 @@ public class RecyclerAdapterPlacesWithPics extends RecyclerView.Adapter<Recycler
         notifyDataSetChanged();
     }
 
-    protected class PlaceVeiwHolder extends RecyclerView.ViewHolder{
+    protected class PlaceVeiwHolder extends RecyclerView.ViewHolder {
         private TextView placeTitle;
         private ImageView pictureImageView;
 

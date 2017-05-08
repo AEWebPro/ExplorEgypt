@@ -5,21 +5,31 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.ae.smartvisit.R;
 import com.example.ae.smartvisit.adapters.RecyclerAdapterSelecteItemList;
 import com.example.ae.smartvisit.modules.PlaceDataModel;
+import com.example.ae.smartvisit.modules.RequestParameters;
 import com.example.ae.smartvisit.modules.SessionPlan;
+import com.example.ae.smartvisit.modules.TableRequest;
+import com.example.ae.smartvisit.rest.OurApiClient;
+import com.example.ae.smartvisit.rest.TestApiEndPoint;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.Random;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class PlanItemsList extends BaseActivity {
@@ -30,6 +40,7 @@ public class PlanItemsList extends BaseActivity {
     private String typeToDisplay;
     private ArrayList<PlaceDataModel> placesList;
     private RecyclerAdapterSelecteItemList adapter;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,45 +56,12 @@ public class PlanItemsList extends BaseActivity {
             }
         });
 
+        progressBar = (ProgressBar) findViewById(R.id.plan_list_progressBar);
         typeToDisplay = getIntent().getExtras().getString(SelectTypeToAddActivity.PLACE_TYPE);
         getSupportActionBar().setTitle(typeToDisplay);
 
-        setUpAdapter();
+        getPlacesList();
     }
-
-    private void setUpAdapter() {
-        placesList = new ArrayList<>();
-        String[] namesArray = new String[6];
-        String image = null;
-        Random randomIndex = new Random();
-        if (typeToDisplay.equals("Places")) {
-            namesArray = getResources().getStringArray(R.array.sights_names);
-            image = getResources().getString(R.string.pyramids_image);
-        } else if (typeToDisplay.equals("Hotels")) {
-            namesArray = getResources().getStringArray(R.array.Hotels_names);
-            image = getResources().getString(R.string.hotel_image);
-        } else if (typeToDisplay.equals("Restaurants")) {
-            namesArray = getResources().getStringArray(R.array.restaurants_names);
-            image = getResources().getString(R.string.retaurant_image);
-        }
-
-        for (int i = 0; i < 15; i++) {
-            //placesList.add(i, new PlaceDataModel("Hotel name " + Integer.toString(i), getString(R.string.temp_text), getString(R.string.hotel_image), "Cairo", i, "", ""));
-            placesList.add(i,new PlaceDataModel(
-                    namesArray[randomIndex.nextInt(6)]
-                    , getString(R.string.temp_text)
-                    , image
-                    ,""
-                    , "Cairo", Integer.toString(i), "", ""));
-
-        }
-
-        adapter = new RecyclerAdapterSelecteItemList(placesList, this, typeToDisplay);
-        activityPlacesRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        activityPlacesRecyclerView.setAdapter(adapter);
-    }
-
-
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
         getMenuInflater().inflate(R.menu.save_discard_plan, menu);
@@ -92,7 +70,7 @@ public class PlanItemsList extends BaseActivity {
         final SearchView searchView = (SearchView) searchItem.getActionView();
 
         searchView.setIconifiedByDefault(true);
-        searchView.setQueryHint("Name or City");
+        searchView.setQueryHint("Enter Name");
 
         // Detect SearchView Expanding
         searchView.setOnSearchClickListener(new View.OnClickListener() {
@@ -173,21 +151,61 @@ public class PlanItemsList extends BaseActivity {
         final ArrayList<PlaceDataModel> filteredModelList = new ArrayList<>();
         for (PlaceDataModel model : models) {
             final String text = model.getName().toLowerCase();
-            final String textCity = model.getCity().toLowerCase();
             if (text.contains(query)) {
-                filteredModelList.add(model);
-            }
-            if (textCity.contains(query)) {
                 filteredModelList.add(model);
             }
         }
 
-        adapter = new RecyclerAdapterSelecteItemList(filteredModelList, this, typeToDisplay);
-
+        RecyclerAdapterSelecteItemList searchAdapter = new RecyclerAdapterSelecteItemList(filteredModelList, PlanItemsList.this, typeToDisplay);
         activityPlacesRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        activityPlacesRecyclerView.setAdapter(adapter);
+        activityPlacesRecyclerView.setAdapter(searchAdapter);
 
-        adapter.notifyDataSetChanged();
+        searchAdapter.notifyDataSetChanged();
         return filteredModelList;
+    }
+
+
+    private void getPlacesList() {
+        final TestApiEndPoint ourApiEndPoint = OurApiClient
+                .getClient().create(TestApiEndPoint.class);
+        String groubId = "";
+
+        if (typeToDisplay.equals("Places")) {
+            groubId = "1";
+        } else if (typeToDisplay.equals("Hotels")) {
+            groubId = "2";
+        } else if (typeToDisplay.equals("Restaurants")) {
+            groubId = "3";
+        }
+        RequestParameters Parameters = new RequestParameters();
+        Parameters.setGroupId(groubId);
+        TableRequest tableRequest = new TableRequest("GET", "places", Parameters);
+        String request = new Gson().toJson(tableRequest);
+
+        Call<ArrayList<PlaceDataModel>> mCall = ourApiEndPoint.getPlacesService(tableRequest);
+        mCall.enqueue(new Callback<ArrayList<PlaceDataModel>>() {
+            @Override
+            public void onResponse(Call<ArrayList<PlaceDataModel>> call, Response<ArrayList<PlaceDataModel>> response) {
+                if (response.isSuccessful()) {
+                    if (!response.body().isEmpty()) {
+                        //Log.d(TAG, "success---" + response.body().get(0).getName());
+                        progressBar.setVisibility(View.GONE);
+                        placesList = response.body();
+                        adapter = new RecyclerAdapterSelecteItemList(placesList, PlanItemsList.this, typeToDisplay);
+
+                        activityPlacesRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
+                        activityPlacesRecyclerView.setAdapter(adapter);
+
+                    }
+                } else {
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<PlaceDataModel>> call, Throwable t) {
+
+            }
+        });
     }
 }

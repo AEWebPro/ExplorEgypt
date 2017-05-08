@@ -18,12 +18,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,20 +35,30 @@ import com.example.ae.smartvisit.adapters.RecyclerAdapterPictures;
 import com.example.ae.smartvisit.infrastructure.MyMapView;
 import com.example.ae.smartvisit.modules.PairOfDayAndPlace;
 import com.example.ae.smartvisit.modules.PlaceDataModel;
+import com.example.ae.smartvisit.modules.RequestParameters;
 import com.example.ae.smartvisit.modules.SessionPlan;
+import com.example.ae.smartvisit.modules.TableRequest;
+import com.example.ae.smartvisit.rest.OurApiClient;
+import com.example.ae.smartvisit.rest.TestApiEndPoint;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class DetailView extends AppCompatActivity implements View.OnClickListener {
 
+    private static final String TAG = "@@@";
     private boolean isClicked = false;
     private RecyclerView picturesRecycler;
     private RecyclerView similarPlacesRecycler;
@@ -54,7 +66,8 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
     private View share_button;
     private Button favorite_button;
     private TextView addressTextView;
-    private TextView titleTextView;
+    private TextView overViewTextView;
+    private RatingBar rateBar;
     private FloatingActionButton floatAddBtn;
     private PlaceDataModel placeDisplayed;
     private GoogleMap mMap;
@@ -62,6 +75,7 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
 
     private String parentActivity;
     private Boolean isAdded;
+    private RecyclerAdapterPlacesWithPics adapterPlaces;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,11 +96,14 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
         similarPlacesRecycler = (RecyclerView) findViewById(R.id.activity_detail_view_similar_places_recycler);
         addressTextView = (TextView) findViewById(R.id.activity_detail_view_address);
         floatAddBtn = (FloatingActionButton) findViewById(R.id.activity_detail_add_floatbtn);
+        overViewTextView = (TextView) findViewById(R.id.activity_detail_view_description);
+        rateBar = (RatingBar) findViewById(R.id.activity_detail_view_rating_starts);
 
         Picasso.with(this).load(placeDisplayed.getImageUrl()).placeholder(R.mipmap.ic_launcher).into(placeImage);
-        //Picasso.with(this).load(getString(R.string.pyramids_image)).placeholder(R.mipmap.ic_launcher).into( placeImage);
 
-
+        addressTextView.setText(placeDisplayed.getAddress());
+        overViewTextView.setText(placeDisplayed.getDescription());
+        rateBar.setRating(placeDisplayed.getRate());
         MapsInitializer.initialize(this);
         mMapView = (MyMapView) findViewById(R.id.detail_map_view);
         mMapView.onCreate(savedInstanceState);
@@ -95,8 +112,13 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
             public void onMapReady(GoogleMap googleMap) {
                 mMap = googleMap;
 
+                //get the coordinates
+                String[] latLng = placeDisplayed.getLocationCoordinates().split(",");
+                double latitude = Double.parseDouble(latLng[0]);
+                double longitude = Double.parseDouble(latLng[1]);
+
                 // Add a marker in Pyramids and move the camera
-                LatLng location = new LatLng(29.978919, 31.134891);
+                LatLng location = new LatLng(latitude, longitude);
                 mMap.addMarker(new MarkerOptions().position(location).title("Pyramids of Giza"));
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15));
                 mMapView.onResume();
@@ -159,15 +181,13 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
 
 
     private void setupSimilarPlacesRecycler() {
-        ArrayList<PlaceDataModel> placesRelatedList = new ArrayList<>();
-        for (int i = 0; i < 8; i++)
-            placesRelatedList.add(new PlaceDataModel("place name " + Integer.toString(i),"", "", "", "", Integer.toString(i), "", ""));
 
-        RecyclerAdapterPlacesWithPics adapterPlaces = new RecyclerAdapterPlacesWithPics(this);
-        adapterPlaces.addPlaces(placesRelatedList);
+        adapterPlaces = new RecyclerAdapterPlacesWithPics(this);
         similarPlacesRecycler.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
         similarPlacesRecycler.setAdapter(adapterPlaces);
         similarPlacesRecycler.hasFixedSize();
+
+        getPlacesList();
     }
 
     @Override
@@ -215,11 +235,7 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                         LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
-            /*LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                    65,40);*/
-
                 for (int i = 0; i < duration; i++) {
-
 
                     final Button dayBtn = new Button(this);
                     dayBtn.setId(i + 1);
@@ -247,11 +263,6 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
                     container.addView(dayBtn);
                 }
 
-         /*   if (workingSessionPlan.getPairOfData() != null) {
-                for (PairOfDayAndPlace pair : workingSessionPlan.getPairOfData()) {
-                    Log.e("@@@@", pair.getPlace().getName());
-                }
-            }*/
 
                 dialog.findViewById(R.id.dialog_choose_day_close_btn).setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -302,6 +313,48 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
         }
     }
 
+
+    private void getPlacesList(){
+        final TestApiEndPoint ourApiEndPoint = OurApiClient
+                .getClient().create(TestApiEndPoint.class);
+
+        RequestParameters Parameters = new RequestParameters();
+        Parameters.setGroupId(String.valueOf(placeDisplayed.getGroupId()));
+        TableRequest tableRequest = new TableRequest("GET", "places", Parameters);
+        String request = new Gson().toJson(tableRequest);
+
+        Call<ArrayList<PlaceDataModel>> mCall = ourApiEndPoint.getPlacesService(tableRequest);
+        mCall.enqueue(new Callback<ArrayList<PlaceDataModel>>() {
+            @Override
+            public void onResponse(Call<ArrayList<PlaceDataModel>> call, Response<ArrayList<PlaceDataModel>> response) {
+                if (response.isSuccessful()) {
+                    if(!response.body().isEmpty()) {
+                        int position = -1;
+                        ArrayList<PlaceDataModel> listOfPlaces = response.body();
+                        for(int i = 0; i < listOfPlaces.size(); i++){
+                            PlaceDataModel place = listOfPlaces.get(i);
+                            if(place.getName().equals(placeDisplayed.getName()))
+                                position = i;
+                        }
+
+                        if(position != -1)
+                            listOfPlaces.remove(position);
+
+                        adapterPlaces.addPlaces(listOfPlaces);
+                        adapterPlaces.notifyDataSetChanged();
+                    }
+                } else {
+                    Log.d(TAG, "Failed---");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<PlaceDataModel>> call, Throwable t) {
+
+            }
+        });
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -343,4 +396,3 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
         mMapView.onResume();
     }
 }
-

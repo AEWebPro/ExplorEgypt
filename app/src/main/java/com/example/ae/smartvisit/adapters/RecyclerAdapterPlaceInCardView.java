@@ -46,7 +46,7 @@ public class RecyclerAdapterPlaceInCardView extends RecyclerView.Adapter<Recycle
         int position = placesSelected.indexOf(placeClicked);
         //Toast.makeText(context,"Item of index :" + position + "Is clicked!", Toast.LENGTH_SHORT).show();
 
-        Intent passedIntent = new Intent(context, new DetailView().getClass());
+        Intent passedIntent = new Intent(context, DetailView.class);
         passedIntent.putExtra("placeClicked", placesSelected.get(position));
         passedIntent.putExtra("parent_activity", "HOME");
 

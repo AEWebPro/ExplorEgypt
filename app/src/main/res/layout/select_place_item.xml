@@ -34,18 +34,6 @@
         android:paddingStart="20dp"
         android:layout_marginTop="50dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/item_select_place_city"
-        android:text="temp city"
-        android:textSize="14sp"
-        android:textColor="@color/secondary_text"
-        style="@android:style/TextAppearance"
-        android:layout_toEndOf="@id/item_select_image_view"
-        android:layout_alignBottom="@id/item_select_image_view"
-        android:paddingStart="25dp"
-        android:layout_marginBottom="30dp"/>
 
     <View
         android:layout_width="match_parent"

@@ -2,18 +2,41 @@ package com.example.ae.smartvisit.modules;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import com.google.gson.annotations.SerializedName;
 public class PlaceDataModel implements Parcelable {
 
+
+    @SerializedName("name")
     private String name;
+
+    @SerializedName("description")
     private String description;
+
+    @SerializedName("images")
     private String imageUrl;
+
+    @SerializedName("address")
     private String address;
     private String city;
+
+    @SerializedName("location")
     private String locationCoordinates;
+
+
     private String contactNumber;
     private String website;
 
-    public PlaceDataModel(String name, String description, String imageUrl, String address, String city, String locationCoordinates, String contactNumber, String website) {
+    @SerializedName("rate")
+    private float rate;
+
+    @SerializedName("id")
+    private int id;
+
+    @SerializedName("group_id")
+    private int groupId;
+
+    public PlaceDataModel(String name, String description, String imageUrl, String address, String city, String locationCoordinates, String contactNumber, String website, float rate) {
         this.name = name;
         this.description = description;
         this.imageUrl = imageUrl;
@@ -22,6 +45,15 @@ public class PlaceDataModel implements Parcelable {
         this.locationCoordinates = locationCoordinates;
         this.contactNumber = contactNumber;
         this.website = website;
+        this.rate = rate;
+    }
+
+    public float getRate() {
+        return rate;
+    }
+
+    public void setRate(float rate) {
+        this.rate = rate;
     }
 
     public String getName() {
@@ -88,6 +120,22 @@ public class PlaceDataModel implements Parcelable {
         this.website = website;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(int groupId) {
+        this.groupId = groupId;
+    }
+
     protected PlaceDataModel(Parcel in) {
         name = in.readString();
         description = in.readString();
@@ -97,6 +145,9 @@ public class PlaceDataModel implements Parcelable {
         locationCoordinates = in.readString();
         contactNumber = in.readString();
         website = in.readString();
+        id = in.readInt();
+        groupId = in.readInt();
+        rate = in.readFloat();
     }
 
     @Override
@@ -114,6 +165,9 @@ public class PlaceDataModel implements Parcelable {
         dest.writeString(locationCoordinates);
         dest.writeString(contactNumber);
         dest.writeString(website);
+        dest.writeInt(id);
+        dest.writeInt(groupId);
+        dest.writeFloat(rate);
     }
 
     @SuppressWarnings("unused")

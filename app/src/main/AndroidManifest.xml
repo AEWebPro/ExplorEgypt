@@ -39,19 +39,10 @@
             android:name=".activities.DetailView"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".activities.Transport"
-            android:theme="@style/AppTheme" />
-        <activity
             android:name=".activities.CurrencyActivity"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme"/>
         <activity
             android:name=".activities.Embassy"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".activities.RecommandA"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".activities.RecommandPrograms"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.YourPlanes"
@@ -90,7 +81,7 @@
 
         <activity
             android:name=".activities.DayPlacesPathMapActivity"
-            android:label="@string/title_activity_day_places_path_map"></activity>
+            android:label="@string/title_activity_day_places_path_map"/>
     </application>
 
 </manifest>

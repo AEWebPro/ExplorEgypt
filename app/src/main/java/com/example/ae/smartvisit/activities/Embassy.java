@@ -56,19 +56,19 @@ public class Embassy extends BaseActivity {
     private void setupListWithData() {
         embassies = new ArrayList<>();
         embassies.add(new PlaceDataModel("Embassy of the United States of America","",
-                "","Palace of Dupara, Kasr El Nil, Cairo Governorate","","30.041119,31.233634","16872",""));
+                "","Palace of Dupara, Kasr El Nil, Cairo Governorate","","30.041119,31.233634","16872","",0));
 
 
         embassies.add(new PlaceDataModel("United Arab Emirates Embassy","",
-                ""," 4 of Mourad ST, Giza Governorate","","30.025791, 31.217262","02 37766102",""));
+                ""," 4 of Mourad ST, Giza Governorate","","30.025791, 31.217262","02 37766102","",0));
 
 
         embassies.add(new PlaceDataModel("Embassy of the United Kingdom","",
-                "","11451,7 Ahmed Ragheb, Qasr El Doubara, Kasr El Nil, Cairo Governorate","","30.039092, 31.230405","02 27916000",""));
+                "","11451,7 Ahmed Ragheb, Qasr El Doubara, Kasr El Nil, Cairo Governorate","","30.039092, 31.230405","02 27916000","",0));
 
 
         embassies.add(new PlaceDataModel("Embassy of the Republic of India","",
-                "","Aziz Abaza, Mohamed Mazhar, Zamalek, Giza","","30.060027, 31.224263","02 27356053",""));
+                "","Aziz Abaza, Mohamed Mazhar, Zamalek, Giza","","30.060027, 31.224263","02 27356053","",0));
 
         adapter = new EmbassyListAdapter(embassies);
         activityEmbassyList.setAdapter(adapter);

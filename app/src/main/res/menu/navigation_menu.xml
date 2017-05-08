@@ -6,7 +6,6 @@
     <group android:id="@+id/nav_plans_group" android:visible="false" >
         <item android:id="@+id/nav_create_plan" android:title="Create Plan!" android:icon="@drawable/ic_home_black_24dp"/>
         <item android:id="@+id/nav_your_plans" android:title="Your Plans" android:icon="@drawable/ic_create_black_24dp"/>
-        <item android:id="@+id/nav_recommended_plans" android:title="Recommended Plans" android:icon="@drawable/ic_help_black_24dp"/>
     </group>
     <item android:id="@+id/nav_services" android:title="Services" android:icon="@drawable/ic_help_black_24dp"/>
     <item android:id="@+id/nav_favorite" android:title="Favourites" android:icon="@drawable/ic_favorite_black_24dp" />
