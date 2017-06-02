@@ -34,8 +34,7 @@ import retrofit2.Response;
 
 public class PlanItemsList extends BaseActivity {
 
-    @Bind(R.id.activity_places_recycler_view)
-    RecyclerView activityPlacesRecyclerView;
+    private RecyclerView activityPlacesRecyclerView;
 
     private String typeToDisplay;
     private ArrayList<PlaceDataModel> placesList;
@@ -46,7 +45,6 @@ public class PlanItemsList extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_places_list);
-        ButterKnife.bind(this);
 
         toolbar.setNavigationIcon(R.drawable.ic_keyboard_backspace_black_24dp);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -58,10 +56,19 @@ public class PlanItemsList extends BaseActivity {
 
         progressBar = (ProgressBar) findViewById(R.id.plan_list_progressBar);
         typeToDisplay = getIntent().getExtras().getString(SelectTypeToAddActivity.PLACE_TYPE);
+        activityPlacesRecyclerView = (RecyclerView) findViewById(R.id.activity_places_recycler_view);
+
         getSupportActionBar().setTitle(typeToDisplay);
 
-        getPlacesList();
+        if (!isNetworkAvailable()) {
+            Toast.makeText(this, "No internet connection!", Toast.LENGTH_SHORT).show();
+            progressBar.setVisibility(View.GONE);
+        } else {
+            getPlacesList();
+        }
+
     }
+
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
         getMenuInflater().inflate(R.menu.save_discard_plan, menu);
@@ -87,26 +94,28 @@ public class PlanItemsList extends BaseActivity {
                 return false;
             }
         });
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                final ArrayList<PlaceDataModel> filteredModelList = filter(placesList, newText);
-                if (filteredModelList.size() > 0) {
-                    adapter.setFilter(filteredModelList);
-                    return true;
-                } else {
-                    Toast.makeText(application, "Not Found", Toast.LENGTH_SHORT).show();
+        if (isNetworkAvailable()) {
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
                     return false;
                 }
 
-            }
-        });
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    final ArrayList<PlaceDataModel> filteredModelList = filter(placesList, newText);
+                    if (filteredModelList.size() > 0) {
+                        adapter.setFilter(filteredModelList);
+                        return true;
+                    } else {
+                        Toast.makeText(application, "Not Found", Toast.LENGTH_SHORT).show();
+                        return false;
+                    }
+
+                }
+            });
+        }
+
         return true;
     }
 
@@ -124,14 +133,19 @@ public class PlanItemsList extends BaseActivity {
             finish();
             return true;
         } else if (id == R.id.menu_plan_save) {
-            //TODO Convert the object to the plan type and save in the DB
-            Toast.makeText(getBaseContext(), "SessionPlan is saved!", Toast.LENGTH_SHORT).show();
+            if(isNetworkAvailable()) {
+                //TODO Convert the object to the plan type and save in the DB
+                Toast.makeText(getBaseContext(), "SessionPlan is saved!", Toast.LENGTH_SHORT).show();
 
-            Intent intent = new Intent(this, HomeActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-            finish();
-            return true;
+                Intent intent = new Intent(this, HomeActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
+                return true;
+            }else {
+                Toast.makeText(application, "No internet connection!", Toast.LENGTH_SHORT).show();
+                return false;
+            }
         }
         return false;
     }

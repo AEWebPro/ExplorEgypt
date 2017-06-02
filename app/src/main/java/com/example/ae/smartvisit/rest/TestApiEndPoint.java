@@ -6,6 +6,9 @@ import com.example.ae.smartvisit.modules.TableRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import okhttp3.Response;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 
 import retrofit2.http.Body;
@@ -25,7 +28,11 @@ public interface TestApiEndPoint {
     @FormUrlEncoded
     Call<PlaceDataModel> getPlaceFromServer(@FieldMap Map<String, String> requestMap);
 
-
     @POST("/service.php")
     Call<ArrayList<PlaceDataModel>> getPlacesService(@Body TableRequest body);
+
+    @POST("/service.php")
+    Call<ResponseBody> registerAccount(@Body TableRequest body);
+
+
 }

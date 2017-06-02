@@ -19,7 +19,7 @@
         android:layout_toEndOf="@id/include_main_nav_drawer_avatar"
         android:layout_alignTop="@id/include_main_nav_drawer_avatar"
         android:id="@+id/include_main_nav_drawer_display_name"
-        android:text="my Name"
+        android:text="ahmed ali"
         android:textSize="18sp"/>
 
 

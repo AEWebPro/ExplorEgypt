@@ -20,6 +20,7 @@ import com.example.ae.smartvisit.infrastructure.Toolbar_ActionMode_Callback;
 import com.example.ae.smartvisit.modules.PairOfDayAndPlace;
 import com.example.ae.smartvisit.modules.PlaceDataModel;
 import com.example.ae.smartvisit.modules.Plan;
+import com.google.gson.Gson;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -72,12 +73,18 @@ public class YourPlanes extends BaseActivity {
         myPlans.add(new Plan("Visit egypt", "22/5/2020","30/5/2020",false,placesInPlan));
         myPlans.add(new Plan("Giza is near", "1/8/2020","30/9/2020",true,placesInPlan2));
 
+        String planJson = new Gson().toJson(myPlans);
+
         plansList = (RecyclerView) findViewById(R.id.activity_your_plans_recyclerView);
         plansList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false));
         adapter = new RecyclerAdapterYourPlans(myPlans, this);
         plansList.setAdapter(adapter);
 
         implementRecyclerViewClickListeners();
+
+        if(!isNetworkAvailable()){
+            Toast.makeText(application, "No connection!", Toast.LENGTH_SHORT).show();
+        }
 
     }
 

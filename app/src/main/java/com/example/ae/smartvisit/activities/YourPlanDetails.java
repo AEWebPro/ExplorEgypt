@@ -20,6 +20,7 @@ import com.example.ae.smartvisit.infrastructure.RecyclerClick_Listener;
 import com.example.ae.smartvisit.infrastructure.RecyclerTouchListener;
 import com.example.ae.smartvisit.modules.PairOfDayAndPlace;
 import com.example.ae.smartvisit.modules.Plan;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -62,6 +63,8 @@ public class YourPlanDetails extends BaseActivity implements Comparable{
         activityYourPlanDetailStartDateText.setText("o the plan starts on :" + planeDisplayed.getPlanStartDate());
 
         orderedPairs = orderThePairs(planeDisplayed.getPairOfData());
+        String planJson = new Gson().toJson(orderedPairs);
+
         activityYourPlanDetailRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         adapter = new RecyclerAdapterPlanDetails(this, orderedPairs);
         activityYourPlanDetailRecyclerView.setAdapter(adapter);

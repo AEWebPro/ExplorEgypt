@@ -19,7 +19,7 @@ import com.example.ae.smartvisit.R;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity {
 
 
     private static final String TAG = "LoginActivity";
@@ -60,35 +60,39 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void login() {
-        Log.d(TAG, "Login");
 
-        if (!validate()) {
-            onLoginFailed();
-            return;
+        if (isNetworkAvailable()) {
+
+            if (!validate()) {
+                onLoginFailed();
+                return;
+            }
+
+            _loginButton.setEnabled(false);
+
+            final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this,
+                    R.style.AppTheme_Dark_Dialog);
+            progressDialog.setIndeterminate(true);
+            progressDialog.setMessage("Authenticating...");
+            progressDialog.show();
+
+            String email = _emailText.getText().toString();
+            String password = _passwordText.getText().toString();
+
+            // TODO: Implement your own authentication logic here.
+
+            new android.os.Handler().postDelayed(
+                    new Runnable() {
+                        public void run() {
+                            // On complete call either onLoginSuccess or onLoginFailed
+                            onLoginSuccess();
+                            // onLoginFailed();
+                            progressDialog.dismiss();
+                        }
+                    }, 3000);
+        } else {
+            Toast.makeText(application, "No connection!", Toast.LENGTH_SHORT).show();
         }
-
-        _loginButton.setEnabled(false);
-
-        final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this,
-                R.style.AppTheme_Dark_Dialog);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Authenticating...");
-        progressDialog.show();
-
-        String email = _emailText.getText().toString();
-        String password = _passwordText.getText().toString();
-
-        // TODO: Implement your own authentication logic here.
-
-        new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        // On complete call either onLoginSuccess or onLoginFailed
-                        onLoginSuccess();
-                        // onLoginFailed();
-                        progressDialog.dismiss();
-                    }
-                }, 3000);
     }
 
 
@@ -181,7 +185,7 @@ public class LoginActivity extends AppCompatActivity {
             float x = ev.getRawX() + view.getLeft() - scrcoords[0];
             float y = ev.getRawY() + view.getTop() - scrcoords[1];
             if (x < view.getLeft() || x > view.getRight() || y < view.getTop() || y > view.getBottom())
-                ((InputMethodManager)this.getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow((this.getWindow().getDecorView().getApplicationWindowToken()), 0);
+                ((InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow((this.getWindow().getDecorView().getApplicationWindowToken()), 0);
         }
         return super.dispatchTouchEvent(ev);
     }

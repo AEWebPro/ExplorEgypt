@@ -23,11 +23,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ae.smartvisit.R;
+import com.example.ae.smartvisit.modules.RequestParameters;
+import com.example.ae.smartvisit.modules.TableRequest;
+import com.example.ae.smartvisit.rest.OurApiClient;
+import com.example.ae.smartvisit.rest.TestApiEndPoint;
+import com.google.gson.Gson;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
 
-public class Signup extends AppCompatActivity  {
+public class Signup extends BaseActivity  {
 
     private static final String TAG = "SignupActivity";
     @Bind(R.id.input_name)
@@ -41,6 +50,8 @@ public class Signup extends AppCompatActivity  {
     Button _signupButton;
     @Bind(R.id.link_login)
     TextView _loginLink;
+    private ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,40 +78,36 @@ public class Signup extends AppCompatActivity  {
     }
 
     public void signup() {
-        Log.d(TAG, "Signup");
 
-        if (!validate()) {
-            onSignupFailed();
-            return;
+        if (isNetworkAvailable()) {
+
+            if (!validate()) {
+                onSignupFailed();
+                return;
+            }
+
+            _signupButton.setEnabled(false);
+
+            progressDialog = new ProgressDialog(Signup.this,
+                    R.style.AppTheme_Dark_Dialog);
+            progressDialog.setIndeterminate(true);
+            progressDialog.setMessage("Creating Account...");
+            progressDialog.show();
+
+            String name = _nameText.getText().toString();
+            // String address = _addressText.getText().toString();
+            String email = _emailText.getText().toString();
+            //String mobile = _mobileText.getText().toString();
+            String password = _passwordText.getText().toString();
+            //String reEnterPassword = _reEnterPasswordText.getText().toString();
+
+            // TODO: Implement your own signup logic here.
+            sendAccount(name,email,password);
+
+
+        }else {
+            Toast.makeText(application, "No connection!", Toast.LENGTH_SHORT).show();
         }
-
-        _signupButton.setEnabled(false);
-
-        final ProgressDialog progressDialog = new ProgressDialog(Signup.this,
-                R.style.AppTheme_Dark_Dialog);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Creating Account...");
-        progressDialog.show();
-
-        String name = _nameText.getText().toString();
-       // String address = _addressText.getText().toString();
-        String email = _emailText.getText().toString();
-        //String mobile = _mobileText.getText().toString();
-        String password = _passwordText.getText().toString();
-        //String reEnterPassword = _reEnterPasswordText.getText().toString();
-
-        // TODO: Implement your own signup logic here.
-
-        new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        // On complete call either onSignupSuccess or onSignupFailed
-                        // depending on success
-                        onSignupSuccess();
-                        // onSignupFailed();
-                        progressDialog.dismiss();
-                    }
-                }, 3000);
     }
 
 
@@ -111,7 +118,7 @@ public class Signup extends AppCompatActivity  {
     }
 
     public void onSignupFailed() {
-        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), "Sign Up failed", Toast.LENGTH_LONG).show();
 
         _signupButton.setEnabled(true);
     }
@@ -204,4 +211,41 @@ public class Signup extends AppCompatActivity  {
         return super.dispatchTouchEvent(ev);
     }
 
+    private void sendAccount(String username, String email, String password){
+        final TestApiEndPoint ourApiEndPoint = OurApiClient.getClient().create(TestApiEndPoint.class);
+
+        RequestParameters parameters = new RequestParameters();
+        parameters.setName(username);
+        parameters.setPassword(password);
+        parameters.setEmail(email);
+
+        TableRequest tableRequest = new TableRequest("POST", "users", parameters);
+        String request = new Gson().toJson(tableRequest);
+
+        Call<ResponseBody> call = ourApiEndPoint.registerAccount(tableRequest);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
+                if(response.isSuccessful()){
+                    //TODO: SAve user in app
+
+                    new android.os.Handler().postDelayed(
+                            new Runnable() {
+                                public void run() {
+                                    // On complete call either onSignupSuccess or onSignupFailed
+                                    // depending on success
+                                    onSignupSuccess();
+                                    // onSignupFailed();
+                                    progressDialog.dismiss();
+                                }
+                            }, 3000);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
+    }
 }

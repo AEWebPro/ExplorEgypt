@@ -99,7 +99,8 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
         overViewTextView = (TextView) findViewById(R.id.activity_detail_view_description);
         rateBar = (RatingBar) findViewById(R.id.activity_detail_view_rating_starts);
 
-        Picasso.with(this).load(placeDisplayed.getImageUrl()).placeholder(R.mipmap.ic_launcher).into(placeImage);
+        String[] placeImagesUrls = placeDisplayed.getImageUrl().split(",");
+        Picasso.with(this).load(placeImagesUrls[0]).placeholder(R.mipmap.ic_launcher).into(placeImage);
 
         addressTextView.setText(placeDisplayed.getAddress());
         overViewTextView.setText(placeDisplayed.getDescription());
@@ -167,9 +168,9 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
     }
 
     private void setupPicsRecycler() {
-        String[] urlPicsString = getResources().getStringArray(R.array.pyramids_array_images);
+        String[] urlPicsString = placeDisplayed.getImageUrl().split(", \\r\\n");
         ArrayList<String> picsUrls = new ArrayList<>();
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < urlPicsString.length; i++)
             picsUrls.add(urlPicsString[i]);
 
         picturesRecycler = (RecyclerView) findViewById(R.id.activity_detail_view_pics_recycler);

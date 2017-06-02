@@ -8,4 +8,7 @@
     android:id="@+id/include_toolbar"
     android:background="@color/primary"
     app:theme="@style/ThemeOverlay.AppCompat.Light"
+    app:titleTextAppearance="@style/Toolbar.TitleText"
+    app:titleTextColor="@color/primaryToolBar"
+    app:subtitleTextColor="@color/secondary_text"
     android:titleTextAppearance="@style/Toolbar.TitleText"/>

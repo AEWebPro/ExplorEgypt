@@ -4,6 +4,8 @@ package com.example.ae.smartvisit.activities;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.LayoutRes;
@@ -90,8 +92,9 @@ public class BaseActivity extends AppCompatActivity {
             navDrawer.addDrawerListener(toggle);
             toggle.syncState();
         }
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if(getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
     }
     private void animateTransitionActivity (Class<?> activity){
         if(getClass() != activity) {
@@ -120,9 +123,11 @@ public class BaseActivity extends AppCompatActivity {
     public void setContentView(@LayoutRes int layoutResID) {
         super.setContentView(layoutResID);
         toolbar = (Toolbar) findViewById(R.id.include_toolbar);
+
         if (toolbar != null) {
             setSupportActionBar(toolbar);
         }
+
     }
 
     //for the click to finish the keypad
@@ -138,6 +143,13 @@ public class BaseActivity extends AppCompatActivity {
                 ((InputMethodManager)this.getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow((this.getWindow().getDecorView().getApplicationWindowToken()), 0);
         }
         return super.dispatchTouchEvent(ev);
+    }
+
+    public boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
 }

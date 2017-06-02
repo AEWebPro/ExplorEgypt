@@ -78,7 +78,9 @@ public class RecyclerAdapterPlaceInCardView extends RecyclerView.Adapter<Recycle
         PlaceDataModel place = placesSelected.get(position);
         holder.placeTitle.setText( place.getName());
         holder.placeDescription.setText(place.getDescription());
-        Picasso.with(context).load(place.getImageUrl()).centerCrop().fit().into(holder.placeImage, new Callback() {
+        String[] imagesList = place.getImageUrl().split(",");
+
+        Picasso.with(context).load(imagesList[0]).centerCrop().fit().into(holder.placeImage, new Callback() {
             @Override
             public void onSuccess() {
                 holder.progressBar.setVisibility(View.GONE);

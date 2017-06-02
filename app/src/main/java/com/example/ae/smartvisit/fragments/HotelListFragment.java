@@ -54,9 +54,9 @@ public class HotelListFragment extends BaseFragment {
 
         adapter = new RecyclerAdapterPlaceInCardView(getContext());
         recyclerView.setAdapter(adapter);
+
         getPlacesList();
 
-        ButterKnife.bind(this, view);
         return view;
     }
 
@@ -81,26 +81,27 @@ public class HotelListFragment extends BaseFragment {
                 return false;
             }
         });
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                final ArrayList<PlaceDataModel> filteredModelList = filter(placesList, newText);
-                if (filteredModelList.size() > 0) {
-                    adapter.setFilter(filteredModelList);
-                    return true;
-                } else {
-                    Toast.makeText(application, "Not Found", Toast.LENGTH_SHORT).show();
+        if (isNetworkAvailable()) {
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
                     return false;
                 }
 
-            }
-        });
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    final ArrayList<PlaceDataModel> filteredModelList = filter(placesList, newText);
+                    if (filteredModelList.size() > 0) {
+                        adapter.setFilter(filteredModelList);
+                        return true;
+                    } else {
+                        Toast.makeText(application, "Not Found", Toast.LENGTH_SHORT).show();
+                        return false;
+                    }
+
+                }
+            });
+        }
 
         super.onPrepareOptionsMenu(menu);
     }

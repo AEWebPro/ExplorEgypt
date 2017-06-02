@@ -4,6 +4,6 @@
     android:layout_height="wrap_content"
     android:textSize="16sp"
     android:gravity="left"
-    android:textColor="@color/primary_text"
+    android:textColor="@color/primaryToolBar"
     android:layout_gravity="right"
     android:drawableRight="@drawable/ic_spinner_arrow_down_black_24dp"/>

@@ -54,6 +54,9 @@ public class CurrencyActivity extends BaseActivity {
         //Default
         toCurrency = "EGP";
 
+        if(!isNetworkAvailable()){
+            Toast.makeText(application, "No connection!", Toast.LENGTH_SHORT).show();
+        }
         // set Spinner Adapter
         final ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.currencies_spinner_list,android.R.layout.simple_list_item_1);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
