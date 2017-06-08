@@ -19,6 +19,7 @@ public class MyApplication extends Application{
         Log.e("onCreate: ","My application is called" );
 
         user = new User();
+        user.setId("700");
     }
 
     public User getUser() {

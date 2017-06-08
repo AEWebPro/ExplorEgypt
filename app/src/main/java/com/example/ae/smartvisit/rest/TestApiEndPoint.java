@@ -34,5 +34,13 @@ public interface TestApiEndPoint {
     @POST("/service.php")
     Call<ResponseBody> registerAccount(@Body TableRequest body);
 
+    @POST("/service.php")
+    Call<String> checkIfIsFavourite(@Body TableRequest body);
+
+    @POST("/service.php")
+    Call<ResponseBody> sendData(@Body TableRequest body);
+
+    @POST("/service.php")
+    Call<ArrayList<String>> checkIfIsAvailabe(@Body TableRequest body);
 
 }

@@ -55,7 +55,7 @@ public class PlanItemsList extends BaseActivity {
         });
 
         progressBar = (ProgressBar) findViewById(R.id.plan_list_progressBar);
-        typeToDisplay = getIntent().getExtras().getString(SelectTypeToAddActivity.PLACE_TYPE);
+        typeToDisplay = getIntent().getExtras().getString("category");
         activityPlacesRecyclerView = (RecyclerView) findViewById(R.id.activity_places_recycler_view);
 
         getSupportActionBar().setTitle(typeToDisplay);
@@ -165,7 +165,9 @@ public class PlanItemsList extends BaseActivity {
         final ArrayList<PlaceDataModel> filteredModelList = new ArrayList<>();
         for (PlaceDataModel model : models) {
             final String text = model.getName().toLowerCase();
-            if (text.contains(query)) {
+            final String textCity = model.getCity().toLowerCase();
+
+            if (text.contains(query) || textCity.contains(query)) {
                 filteredModelList.add(model);
             }
         }
@@ -184,14 +186,25 @@ public class PlanItemsList extends BaseActivity {
                 .getClient().create(TestApiEndPoint.class);
         String groubId = "";
 
-        if (typeToDisplay.equals("Places")) {
-            groubId = "1";
-        } else if (typeToDisplay.equals("Hotels")) {
-            groubId = "2";
-        } else if (typeToDisplay.equals("Restaurants")) {
+        if (typeToDisplay.equals("Pharaonic")) {
             groubId = "3";
+        } else if (typeToDisplay.equals("Hotel")) {
+            groubId = "2";
+        } else if (typeToDisplay.equals("Restaurant")) {
+            groubId = "1";
+        }else if (typeToDisplay.equals("Islamic")) {
+            groubId = "4";
+        }else if (typeToDisplay.equals("Natural Parks")) {
+            groubId = "5";
+        }else if (typeToDisplay.equals("Beaches")) {
+            groubId = "6";
+        }else if (typeToDisplay.equals("Nightclubs")) {
+            groubId = "7";
+        }else if (typeToDisplay.equals("Entertainment")) {
+            groubId = "8";
         }
-        RequestParameters Parameters = new RequestParameters();
+
+            RequestParameters Parameters = new RequestParameters();
         Parameters.setGroupId(groubId);
         TableRequest tableRequest = new TableRequest("GET", "places", Parameters);
         String request = new Gson().toJson(tableRequest);

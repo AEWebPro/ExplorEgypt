@@ -70,7 +70,8 @@ public class RecyclerAdapterPlacesWithPics extends RecyclerView.Adapter<Recycler
     public void onBindViewHolder(final PlaceVeiwHolder holder, int position) {
         PlaceDataModel place = placesSelected.get(position);
         holder.placeTitle.setText(place.getName());
-        Picasso.with(context).load(place.getImageUrl()).centerCrop().fit().into(holder.pictureImageView);
+        String[] placeImagesUrls = placesSelected.get(position).getImageUrl().split(",");
+        Picasso.with(context).load(placeImagesUrls[0]).centerCrop().fit().into(holder.pictureImageView);
 
         holder.itemView.setTag(place);
     }

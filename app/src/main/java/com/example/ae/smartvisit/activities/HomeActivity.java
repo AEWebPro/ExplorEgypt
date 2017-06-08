@@ -1,31 +1,28 @@
 package com.example.ae.smartvisit.activities;
 
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.view.Menu;
+import android.support.v4.view.ViewPager;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.example.ae.smartvisit.R;
-import com.example.ae.smartvisit.fragments.HotelListFragment;
-import com.example.ae.smartvisit.fragments.RestaurantsListFragment;
-import com.example.ae.smartvisit.fragments.TouristicPlacesFragment;
+import com.example.ae.smartvisit.adapters.CustomPageAdapter;
+import com.example.ae.smartvisit.fragments.CategoriesFragment;
+import com.example.ae.smartvisit.fragments.ExploreFragment;
 
-public class HomeActivity extends BaseActivity implements AdapterView.OnItemSelectedListener {
+public class HomeActivity extends BaseActivity {
     private Fragment fragment;
-    private Spinner spinner;
+    private ViewPager viewPager;
+    // private Spinner spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_layout);
-        getSupportActionBar().setTitle(null);
+        getSupportActionBar().setTitle("Home");
 
-        //get spinner
+        /*//get spinner
         spinner = (Spinner) findViewById(R.id.places_spinner);
 
         // set Spinner Adapter
@@ -34,28 +31,50 @@ public class HomeActivity extends BaseActivity implements AdapterView.OnItemSele
         spinner.setAdapter(spinnerAdapter);
 
         //Click
-        spinner.setOnItemSelectedListener(this);
+        spinner.setOnItemSelectedListener(this);*/
 
-        fragment = new HotelListFragment();
-        getSupportFragmentManager().beginTransaction().replace(R.id.activity_home_fragment_container, fragment).commit();
+
+        //fragment = new PlacesListFragment();
+        //getSupportFragmentManager().beginTransaction().replace(R.id.activity_home_fragment_container, fragment).commit();
+
+
+        viewPager = (ViewPager) findViewById(R.id.home_viewPager);
+        setupViewPager();
+        //viewPager.setAdapter(new CustomPageAdapter());
+    }
+    //setup the view pager add the fragments and titles
+    private void setupViewPager() {
+
+        CategoriesFragment categoriesFragment = new CategoriesFragment();
+        ExploreFragment exploreFragment = new ExploreFragment();
+
+        CustomPageAdapter customPageAdapter = new CustomPageAdapter(getSupportFragmentManager());
+        customPageAdapter.addFragment(exploreFragment, "Explore");
+        customPageAdapter.addFragment(categoriesFragment , "Categories");
+
+
+        viewPager.setAdapter(customPageAdapter);
+        TabLayout homeTabLayout = (TabLayout) findViewById(R.id.home_tabLayout);
+        homeTabLayout.setupWithViewPager(viewPager);
 
     }
 
+/*
     public void manageSpinner(boolean state){
         if(!state){
             toolbar.removeView(spinner);
         }else {
             toolbar.addView(spinner);
         }
-    }
+    }*/
 
-    @Override
+    /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_home, menu);
 
         return true;
     }
-
+*/
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         super.onOptionsItemSelected(item);
@@ -66,24 +85,24 @@ public class HomeActivity extends BaseActivity implements AdapterView.OnItemSele
         }
         return false;
     }
-
+/*
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
 
         switch (position) {
             case 0:
-                if (fragment.getClass().getSimpleName().equals(HotelListFragment.class.getSimpleName())) {
+                if (fragment.getClass().getSimpleName().equals(PlacesListFragment.class.getSimpleName())) {
                     break;
                 } else {
-                    fragment = new HotelListFragment();
+                    fragment = new PlacesListFragment();
                     getSupportFragmentManager().beginTransaction().replace(R.id.activity_home_fragment_container, fragment).commit();
                     break;
                 }
             case 1:
-                if (fragment.getClass().getSimpleName().equals(TouristicPlacesFragment.class.getSimpleName())) {
+                if (fragment.getClass().getSimpleName().equals(EntertainmentPlacesFragment.class.getSimpleName())) {
                     break;
                 } else {
-                    fragment = new TouristicPlacesFragment();
+                    fragment = new EntertainmentPlacesFragment();
                     getSupportFragmentManager().beginTransaction().replace(R.id.activity_home_fragment_container, fragment).commit();
                     break;
                 }
@@ -101,5 +120,5 @@ public class HomeActivity extends BaseActivity implements AdapterView.OnItemSele
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
-    }
+    }*/
 }

@@ -20,7 +20,28 @@ public class RequestParameters {
     @SerializedName("email")
     @Expose
     private String email;
+    @SerializedName("user_id")
+    @Expose
+    private String user_id;
+    @SerializedName("place_id")
+    @Expose
+    private String place_id;
 
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
+    }
+
+    public void setPlace_id(String place_id) {
+        this.place_id = place_id;
+    }
+
+    public String getUser_id() {
+        return user_id;
+    }
+
+    public String getPlace_id() {
+        return place_id;
+    }
 
     public String getId() {
         return id;

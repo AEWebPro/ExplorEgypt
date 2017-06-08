@@ -18,14 +18,21 @@ public class PlaceDataModel implements Parcelable {
 
     @SerializedName("address")
     private String address;
+
+    @SerializedName("city")
     private String city;
 
     @SerializedName("location")
     private String locationCoordinates;
 
-
+    @SerializedName("phone")
     private String contactNumber;
+
+    @SerializedName("website")
     private String website;
+
+    @SerializedName("social")
+    private String social;
 
     @SerializedName("rate")
     private float rate;
@@ -33,10 +40,10 @@ public class PlaceDataModel implements Parcelable {
     @SerializedName("id")
     private int id;
 
-    @SerializedName("group_id")
+    @SerializedName("type_id")
     private int groupId;
 
-    public PlaceDataModel(String name, String description, String imageUrl, String address, String city, String locationCoordinates, String contactNumber, String website, float rate) {
+    public PlaceDataModel(String name, String description, String imageUrl, String address, String city, String locationCoordinates, String contactNumber, String website, String social, float rate) {
         this.name = name;
         this.description = description;
         this.imageUrl = imageUrl;
@@ -46,6 +53,15 @@ public class PlaceDataModel implements Parcelable {
         this.contactNumber = contactNumber;
         this.website = website;
         this.rate = rate;
+        this.social = social;
+    }
+
+    public String getSocial() {
+        return social;
+    }
+
+    public void setSocial(String social) {
+        this.social = social;
     }
 
     public float getRate() {
@@ -145,6 +161,7 @@ public class PlaceDataModel implements Parcelable {
         locationCoordinates = in.readString();
         contactNumber = in.readString();
         website = in.readString();
+        social = in.readString();
         id = in.readInt();
         groupId = in.readInt();
         rate = in.readFloat();
@@ -165,6 +182,7 @@ public class PlaceDataModel implements Parcelable {
         dest.writeString(locationCoordinates);
         dest.writeString(contactNumber);
         dest.writeString(website);
+        dest.writeString(social);
         dest.writeInt(id);
         dest.writeInt(groupId);
         dest.writeFloat(rate);

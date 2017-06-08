@@ -38,20 +38,33 @@ public class RecyclerAdapterSelecteItemList extends RecyclerView.Adapter<Recycle
 
     @Override
     public void onBindViewHolder(ItemInListAdapter holder, final int position) {
-        int placeHolder ;
-        if (typeToDisplay.equals("Places")) {
-            placeHolder = R.drawable.pyramids;
-        } else if (typeToDisplay.equals("Hotels")) {
-            placeHolder = R.drawable.hotel_pic;
-        } else if (typeToDisplay.equals("Restaurants")) {
-            placeHolder = R.drawable.restaurant_pic;
-        } else {
-            placeHolder = R.mipmap.ic_launcher;
+        int groubId ;
+        if (typeToDisplay.equals("Pharaonic")) {
+            groubId = R.drawable.pharaonic;
+        } else if (typeToDisplay.equals("Hotel")) {
+            groubId = R.drawable.hotel;
+        } else if (typeToDisplay.equals("Restaurant")) {
+            groubId = R.drawable.restaurant;
+        }else if (typeToDisplay.equals("Islamic")) {
+            groubId = R.drawable.islamic;
+        }else if (typeToDisplay.equals("Natural Parks")) {
+            groubId = R.drawable.nature_reserve;
+        }else if (typeToDisplay.equals("Beaches")) {
+            groubId = R.drawable.beach;
+        }else if (typeToDisplay.equals("Nightclubs")) {
+            groubId = R.drawable.nightclub;
+        }else if (typeToDisplay.equals("Entertainment")) {
+            groubId = R.drawable.entertainment;
+        }else
+        {
+            groubId = R.drawable.pyramids;
         }
 
         final PlaceDataModel place = listOfItems.get(position);
-        Picasso.with(context).load(place.getImageUrl()).resize(110, 110).centerCrop()
-                .placeholder(placeHolder).into(holder.itemImage);
+        String[] imagesList = place.getImageUrl().split(",");
+
+        Picasso.with(context).load(imagesList[0]).resize(110, 110).centerCrop()
+                .placeholder(groubId).into(holder.itemImage);
         holder.itemTitle.setText(place.getName());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {

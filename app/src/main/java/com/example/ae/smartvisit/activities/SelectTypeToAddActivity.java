@@ -2,26 +2,35 @@ package com.example.ae.smartvisit.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 import com.example.ae.smartvisit.R;
+import com.example.ae.smartvisit.adapters.RecyclerAdapterCategories;
+import com.example.ae.smartvisit.modules.CategoryItem;
 import com.example.ae.smartvisit.modules.SessionPlan;
 
+import java.util.ArrayList;
+
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class SelectTypeToAddActivity extends BaseActivity {
 
 
     public static final String PLACE_TYPE = "PLACE_TYPE";
+    @Bind(R.id.categories_recycle_view)
+    RecyclerView categoriesRecycleView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_place_to_add);
+        ButterKnife.bind(this);
 
         toolbar.setNavigationIcon(R.drawable.ic_keyboard_backspace_black_24dp);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -32,34 +41,26 @@ public class SelectTypeToAddActivity extends BaseActivity {
         });
         getSupportActionBar().setTitle(SessionPlan.getSessionPlanInstance().getPlanName());
 
-        ButterKnife.bind(this);
+        setupCatRecycler();
+    }
+    void setupCatRecycler() {
+        ArrayList<CategoryItem> categoryItems = new ArrayList<>();
+
+        categoryItems.add(new CategoryItem(R.drawable.restaurant, "Restaurant"));
+        categoryItems.add(new CategoryItem(R.drawable.hotel, "Hotel"));
+        categoryItems.add(new CategoryItem(R.drawable.pharaonic, "Pharaonic"));
+        categoryItems.add(new CategoryItem(R.drawable.islamic, "Islamic"));
+        categoryItems.add(new CategoryItem(R.drawable.nature_reserve, "Natural Parks"));
+        categoryItems.add(new CategoryItem(R.drawable.beach, "Beaches"));
+        categoryItems.add(new CategoryItem(R.drawable.nightclub, "Nightclubs"));
+        categoryItems.add(new CategoryItem(R.drawable.entertainment, "Entertainment"));
+
+        RecyclerAdapterCategories adapterCategories = new RecyclerAdapterCategories(this, categoryItems, 1);
+        categoriesRecycleView.setLayoutManager(new GridLayoutManager(this, 2));
+        categoriesRecycleView.setAdapter(adapterCategories);
     }
 
-    @OnClick(R.id.select_place_sight_btn)
-    public void openPlacesList() {
-        Intent intent = new Intent(this, PlanItemsList.class);
-        intent.putExtra(PLACE_TYPE, "Places");
-        startActivity(intent);
-    }
-
-    @OnClick(R.id.select_place_hotels_btn)
-    public void openHotelsList() {
-        Intent intent = new Intent(this, PlanItemsList.class);
-        intent.putExtra(PLACE_TYPE, "Hotels");
-        startActivity(intent);
-    }
-
-
-    @OnClick(R.id.select_place_restaurant_btn)
-    public void openRestaurantsList() {
-        Intent intent = new Intent(this, PlanItemsList.class);
-        intent.putExtra(PLACE_TYPE, "Restaurants");
-        startActivity(intent);
-    }
-
-
-
-    @Override
+        @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.save_discard_plan, menu);
         menu.findItem(R.id.menu_plan_search).setVisible(false);

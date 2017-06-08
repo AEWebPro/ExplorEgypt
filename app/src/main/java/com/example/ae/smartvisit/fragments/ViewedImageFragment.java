@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.ae.smartvisit.R;
 import com.example.ae.smartvisit.activities.PictureContainerActivity;
@@ -41,7 +42,7 @@ public class ViewedImageFragment extends BaseFragment {
 
             @Override
             public void onError() {
-
+                Toast.makeText(application, "Error", Toast.LENGTH_SHORT).show();
             }
         });
 

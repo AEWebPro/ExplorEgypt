@@ -16,33 +16,35 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.ae.smartvisit.R;
+import com.example.ae.smartvisit.activities.BaseActivity;
 import com.example.ae.smartvisit.activities.DetailView;
 import com.example.ae.smartvisit.activities.HomeActivity;
+import com.example.ae.smartvisit.activities.HomeCatListActivity;
 import com.example.ae.smartvisit.modules.PlaceDataModel;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class RecyclerAdapterPlaceInCardView extends RecyclerView.Adapter<RecyclerAdapterPlaceInCardView.CardViewViewHolder>{
+public class RecyclerAdapterPlaceInCardView extends RecyclerView.Adapter<RecyclerAdapterPlaceInCardView.CardViewViewHolder> {
 
     private ArrayList<PlaceDataModel> placesSelected;
     private Context context;
     private LayoutInflater inflater;
     private ArrayList<PlaceDataModel> mPlaceModel;
 
-    public RecyclerAdapterPlaceInCardView(Context context)
-    {
+    public RecyclerAdapterPlaceInCardView(Context context) {
         placesSelected = new ArrayList<>();
         this.context = context;
         this.inflater = LayoutInflater.from(context);
     }
 
-    public void addPlaces(ArrayList<PlaceDataModel> places){
+    public void addPlaces(ArrayList<PlaceDataModel> places) {
         placesSelected.addAll(places);
         notifyDataSetChanged();
     }
-    public void itemSelected(Object placeClicked, View view){
+
+    public void itemSelected(Object placeClicked, View view) {
         int position = placesSelected.indexOf(placeClicked);
         //Toast.makeText(context,"Item of index :" + position + "Is clicked!", Toast.LENGTH_SHORT).show();
 
@@ -51,23 +53,23 @@ public class RecyclerAdapterPlaceInCardView extends RecyclerView.Adapter<Recycle
         passedIntent.putExtra("parent_activity", "HOME");
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Bundle bundle = ActivityOptions.makeSceneTransitionAnimation((HomeActivity)context,
-                    Pair.create(view,"selectedPlace")
+            Bundle bundle = ActivityOptions.makeSceneTransitionAnimation((BaseActivity) context,
+                    Pair.create(view, "selectedPlace")
             ).toBundle();
             context.startActivity(passedIntent, bundle);
-        }else {
+        } else {
             context.startActivity(passedIntent);
         }
     }
 
     @Override
     public CardViewViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.recycler_home_card_item,parent,false);
+        View view = inflater.inflate(R.layout.recycler_home_card_item, parent, false);
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Object placeClicked = (Object) view.getTag();
-                itemSelected(placeClicked,view);
+                itemSelected(placeClicked, view);
             }
         });
         return new CardViewViewHolder(view);
@@ -76,22 +78,24 @@ public class RecyclerAdapterPlaceInCardView extends RecyclerView.Adapter<Recycle
     @Override
     public void onBindViewHolder(final CardViewViewHolder holder, int position) {
         PlaceDataModel place = placesSelected.get(position);
-        holder.placeTitle.setText( place.getName());
+        holder.placeTitle.setText(place.getName());
         holder.placeDescription.setText(place.getDescription());
         String[] imagesList = place.getImageUrl().split(",");
 
-        Picasso.with(context).load(imagesList[0]).centerCrop().fit().into(holder.placeImage, new Callback() {
-            @Override
-            public void onSuccess() {
-                holder.progressBar.setVisibility(View.GONE);
-            }
+        if (imagesList[0] != "" ){
+            Picasso.with(context).load(imagesList[0]).centerCrop().fit().into(holder.placeImage, new Callback() {
+                @Override
+                public void onSuccess() {
+                    holder.progressBar.setVisibility(View.GONE);
+                }
 
-            @Override
-            public void onError() {
+                @Override
+                public void onError() {
 
-            }
-        });
-        holder.itemView.setTag( place);
+                }
+            });
+        }
+        holder.itemView.setTag(place);
     }
 
     public void setFilter(ArrayList<PlaceDataModel> placeModel) {
@@ -105,7 +109,7 @@ public class RecyclerAdapterPlaceInCardView extends RecyclerView.Adapter<Recycle
         return placesSelected.size();
     }
 
-    public class CardViewViewHolder extends RecyclerView.ViewHolder{
+    public class CardViewViewHolder extends RecyclerView.ViewHolder {
         private ImageView placeImage;
         private ProgressBar progressBar;
         private TextView placeTitle;

@@ -9,6 +9,6 @@
     android:background="@color/primary"
     app:theme="@style/ThemeOverlay.AppCompat.Light"
     app:titleTextAppearance="@style/Toolbar.TitleText"
-    app:titleTextColor="@color/primaryToolBar"
+    app:titleTextColor="@color/accent"
     app:subtitleTextColor="@color/secondary_text"
     android:titleTextAppearance="@style/Toolbar.TitleText"/>

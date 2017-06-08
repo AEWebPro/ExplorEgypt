@@ -2,7 +2,7 @@ package com.example.ae.smartvisit.modules;
 
 
 public class User {
-    private int id;
+    private String id;
     private String userName;
     private boolean isLoggedIn;
     private String password;
@@ -11,7 +11,7 @@ public class User {
     public User() {
     }
 
-    public User(int id, String userName, boolean isLoggedIn, String password, String email) {
+    public User(String id, String userName, boolean isLoggedIn, String password, String email) {
         this.id = id;
         this.userName = userName;
         this.isLoggedIn = isLoggedIn;
@@ -19,11 +19,11 @@ public class User {
         this.email = email;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

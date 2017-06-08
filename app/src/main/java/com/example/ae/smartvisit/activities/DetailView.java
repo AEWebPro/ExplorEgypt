@@ -52,6 +52,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -167,8 +168,9 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
         similarPlacesRecycler.setNestedScrollingEnabled(false);
     }
 
+
     private void setupPicsRecycler() {
-        String[] urlPicsString = placeDisplayed.getImageUrl().split(", \\r\\n");
+        String[] urlPicsString = placeDisplayed.getImageUrl().split(", ");
         ArrayList<String> picsUrls = new ArrayList<>();
         for (int i = 0; i < urlPicsString.length; i++)
             picsUrls.add(urlPicsString[i]);
@@ -200,6 +202,15 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
             final Dialog dialog = new Dialog(this);
             dialog.setContentView(R.layout.dialog_contacts);
             dialog.setTitle("Contacts info.");
+
+
+            TextView phoneNumber = (TextView) dialog.findViewById(R.id.dialog_contact_num);
+            TextView websiteLink = (TextView) dialog.findViewById(R.id.dialog_email_add);
+            TextView socialLink = (TextView) dialog.findViewById(R.id.dialog_social_add);
+            phoneNumber.setText(placeDisplayed.getContactNumber());
+            websiteLink.setText(placeDisplayed.getWebsite());
+            socialLink.setText(placeDisplayed.getSocial());
+
             dialog.show();
 
         } else if (id == R.id.activity_detail_view_share_button) {
@@ -211,17 +222,17 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
             shareIntent.setType("text/plain");
             startActivity(Intent.createChooser(shareIntent, "Choose"));
         } else if (id == R.id.activity_detail_view_fav_button) {
-            if (!isClicked) {
+            /*if (!isClicked) {
                 isClicked = true;
-                favorite_button.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_favorite_accent_24dp, 0, 0);
-                favorite_button.setTextColor(getResources().getColor(R.color.accent));
-                favorite_button.getBackground().setColorFilter(getResources().getColor(R.color.primary), PorterDuff.Mode.MULTIPLY);
+
             } else {
                 isClicked = false;
                 favorite_button.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_favorite_black_24dp, 0, 0);
                 favorite_button.setTextColor(getResources().getColor(R.color.primary_text));
                 favorite_button.getBackground().clearColorFilter();
-            }
+            }*/
+            checkIfIsFavourite();
+
         } else if (id == R.id.activity_detail_add_floatbtn) {
             final SessionPlan workingSessionPlan = SessionPlan.getSessionPlanInstance();
             if (!isAdded) {
@@ -365,6 +376,92 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void checkIfIsFavourite(){
+        final TestApiEndPoint ourApiEndPoint = OurApiClient
+                .getClient().create(TestApiEndPoint.class);
+
+        RequestParameters parameters = new RequestParameters();
+        parameters.setUser_id("700");
+        parameters.setPlace_id(Integer.toString(placeDisplayed.getId()));
+        TableRequest tableRequest = new TableRequest("GET", "favourite", parameters);
+        String request = new Gson().toJson(tableRequest);
+
+        Call<String> mCall = ourApiEndPoint.checkIfIsFavourite(tableRequest);
+        mCall.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if(response.isSuccessful()){
+                    if(response.body().isEmpty()){
+                        addToFavourite();
+                    }else{
+                        String value = response.body().toString();
+                        Toast.makeText(getApplicationContext(), "Will be deleted", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
+            }
+        });
+     /*   Call<ArrayList<PlaceDataModel>> mCall = ourApiEndPoint.getPlacesService(tableRequest);
+        mCall.enqueue(new Callback<ArrayList<PlaceDataModel>>() {
+            @Override
+            public void onResponse(Call<ArrayList<PlaceDataModel>> call, Response<ArrayList<PlaceDataModel>> response) {
+                if (response.isSuccessful()) {
+                    if (!response.body().isEmpty()) {
+                        //Log.d(TAG, "success---" + response.body().get(0).getName());
+                        homeRecyclerProgressPar.setVisibility(View.GONE);
+                        placesList = response.body();
+                        adapter.addPlaces(placesList);
+                        adapter.notifyDataSetChanged();
+                    }
+                } else {
+                    Log.d(TAG, "Failed---");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<PlaceDataModel>> call, Throwable t) {
+
+            }
+        });
+        */
+
+    }
+
+    void addToFavourite(){
+        final TestApiEndPoint ourApiEndPoint = OurApiClient
+                .getClient().create(TestApiEndPoint.class);
+
+        RequestParameters parameters = new RequestParameters();
+        parameters.setUser_id("700");
+        parameters.setPlace_id(Integer.toString(placeDisplayed.getId()));
+        TableRequest tableRequest = new TableRequest("POST", "favourite", parameters);
+        String request = new Gson().toJson(tableRequest);
+
+        Call<ResponseBody> mCall = ourApiEndPoint.sendData(tableRequest);
+        mCall.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if(response.isSuccessful()){
+                    favorite_button.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_favorite_accent_24dp, 0, 0);
+                    favorite_button.setTextColor(getResources().getColor(R.color.accent));
+                    favorite_button.getBackground().setColorFilter(getResources().getColor(R.color.primary), PorterDuff.Mode.MULTIPLY);
+                }else {
+                    Toast.makeText(getApplicationContext(), "Error try again!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
+
     }
 
     @Override

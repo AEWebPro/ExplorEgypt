@@ -33,12 +33,15 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class TouristicPlacesFragment extends BaseFragment {
-    private static final String TAG = "@@@";
+public class PlacesListFragment extends BaseFragment {
+
+    private static final String TAG = "@@@@@@";
     ArrayList<PlaceDataModel> placesList;
+
     private ProgressBar homeRecyclerProgressPar;
     private RecyclerAdapterPlaceInCardView adapter;
     private RecyclerView recyclerView;
+    private String type;
 
     @Nullable
     @Override
@@ -46,28 +49,28 @@ public class TouristicPlacesFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_data_model_list, container, false);
         setHasOptionsMenu(true);
 
+        type = getArguments().getString("type");
         homeRecyclerProgressPar = (ProgressBar) view.findViewById(R.id.home_recycler_progressPar);
-
         recyclerView = (RecyclerView) view.findViewById(R.id.fragment_all_places_recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
 
         adapter = new RecyclerAdapterPlaceInCardView(getContext());
         recyclerView.setAdapter(adapter);
 
+
         getPlacesList();
-        ButterKnife.bind(this, view);
+
         return view;
     }
-
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
 
         MenuItem item = menu.findItem(R.id.activity_home_search);
-        SearchView searchView = (SearchView) item.getActionView();
-        searchView.setQueryHint("Place name");
+        final SearchView searchView = (SearchView) item.getActionView();
+        searchView.setQueryHint("Name or City");
 
-        searchView.setOnSearchClickListener(new View.OnClickListener() {
+        /*searchView.setOnSearchClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ((HomeActivity) getActivity()).manageSpinner(false);
@@ -81,8 +84,7 @@ public class TouristicPlacesFragment extends BaseFragment {
                 return false;
             }
         });
-
-        if (isNetworkAvailable()) {
+*/        if (isNetworkAvailable()) {
             searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                 @Override
                 public boolean onQueryTextSubmit(String query) {
@@ -102,9 +104,8 @@ public class TouristicPlacesFragment extends BaseFragment {
 
                 }
             });
-        } else {
-            return;
         }
+
         super.onPrepareOptionsMenu(menu);
     }
 
@@ -113,11 +114,13 @@ public class TouristicPlacesFragment extends BaseFragment {
 
         final ArrayList<PlaceDataModel> filteredModelList = new ArrayList<>();
         for (PlaceDataModel model : models) {
-            final String text = model.getName().toLowerCase();
-            if (text.contains(query)) {
-                filteredModelList.add(model);
+            final String textName = model.getName().toLowerCase();
+            final String textCity = model.getCity().toLowerCase();
 
+            if (textName.contains(query) || textCity.contains(query)) {
+                filteredModelList.add(model);
             }
+
         }
         adapter = new RecyclerAdapterPlaceInCardView(getActivity());
         adapter.addPlaces(filteredModelList);
@@ -127,13 +130,38 @@ public class TouristicPlacesFragment extends BaseFragment {
         return filteredModelList;
     }
 
-
     private void getPlacesList() {
         final TestApiEndPoint ourApiEndPoint = OurApiClient
                 .getClient().create(TestApiEndPoint.class);
 
         RequestParameters Parameters = new RequestParameters();
-        Parameters.setGroupId("1");
+
+        switch (type){
+            case "Restaurant":
+                Parameters.setGroupId("1");
+                break;
+            case "Hotel":
+                Parameters.setGroupId("2");
+                break;
+            case "Pharaonic":
+                Parameters.setGroupId("3");
+                break;
+            case "Islamic":
+                Parameters.setGroupId("4");
+                break;
+            case "Natural Parks":
+                Parameters.setGroupId("5");
+                break;
+            case "Beaches":
+                Parameters.setGroupId("6");
+                break;
+            case "Nightclubs":
+                Parameters.setGroupId("7");
+                break;
+            case "Entertainment":
+                Parameters.setGroupId("8");
+                break;
+        }
         TableRequest tableRequest = new TableRequest("GET", "places", Parameters);
         String request = new Gson().toJson(tableRequest);
 
@@ -148,6 +176,8 @@ public class TouristicPlacesFragment extends BaseFragment {
                         placesList = response.body();
                         adapter.addPlaces(placesList);
                         adapter.notifyDataSetChanged();
+                    }else{
+                        Log.d(TAG, "list is empty");
                     }
                 } else {
                     Log.d(TAG, "Failed---");
@@ -160,6 +190,7 @@ public class TouristicPlacesFragment extends BaseFragment {
             }
         });
     }
+
 
     @Override
     public void onDestroyView() {
