@@ -11,4 +11,5 @@
     app:titleTextAppearance="@style/Toolbar.TitleText"
     app:titleTextColor="@color/accent"
     app:subtitleTextColor="@color/secondary_text"
-    android:titleTextAppearance="@style/Toolbar.TitleText"/>
+    android:titleTextAppearance="@style/Toolbar.TitleText"
+    app:layout_scrollFlags="scroll|enterAlways|snap"/>

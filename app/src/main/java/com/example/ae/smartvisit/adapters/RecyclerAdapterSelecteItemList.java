@@ -45,7 +45,7 @@ public class RecyclerAdapterSelecteItemList extends RecyclerView.Adapter<Recycle
             groubId = R.drawable.hotel;
         } else if (typeToDisplay.equals("Restaurant")) {
             groubId = R.drawable.restaurant;
-        }else if (typeToDisplay.equals("Islamic")) {
+        }else if (typeToDisplay.equals("Religious")) {
             groubId = R.drawable.islamic;
         }else if (typeToDisplay.equals("Natural Parks")) {
             groubId = R.drawable.nature_reserve;

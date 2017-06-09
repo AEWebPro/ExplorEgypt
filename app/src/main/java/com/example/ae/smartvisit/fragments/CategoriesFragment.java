@@ -45,7 +45,7 @@ public class CategoriesFragment extends BaseFragment {
         categoryItems.add(new CategoryItem(R.drawable.restaurant, "Restaurant"));
         categoryItems.add(new CategoryItem(R.drawable.hotel, "Hotel"));
         categoryItems.add(new CategoryItem(R.drawable.pharaonic, "Pharaonic"));
-        categoryItems.add(new CategoryItem(R.drawable.islamic, "Islamic"));
+        categoryItems.add(new CategoryItem(R.drawable.islamic, "Religious"));
         categoryItems.add(new CategoryItem(R.drawable.nature_reserve, "Natural Parks"));
         categoryItems.add(new CategoryItem(R.drawable.beach, "Beaches"));
         categoryItems.add(new CategoryItem(R.drawable.nightclub, "Nightclubs"));

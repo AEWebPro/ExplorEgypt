@@ -95,7 +95,7 @@
                 android:layout_marginTop="@dimen/vertical_margin_with_border"
                 android:text="Overview:"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -109,8 +109,7 @@
                 android:text="@string/temp_text"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/secondary_text"
-                android:textSize="12sp"
-                android:textStyle="italic" />
+                android:textSize="14sp" />
 
             <View
                 android:layout_width="match_parent"
@@ -121,14 +120,15 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/vertical_margin_with_border">
+                android:layout_marginTop="@dimen/vertical_margin_with_border"
+                android:layout_marginBottom="4dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Rating: "
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textSize="16sp"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
 
                 <RatingBar
@@ -141,6 +141,48 @@
                     android:numStars="5"
                     android:rating="3.5" />
             </RelativeLayout>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:id="@+id/detail_hotel_booking_card"
+                android:background="?selectableItemBackground"
+                app:cardCornerRadius="6dp"
+                app:cardElevation="2dp"
+                app:cardBackgroundColor="@color/cyanWhite"
+                android:clickable="true"
+                android:onClick="openBrowserForBooking"
+                android:paddingTop="8dp"
+                android:paddingBottom="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="2dp"
+                        android:text="Book a room with:"
+                        android:textColor="@color/primary"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+                    <android.support.v4.widget.Space
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent" />
+
+                    <ImageView
+                        android:layout_width="150dp"
+                        android:layout_height="45dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/booking_com_logo"
+                        android:layout_gravity="end"/>
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
 
             <View
                 android:layout_width="match_parent"
@@ -155,7 +197,7 @@
                 android:paddingBottom="4dp"
                 android:text="Pictures:"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
             <android.support.v7.widget.RecyclerView
@@ -178,7 +220,7 @@
                 android:paddingBottom="4dp"
                 android:text="Address:"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -192,7 +234,7 @@
                 android:text="@string/temp_text"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/secondary_text"
-                android:textSize="12sp" />
+                android:textSize="16sp" />
 
             <com.example.ae.smartvisit.infrastructure.MyMapView
                 android:id="@+id/detail_map_view"
@@ -213,7 +255,7 @@
                 android:paddingBottom="4dp"
                 android:text="Similar Places:"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
             <android.support.v7.widget.RecyclerView

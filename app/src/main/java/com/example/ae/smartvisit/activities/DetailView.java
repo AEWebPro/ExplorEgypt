@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.app.ActionBar.LayoutParams;
@@ -77,6 +78,7 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
     private String parentActivity;
     private Boolean isAdded;
     private RecyclerAdapterPlacesWithPics adapterPlaces;
+    private View hotelBookingVIew;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,9 +101,16 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
         floatAddBtn = (FloatingActionButton) findViewById(R.id.activity_detail_add_floatbtn);
         overViewTextView = (TextView) findViewById(R.id.activity_detail_view_description);
         rateBar = (RatingBar) findViewById(R.id.activity_detail_view_rating_starts);
+        hotelBookingVIew = findViewById(R.id.detail_hotel_booking_card);
+
 
         String[] placeImagesUrls = placeDisplayed.getImageUrl().split(",");
         Picasso.with(this).load(placeImagesUrls[0]).placeholder(R.mipmap.ic_launcher).into(placeImage);
+
+        //For the Hotel booking card
+        if (placeDisplayed.getGroupId() != 2) {
+            hotelBookingVIew.setVisibility(View.GONE);
+        }
 
         addressTextView.setText(placeDisplayed.getAddress());
         overViewTextView.setText(placeDisplayed.getDescription());
@@ -122,7 +131,7 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
                 // Add a marker in Pyramids and move the camera
                 LatLng location = new LatLng(latitude, longitude);
                 mMap.addMarker(new MarkerOptions().position(location).title("Pyramids of Giza"));
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15));
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 13));
                 mMapView.onResume();
 
             }
@@ -282,7 +291,9 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
                         dialog.cancel();
                     }
                 });
-            }else {
+            }/*else if(id == R.id.detail_hotel_booking_card){
+
+            }*/ else {
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                         this);
 
@@ -293,22 +304,22 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
                 alertDialogBuilder
                         .setMessage("Sure you want to remove the place")
                         .setCancelable(false)
-                        .setPositiveButton("Yes",new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,int id) {
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
 
                                 // if this button is clicked, remove it from the plan
                                 workingSessionPlan.removePlaceFromPlan(placeDisplayed.getName());
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                                     floatAddBtn.setImageDrawable(getDrawable(R.drawable.ic_add_black_24dp));
                                     floatAddBtn.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.accent)));
-                                }else {
+                                } else {
                                     floatAddBtn.setImageDrawable(getResources().getDrawable(R.drawable.ic_add_black_24dp));
                                     floatAddBtn.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.accent)));
                                 }
                                 isAdded = false;
                             }
                         })
-                        .setNegativeButton("No",new DialogInterface.OnClickListener() {
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 // if this button is clicked, just close
                                 // the dialog box and do nothing
@@ -326,7 +337,7 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
     }
 
 
-    private void getPlacesList(){
+    private void getPlacesList() {
         final TestApiEndPoint ourApiEndPoint = OurApiClient
                 .getClient().create(TestApiEndPoint.class);
 
@@ -340,16 +351,16 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
             @Override
             public void onResponse(Call<ArrayList<PlaceDataModel>> call, Response<ArrayList<PlaceDataModel>> response) {
                 if (response.isSuccessful()) {
-                    if(!response.body().isEmpty()) {
+                    if (!response.body().isEmpty()) {
                         int position = -1;
                         ArrayList<PlaceDataModel> listOfPlaces = response.body();
-                        for(int i = 0; i < listOfPlaces.size(); i++){
+                        for (int i = 0; i < listOfPlaces.size(); i++) {
                             PlaceDataModel place = listOfPlaces.get(i);
-                            if(place.getName().equals(placeDisplayed.getName()))
+                            if (place.getName().equals(placeDisplayed.getName()))
                                 position = i;
                         }
 
-                        if(position != -1)
+                        if (position != -1)
                             listOfPlaces.remove(position);
 
                         adapterPlaces.addPlaces(listOfPlaces);
@@ -378,7 +389,7 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
         return super.onOptionsItemSelected(item);
     }
 
-    public void checkIfIsFavourite(){
+    public void checkIfIsFavourite() {
         final TestApiEndPoint ourApiEndPoint = OurApiClient
                 .getClient().create(TestApiEndPoint.class);
 
@@ -392,10 +403,10 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
         mCall.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                if(response.isSuccessful()){
-                    if(response.body().isEmpty()){
+                if (response.isSuccessful()) {
+                    if (response.body().isEmpty()) {
                         addToFavourite();
-                    }else{
+                    } else {
                         String value = response.body().toString();
                         Toast.makeText(getApplicationContext(), "Will be deleted", Toast.LENGTH_SHORT).show();
                     }
@@ -433,7 +444,7 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
 
     }
 
-    void addToFavourite(){
+    void addToFavourite() {
         final TestApiEndPoint ourApiEndPoint = OurApiClient
                 .getClient().create(TestApiEndPoint.class);
 
@@ -447,11 +458,11 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
         mCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     favorite_button.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_favorite_accent_24dp, 0, 0);
                     favorite_button.setTextColor(getResources().getColor(R.color.accent));
                     favorite_button.getBackground().setColorFilter(getResources().getColor(R.color.primary), PorterDuff.Mode.MULTIPLY);
-                }else {
+                } else {
                     Toast.makeText(getApplicationContext(), "Error try again!", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -463,6 +474,15 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
         });
 
     }
+
+    public void openBrowserForBooking(View view) {
+        //placeDisplayed.getWebsite().toString()
+        Uri uri = Uri.parse(placeDisplayed.getWebsite());
+
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        startActivity(intent);
+    }
+
 
     @Override
     public void onPause() {

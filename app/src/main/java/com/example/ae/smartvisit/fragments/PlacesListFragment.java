@@ -146,7 +146,7 @@ public class PlacesListFragment extends BaseFragment {
             case "Pharaonic":
                 Parameters.setGroupId("3");
                 break;
-            case "Islamic":
+            case "Religious":
                 Parameters.setGroupId("4");
                 break;
             case "Natural Parks":

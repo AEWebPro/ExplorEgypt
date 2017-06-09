@@ -4,12 +4,14 @@ package com.example.ae.smartvisit.activities;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -17,18 +19,17 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.ae.smartvisit.R;
 import com.example.ae.smartvisit.infrastructure.MyApplication;
+
+import java.lang.reflect.Field;
 
 public class BaseActivity extends AppCompatActivity {
     protected MyApplication application;
@@ -41,6 +42,7 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
+
 
         navDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (navDrawer != null) {
@@ -64,18 +66,17 @@ public class BaseActivity extends AppCompatActivity {
 
                     } else if (id == R.id.nav_services) {
                         animateTransitionActivity(Services.class);
-                    }else if(id == R.id.nav_favorite){
+                    } else if (id == R.id.nav_favorite) {
                         Toast.makeText(application, "Open the favorite places page!!", Toast.LENGTH_SHORT).show();
                         navDrawer.closeDrawer(GravityCompat.START);
-                    }
-                    else if (id == R.id.nav_create_plan) {
+                    } else if (id == R.id.nav_create_plan) {
 //                        Toast.makeText(application, "Create a SessionPlan", Toast.LENGTH_SHORT).show();
                         animateTransitionActivity(CreatePlanActivity.class);
                         navDrawer.closeDrawer(GravityCompat.START);
                     } else if (id == R.id.nav_your_plans) {
                         animateTransitionActivity(YourPlanes.class);
 
-                    }else if(id == R.id.nav_logout){
+                    } else if (id == R.id.nav_logout) {
                         Intent mIntent = new Intent(application, LoginActivity.class);
                         startActivity(mIntent);
                         navDrawer.closeDrawer(GravityCompat.START);
@@ -92,22 +93,23 @@ public class BaseActivity extends AppCompatActivity {
             navDrawer.addDrawerListener(toggle);
             toggle.syncState();
         }
-        if(getSupportActionBar() != null) {
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
     }
-    private void animateTransitionActivity (Class<?> activity){
-        if(getClass() != activity) {
+
+    private void animateTransitionActivity(Class<?> activity) {
+        if (getClass() != activity) {
             Intent mIntent = new Intent(application, activity);
             Bundle bundleanimation =
                     ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.push_left_in, R.anim.push_left_out).toBundle();
             startActivity(mIntent, bundleanimation);
             navDrawer.closeDrawer(GravityCompat.START);
 
-            if(!activity.getSimpleName().equals(CreatePlanActivity.class.getSimpleName())) {
+            if (!activity.getSimpleName().equals(CreatePlanActivity.class.getSimpleName())) {
                 finish();
             }
-        }else{
+        } else {
             navDrawer.closeDrawer(GravityCompat.START);
         }
     }
@@ -140,7 +142,7 @@ public class BaseActivity extends AppCompatActivity {
             float x = ev.getRawX() + view.getLeft() - scrcoords[0];
             float y = ev.getRawY() + view.getTop() - scrcoords[1];
             if (x < view.getLeft() || x > view.getRight() || y < view.getTop() || y > view.getBottom())
-                ((InputMethodManager)this.getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow((this.getWindow().getDecorView().getApplicationWindowToken()), 0);
+                ((InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow((this.getWindow().getDecorView().getApplicationWindowToken()), 0);
         }
         return super.dispatchTouchEvent(ev);
     }
@@ -153,3 +155,5 @@ public class BaseActivity extends AppCompatActivity {
     }
 
 }
+
+

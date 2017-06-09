@@ -22,6 +22,7 @@
         <!--  For Custom Action Mode Background Color/Drawable -->
         <item name="actionModeBackground">@color/dark_blue</item>
 
+        <item name="android:typeface">serif</item>
 
     </style>
 
