@@ -36,7 +36,7 @@
         android:layout_marginTop="4dp"/>
 
 
-    <com.example.ae.smartvisit.infrastructure.MyMapView
+    <com.example.ae.ExplorEgypt.infrastructure.MyMapView
         android:id="@+id/embassy_map_view"
         android:layout_width="match_parent"
         android:layout_height="300dp"

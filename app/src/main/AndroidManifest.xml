@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.ae.smartvisit">
+    package="com.example.ae.ExplorEgypt">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -14,7 +14,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
-        android:name=".infrastructure.MyApplication"
+        android:name="com.example.ae.ExplorEgypt.infrastructure.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -23,7 +23,7 @@
         android:hardwareAccelerated="false"
         android:largeHeap="true">
         <activity
-            android:name=".activities.HomeActivity"
+            android:name="com.example.ae.ExplorEgypt.activities.HomeActivity"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,40 +32,41 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.LoginActivity"
+            android:name="com.example.ae.ExplorEgypt.activities.LoginActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".activities.Services"
+            android:name="com.example.ae.ExplorEgypt.activities.Services"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".activities.DetailView"
+            android:name="com.example.ae.ExplorEgypt.activities.DetailView"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".activities.CurrencyActivity"
+            android:name="com.example.ae.ExplorEgypt.activities.CurrencyActivity"
             android:theme="@style/AppTheme"/>
         <activity
-            android:name=".activities.Embassy"
+            android:name="com.example.ae.ExplorEgypt.activities.Embassy"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".activities.YourPlanes"
+            android:name="com.example.ae.ExplorEgypt.activities.YourPlanes"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".activities.YourPlanDetails"
+            android:name="com.example.ae.ExplorEgypt.activities.YourPlanDetails"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".activities.Signup"
+            android:name="com.example.ae.ExplorEgypt.activities.Signup"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".activities.PictureContainerActivity"
+            android:name="com.example.ae.ExplorEgypt.activities.PictureContainerActivity"
             android:screenOrientation="portrait"
             android:theme="@style/CustomDialogActivity" />
-        <activity android:name=".activities.CreatePlanActivity" />
-        <activity android:name=".activities.SelectTypeToAddActivity" />
-        <activity android:name=".activities.PlanItemsList" />
-        <activity android:name=".activities.DayDetailsActivity" />
-        <activity android:name=".activities.EmbassyInformation" />
-        <activity android:name=".map.HospitalsMapsActivity" android:theme="@style/AppTheme"/>
-        <activity android:name=".activities.HomeCatListActivity" />
+        <activity android:name="com.example.ae.ExplorEgypt.activities.CreatePlanActivity" />
+        <activity android:name="com.example.ae.ExplorEgypt.activities.SelectTypeToAddActivity" />
+        <activity android:name="com.example.ae.ExplorEgypt.activities.PlanItemsList" />
+        <activity android:name="com.example.ae.ExplorEgypt.activities.DayDetailsActivity" />
+        <activity android:name="com.example.ae.ExplorEgypt.activities.EmbassyInformation" />
+        <activity android:name="com.example.ae.ExplorEgypt.map.HospitalsMapsActivity" android:theme="@style/AppTheme"/>
+        <activity android:name="com.example.ae.ExplorEgypt.activities.HomeCatListActivity" />
+        <activity android:name=".activities.FavouriteActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -83,7 +84,7 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".activities.DayPlacesPathMapActivity"
+            android:name="com.example.ae.ExplorEgypt.activities.DayPlacesPathMapActivity"
             android:label="@string/title_activity_day_places_path_map"/>
     </application>
 

@@ -236,7 +236,7 @@
                 android:textColor="@color/secondary_text"
                 android:textSize="16sp" />
 
-            <com.example.ae.smartvisit.infrastructure.MyMapView
+            <com.example.ae.ExplorEgypt.infrastructure.MyMapView
                 android:id="@+id/detail_map_view"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
