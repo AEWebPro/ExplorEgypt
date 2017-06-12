@@ -52,4 +52,10 @@
     <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textSize">16sp</item>
     </style>
+
+    <style name="PlanTheme" parent="AppTheme">
+        <item name="android:colorAccent">#ffa400</item>
+        <item name="colorAccent">#ffa400</item>
+
+    </style>
 </resources>

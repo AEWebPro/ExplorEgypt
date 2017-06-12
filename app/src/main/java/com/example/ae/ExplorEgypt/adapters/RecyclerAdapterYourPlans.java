@@ -62,13 +62,17 @@ public class RecyclerAdapterYourPlans extends RecyclerView.Adapter<RecyclerAdapt
 
                     }
                 }) ;
-        planViewHolder.planIsActive.setOnClickListener(new View.OnClickListener() {
+       /* planViewHolder.planIsActive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(context,Integer.toString(position) +  " is clicked",Toast.LENGTH_SHORT).show();
                 //TODO: add a Notification when is active
             }
-        });
+        });*/
+
+        if(planViewHolder.planIsActive.isActivated()){
+            Toast.makeText(context,Integer.toString(position) +  " is clicked",Toast.LENGTH_SHORT).show();
+        }
 
         /** Change background color of the selected items in list view  **/
         planViewHolder.blackView

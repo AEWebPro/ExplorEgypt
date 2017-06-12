@@ -3,7 +3,10 @@ package com.example.ae.ExplorEgypt.activities;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -13,11 +16,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ae.ExplorEgypt.R;
+import com.example.ae.ExplorEgypt.infrastructure.HelperClass;
+import com.example.ae.ExplorEgypt.modules.User;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends AppCompatActivity {
 
 
     private static final String TAG = "LoginActivity";
@@ -78,7 +83,9 @@ public class LoginActivity extends BaseActivity {
             String password = _passwordText.getText().toString();
 
             // TODO: Implement your own authentication logic here.
-
+            //Temp user for the test
+            User loggedUser = new User("555", "ahmed ehab", password,email);
+            HelperClass.saveUserPref(this,"user",loggedUser);
             new android.os.Handler().postDelayed(
                     new Runnable() {
                         public void run() {
@@ -89,7 +96,7 @@ public class LoginActivity extends BaseActivity {
                         }
                     }, 3000);
         } else {
-            Toast.makeText(application, "No connection!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "No connection!", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -186,6 +193,13 @@ public class LoginActivity extends BaseActivity {
                 ((InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow((this.getWindow().getDecorView().getApplicationWindowToken()), 0);
         }
         return super.dispatchTouchEvent(ev);
+    }
+
+    public boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
 }

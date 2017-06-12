@@ -59,7 +59,7 @@
             android:name="com.example.ae.ExplorEgypt.activities.PictureContainerActivity"
             android:screenOrientation="portrait"
             android:theme="@style/CustomDialogActivity" />
-        <activity android:name="com.example.ae.ExplorEgypt.activities.CreatePlanActivity" />
+        <activity android:name="com.example.ae.ExplorEgypt.activities.CreatePlanActivity" android:theme="@style/PlanTheme" />
         <activity android:name="com.example.ae.ExplorEgypt.activities.SelectTypeToAddActivity" />
         <activity android:name="com.example.ae.ExplorEgypt.activities.PlanItemsList" />
         <activity android:name="com.example.ae.ExplorEgypt.activities.DayDetailsActivity" />

@@ -3,7 +3,10 @@ package com.example.ae.ExplorEgypt.activities;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -13,8 +16,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ae.ExplorEgypt.R;
+import com.example.ae.ExplorEgypt.infrastructure.HelperClass;
 import com.example.ae.ExplorEgypt.modules.RequestParameters;
 import com.example.ae.ExplorEgypt.modules.TableRequest;
+import com.example.ae.ExplorEgypt.modules.User;
 import com.example.ae.ExplorEgypt.rest.OurApiClient;
 import com.example.ae.ExplorEgypt.rest.TestApiEndPoint;
 import com.google.gson.Gson;
@@ -25,7 +30,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 
-public class Signup extends BaseActivity  {
+public class Signup extends AppCompatActivity {
 
     private static final String TAG = "SignupActivity";
     @Bind(R.id.input_name)
@@ -91,11 +96,13 @@ public class Signup extends BaseActivity  {
             //String reEnterPassword = _reEnterPasswordText.getText().toString();
 
             // TODO: Implement your own signup logic here.
-            sendAccount(name,email,password);
-
+            //sendAccount(name,email,password);
+            User loggedUser = new User("555", name, password,email);
+            HelperClass.saveUserPref(this,"user",loggedUser);
+            onSignupSuccess();
 
         }else {
-            Toast.makeText(application, "No connection!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "No connection!", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -236,5 +243,12 @@ public class Signup extends BaseActivity  {
 
             }
         });
+    }
+
+    public boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 }

@@ -21,9 +21,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ae.ExplorEgypt.R;
+import com.example.ae.ExplorEgypt.infrastructure.HelperClass;
 import com.example.ae.ExplorEgypt.infrastructure.MyApplication;
 
 public class BaseActivity extends AppCompatActivity {
@@ -38,10 +40,18 @@ public class BaseActivity extends AppCompatActivity {
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
 
+        if(!HelperClass.checkIfUserIsLogged(this,"user")){
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+            return;
+        }
 
         navDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (navDrawer != null) {
             navigationView = (NavigationView) findViewById(R.id.activity_navigation_view);
+            TextView userName = (TextView)navigationView.getHeaderView(0).findViewById(R.id.include_main_nav_drawer_display_name);
+            userName.setText(HelperClass.getUserFromPref(getApplicationContext(),"user").getUserName());
+
             navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -73,6 +83,7 @@ public class BaseActivity extends AppCompatActivity {
                         animateTransitionActivity(YourPlanes.class);
 
                     } else if (id == R.id.nav_logout) {
+                        HelperClass.emptyUserPref(getApplicationContext(), "user");
                         Intent mIntent = new Intent(application, LoginActivity.class);
                         startActivity(mIntent);
                         navDrawer.closeDrawer(GravityCompat.START);
@@ -125,8 +136,8 @@ public class BaseActivity extends AppCompatActivity {
         if (toolbar != null) {
             setSupportActionBar(toolbar);
         }
-
     }
+
 
     //for the click to finish the keypad
     @Override

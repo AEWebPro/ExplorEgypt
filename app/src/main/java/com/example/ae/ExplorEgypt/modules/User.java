@@ -1,20 +1,20 @@
 package com.example.ae.ExplorEgypt.modules;
 
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
     private String id;
     private String userName;
-    private boolean isLoggedIn;
     private String password;
     private String email;
 
     public User() {
     }
 
-    public User(String id, String userName, boolean isLoggedIn, String password, String email) {
+    public User(String id, String userName, String password, String email) {
         this.id = id;
         this.userName = userName;
-        this.isLoggedIn = isLoggedIn;
         this.password = password;
         this.email = email;
     }
@@ -33,14 +33,6 @@ public class User {
 
     public void setUserName(String userName) {
         this.userName = userName;
-    }
-
-    public boolean isLoggedIn() {
-        return isLoggedIn;
-    }
-
-    public void setLoggedIn(boolean loggedIn) {
-        isLoggedIn = loggedIn;
     }
 
     public String getPassword() {

@@ -25,23 +25,28 @@
 
     </style>
 
+    <style name="PlanTheme" parent="AppTheme">
+        <item name="colorAccent">#ffa400</item>
+    </style>
+
     <style name="MapTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary_dark</item>
         <item name="colorAccent">@color/accent</item>
 
     </style>
+
     <style name="AppTheme.Dark" parent="Theme.AppCompat.NoActionBar">
         <item name="colorAccent">@color/accent</item>
 
 
         <item name="colorControlActivated">@color/white</item>
         <item name="colorControlHighlight">@color/white</item>
-        </style>
+    </style>
 
     <style name="AppTheme.Dark.Dialog" parent="Theme.AppCompat.Dialog">
         <item name="colorAccent">@color/white</item>
-        </style>
+    </style>
 
     <style name="foodRatingBar" parent="@android:style/Widget.RatingBar">
         <item name="android:progressDrawable">@drawable/rating_stars</item>

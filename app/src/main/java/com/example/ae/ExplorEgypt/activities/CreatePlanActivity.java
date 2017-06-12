@@ -62,7 +62,7 @@ public class CreatePlanActivity extends BaseActivity implements DatePickerDialog
             createdSessionPlan.setPairOfData(receivedPlan.getPairOfData());
 
             planName.setText(receivedPlan.getPlanName());
-            planDuration.setText(Integer.toString(getDuration(receivedPlan.getPlanStartDate(), receivedPlan.getPlanEndDate())));
+            planDuration.setText(Integer.toString(getDuration(receivedPlan.getPlanStartDate(), receivedPlan.getPlanEndDate())) + " Days");
 
         }
 
@@ -110,7 +110,7 @@ public class CreatePlanActivity extends BaseActivity implements DatePickerDialog
         startDate = Integer.toString(dayOfMonth) + "/" + Integer.toString(monthOfYear) + "/" + Integer.toString(year);
         endDate = Integer.toString(dayOfMonthEnd) + "/" + Integer.toString(monthOfYearEnd) + "/" + Integer.toString(yearEnd);
 
-        planDuration.setText(Integer.toString(getDuration(startDate, endDate)));
+        planDuration.setText(Integer.toString(getDuration(startDate, endDate) )+ " Days");
     }
 
     public static int getDuration(String startDate, String endDate) {
