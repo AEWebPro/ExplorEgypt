@@ -2,6 +2,9 @@ package com.example.ae.ExplorEgypt.rest;
 
 import com.example.ae.ExplorEgypt.modules.PlaceDataModel;
 import com.example.ae.ExplorEgypt.modules.TableRequest;
+import com.example.ae.ExplorEgypt.modules.User;
+import com.example.ae.ExplorEgypt.modules.UserRequest;
+import com.google.android.gms.location.places.Place;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -18,26 +21,32 @@ import retrofit2.http.Query;
 
 public interface TestApiEndPoint {
 
-    @GET("/service.php")
+    @GET("/main.php")
     Call<PlaceDataModel> getAPlace(@Query("Operation") String operation, @Query("table") String tableName, @Query("RequestParameters") PlaceDataModel place);
 
-    @POST("/service.php")
+    @POST("/main.php")
     @FormUrlEncoded
     Call<PlaceDataModel> getPlaceFromServer(@FieldMap Map<String, String> requestMap);
 
-    @POST("/service.php")
+    @POST("/main.php")
     Call<ArrayList<PlaceDataModel>> getPlacesService(@Body TableRequest body);
 
-    @POST("/service.php")
+    @POST("/main.php")
     Call<ResponseBody> registerAccount(@Body TableRequest body);
 
-    @POST("/service.php")
-    Call<String> checkIfIsFavourite(@Body TableRequest body);
+    @POST("/main.php")
+    Call<ArrayList<PlaceDataModel>> checkIfIsFavourite(@Body TableRequest body);
 
-    @POST("/service.php")
+    @POST("/main.php")
     Call<ResponseBody> sendData(@Body TableRequest body);
 
-    @POST("/service.php")
+    @POST("/main.php")
     Call<ArrayList<String>> checkIfIsAvailabe(@Body TableRequest body);
+
+    @POST("/main.php")
+    Call<ArrayList<User>> userLogin(@Body UserRequest body);
+
+    @POST("/main.php")
+    Call<ResponseBody> userSignup(@Body UserRequest body);
 
 }

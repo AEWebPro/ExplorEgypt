@@ -42,7 +42,7 @@ public class RecyclerAdapterDayInfo extends RecyclerView.Adapter<RecyclerAdapter
         holder.placeTitle.setText(place.getName());
 
         Picasso.with(context).load(place.getImageUrl()).resize(110, 110).centerCrop()
-                .placeholder(R.mipmap.ic_launcher).into(holder.placePicture);
+                .placeholder(R.drawable.default_placeholder).into(holder.placePicture);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

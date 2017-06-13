@@ -45,7 +45,7 @@
     </style>
 
     <style name="AppTheme.Dark.Dialog" parent="Theme.AppCompat.Dialog">
-        <item name="colorAccent">@color/white</item>
+        <item name="colorAccent">#ffa400</item>
     </style>
 
     <style name="foodRatingBar" parent="@android:style/Widget.RatingBar">

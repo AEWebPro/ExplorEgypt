@@ -22,7 +22,6 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.ae.ExplorEgypt.R;
 import com.example.ae.ExplorEgypt.infrastructure.HelperClass;
@@ -50,7 +49,7 @@ public class BaseActivity extends AppCompatActivity {
         if (navDrawer != null) {
             navigationView = (NavigationView) findViewById(R.id.activity_navigation_view);
             TextView userName = (TextView)navigationView.getHeaderView(0).findViewById(R.id.include_main_nav_drawer_display_name);
-            userName.setText(HelperClass.getUserFromPref(getApplicationContext(),"user").getUserName());
+            userName.setText(HelperClass.getUserFromPref(getApplicationContext(),"user").getName());
 
             navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
                 @Override

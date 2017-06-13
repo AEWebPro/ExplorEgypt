@@ -20,15 +20,20 @@ import com.example.ae.ExplorEgypt.infrastructure.HelperClass;
 import com.example.ae.ExplorEgypt.modules.RequestParameters;
 import com.example.ae.ExplorEgypt.modules.TableRequest;
 import com.example.ae.ExplorEgypt.modules.User;
+import com.example.ae.ExplorEgypt.modules.UserRequest;
 import com.example.ae.ExplorEgypt.rest.OurApiClient;
 import com.example.ae.ExplorEgypt.rest.TestApiEndPoint;
 import com.google.gson.Gson;
+
+import java.io.IOException;
+import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Signup extends AppCompatActivity {
 
@@ -81,25 +86,7 @@ public class Signup extends AppCompatActivity {
             }
 
             _signupButton.setEnabled(false);
-
-            progressDialog = new ProgressDialog(Signup.this,
-                    R.style.AppTheme_Dark_Dialog);
-            progressDialog.setIndeterminate(true);
-            progressDialog.setMessage("Creating Account...");
-            progressDialog.show();
-
-            String name = _nameText.getText().toString();
-            // String address = _addressText.getText().toString();
-            String email = _emailText.getText().toString();
-            //String mobile = _mobileText.getText().toString();
-            String password = _passwordText.getText().toString();
-            //String reEnterPassword = _reEnterPasswordText.getText().toString();
-
-            // TODO: Implement your own signup logic here.
-            //sendAccount(name,email,password);
-            User loggedUser = new User("555", name, password,email);
-            HelperClass.saveUserPref(this,"user",loggedUser);
-            onSignupSuccess();
+            checkAccountInServer();
 
         }else {
             Toast.makeText(this, "No connection!", Toast.LENGTH_SHORT).show();
@@ -123,11 +110,8 @@ public class Signup extends AppCompatActivity {
         boolean valid = true;
 
         String name = _nameText.getText().toString();
-      //  String address = _addressText.getText().toString();
         String email = _emailText.getText().toString();
-       // String mobile = _mobileText.getText().toString();
         String password = _passwordText.getText().toString();
-        //String reEnterPassword = _reEnterPasswordText.getText().toString();
 
         if (name.isEmpty() || name.length() < 3) {
             _nameText.setError("at least 3 characters");
@@ -135,14 +119,6 @@ public class Signup extends AppCompatActivity {
         } else {
             _nameText.setError(null);
         }
-/*
-        if (address.isEmpty()) {
-            _addressText.setError("Enter Valid Address");
-            valid = false;
-        } else {
-            _addressText.setError(null);
-        }
-        */
 
 
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
@@ -152,31 +128,64 @@ public class Signup extends AppCompatActivity {
             _emailText.setError(null);
         }
 
-        /*
-        if (mobile.isEmpty() || mobile.length()!=11) {
-            _mobileText.setError("Enter Valid Mobile Number");
-            valid = false;
-        } else {
-            _mobileText.setError(null);
-        }
-        */
-
         if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
-            _passwordText.setError("between 4 and 10 alphanumeric characters");
+            _passwordText.setError("between 4 and 10 characters");
             valid = false;
         } else {
             _passwordText.setError(null);
         }
-/*
-        if (reEnterPassword.isEmpty() || reEnterPassword.length() < 4 || reEnterPassword.length() > 10 || !(reEnterPassword.equals(password))) {
-            _reEnterPasswordText.setError("Password Do not match");
-            valid = false;
-        } else {
-            _reEnterPasswordText.setError(null);
-        }
-*/
         return valid;
     }
+
+    private void checkAccountInServer() {
+        final ProgressDialog progressDialog = new ProgressDialog(Signup.this,
+                R.style.AppTheme_Dark_Dialog);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setMessage("Authenticating...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
+        final TestApiEndPoint ourApiEndPoint = OurApiClient
+                .getClient().create(TestApiEndPoint.class);
+
+        UserRequest userRequest = new UserRequest("signup",_emailText.getText().toString(),_passwordText.getText().toString(),_nameText.getText().toString());
+        String request = new Gson().toJson(userRequest);
+
+        Call<ResponseBody > mCall = ourApiEndPoint.userSignup(userRequest);
+        mCall.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                String responseContent = null;
+                try {
+                    responseContent = response.body().string();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                if(!responseContent.isEmpty()){
+                    if(responseContent.contains("ID")){
+                        String userId = responseContent.substring(responseContent.indexOf("ID = ") + 5, responseContent.length());
+                        User newUser = new User(userId, _nameText.getText().toString(),_passwordText.getText().toString(), _emailText.getText().toString());
+                        HelperClass.saveUserPref(Signup.this, "user", newUser);
+                        progressDialog.dismiss();
+                        onSignupSuccess();
+
+                    }else{
+                        Toast.makeText(Signup.this, "Email is used before", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                _signupButton.setEnabled(true);
+                progressDialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                progressDialog.dismiss();
+                onSignupFailed();
+            }
+        });
+    }
+
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
@@ -205,44 +214,6 @@ public class Signup extends AppCompatActivity {
                 ((InputMethodManager)this.getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow((this.getWindow().getDecorView().getApplicationWindowToken()), 0);
         }
         return super.dispatchTouchEvent(ev);
-    }
-
-    private void sendAccount(String username, String email, String password){
-        final TestApiEndPoint ourApiEndPoint = OurApiClient.getClient().create(TestApiEndPoint.class);
-
-        RequestParameters parameters = new RequestParameters();
-        parameters.setName(username);
-        parameters.setPassword(password);
-        parameters.setEmail(email);
-
-        TableRequest tableRequest = new TableRequest("POST", "users", parameters);
-        String request = new Gson().toJson(tableRequest);
-
-        Call<ResponseBody> call = ourApiEndPoint.registerAccount(tableRequest);
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
-                if(response.isSuccessful()){
-                    //TODO: SAve user in app
-
-                    new android.os.Handler().postDelayed(
-                            new Runnable() {
-                                public void run() {
-                                    // On complete call either onSignupSuccess or onSignupFailed
-                                    // depending on success
-                                    onSignupSuccess();
-                                    // onSignupFailed();
-                                    progressDialog.dismiss();
-                                }
-                            }, 3000);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-
-            }
-        });
     }
 
     public boolean isNetworkAvailable() {

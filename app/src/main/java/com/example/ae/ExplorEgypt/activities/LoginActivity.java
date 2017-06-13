@@ -17,15 +17,25 @@ import android.widget.Toast;
 
 import com.example.ae.ExplorEgypt.R;
 import com.example.ae.ExplorEgypt.infrastructure.HelperClass;
+import com.example.ae.ExplorEgypt.modules.TableRequest;
 import com.example.ae.ExplorEgypt.modules.User;
+import com.example.ae.ExplorEgypt.modules.UserRequest;
+import com.example.ae.ExplorEgypt.rest.OurApiClient;
+import com.example.ae.ExplorEgypt.rest.TestApiEndPoint;
+import com.google.gson.Gson;
+
+import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
 
-    private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
     @Bind(R.id.input_email)
     EditText _emailText;
@@ -42,14 +52,6 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
-        _loginButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                login();
-            }
-        });
-
         _signupLink.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -62,6 +64,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    @OnClick(R.id.btn_login)
     public void login() {
 
         if (isNetworkAvailable()) {
@@ -70,31 +73,9 @@ public class LoginActivity extends AppCompatActivity {
                 onLoginFailed();
                 return;
             }
-
             _loginButton.setEnabled(false);
+            checkAccountInServer();
 
-            final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this,
-                    R.style.AppTheme_Dark_Dialog);
-            progressDialog.setIndeterminate(true);
-            progressDialog.setMessage("Authenticating...");
-            progressDialog.show();
-
-            String email = _emailText.getText().toString();
-            String password = _passwordText.getText().toString();
-
-            // TODO: Implement your own authentication logic here.
-            //Temp user for the test
-            User loggedUser = new User("555", "ahmed ehab", password,email);
-            HelperClass.saveUserPref(this,"user",loggedUser);
-            new android.os.Handler().postDelayed(
-                    new Runnable() {
-                        public void run() {
-                            // On complete call either onLoginSuccess or onLoginFailed
-                            onLoginSuccess();
-                            // onLoginFailed();
-                            progressDialog.dismiss();
-                        }
-                    }, 3000);
         } else {
             Toast.makeText(this, "No connection!", Toast.LENGTH_SHORT).show();
         }
@@ -105,21 +86,9 @@ public class LoginActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_SIGNUP) {
             if (resultCode == RESULT_OK) {
-
-                // TODO: Implement successful logic here
-                // By default we just finish the Activity and log them in automatically
                 onLoginSuccess();
             }
         }
-       /* else if(requestCode == REQUEST_HOME)
-        {
-            if (resultCode == RESULT_OK) {
-
-                // TODO: Implement successful Home logic here
-                // By default we just finish the Activity and log them in automatically
-                this.finish();
-            }
-        }*/
 
     }
 
@@ -178,6 +147,52 @@ public class LoginActivity extends AppCompatActivity {
                     | View.SYSTEM_UI_FLAG_FULLSCREEN
                     | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
         }
+    }
+
+    private void checkAccountInServer() {
+        final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this,
+                R.style.AppTheme_Dark_Dialog);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setMessage("Authenticating...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
+        final TestApiEndPoint ourApiEndPoint = OurApiClient
+                .getClient().create(TestApiEndPoint.class);
+
+        UserRequest userRequest = new UserRequest("login", _emailText.getText().toString(), _passwordText.getText().toString(), null);
+        String request = new Gson().toJson(userRequest);
+
+        Call<ArrayList<User>> mCall = ourApiEndPoint.userLogin(userRequest);
+        mCall.enqueue(new Callback<ArrayList<User>>() {
+            @Override
+            public void onResponse(Call<ArrayList<User>> call, Response<ArrayList<User>> response) {
+                if (response.isSuccessful()) {
+                    if (!response.body().isEmpty()) {
+                        //save the returned user
+                        User loggedUser = response.body().get(0);
+                        HelperClass.saveUserPref(LoginActivity.this, "user", loggedUser);
+                        progressDialog.dismiss();
+                        _loginButton.setEnabled(true);
+                        onLoginSuccess();
+                    } else {
+                        Toast.makeText(LoginActivity.this, "Incorrect userName or password", Toast.LENGTH_SHORT).show();
+                        progressDialog.dismiss();
+                        _loginButton.setEnabled(true);
+                    }
+                } else {
+                    Toast.makeText(LoginActivity.this, "Try again", Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<User>> call, Throwable t) {
+                Toast.makeText(LoginActivity.this, "Time out try again", Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
+                _loginButton.setEnabled(true);
+            }
+        });
     }
 
     //for the click to finish the keypad

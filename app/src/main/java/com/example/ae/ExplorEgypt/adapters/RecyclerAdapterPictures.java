@@ -45,7 +45,7 @@ public class RecyclerAdapterPictures extends RecyclerView.Adapter<RecyclerAdapte
     @Override
     public void onBindViewHolder(PictureViewHolder holder, final int position) {
         imageUrl = imagesURL.get(position);
-        Picasso.with(context).load(imageUrl).resize(100,100).centerCrop().placeholder(R.mipmap.ic_launcher).into( holder.picture);
+        Picasso.with(context).load(imageUrl).resize(100,100).centerCrop().placeholder(R.drawable.default_placeholder).into( holder.picture);
         holder.picture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

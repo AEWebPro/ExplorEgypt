@@ -11,7 +11,9 @@ import android.widget.Toast;
 
 import com.example.ae.ExplorEgypt.R;
 import com.example.ae.ExplorEgypt.adapters.RecyclerAdapterCategories;
+import com.example.ae.ExplorEgypt.infrastructure.HelperClass;
 import com.example.ae.ExplorEgypt.modules.CategoryItem;
+import com.example.ae.ExplorEgypt.modules.Plan;
 import com.example.ae.ExplorEgypt.modules.SessionPlan;
 
 import java.util.ArrayList;
@@ -43,6 +45,7 @@ public class SelectTypeToAddActivity extends BaseActivity {
 
         setupCatRecycler();
     }
+
     void setupCatRecycler() {
         ArrayList<CategoryItem> categoryItems = new ArrayList<>();
 
@@ -60,7 +63,7 @@ public class SelectTypeToAddActivity extends BaseActivity {
         categoriesRecycleView.setAdapter(adapterCategories);
     }
 
-        @Override
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.save_discard_plan, menu);
         menu.findItem(R.id.menu_plan_search).setVisible(false);
@@ -71,17 +74,24 @@ public class SelectTypeToAddActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.menu_plan_save) {
-            //TODO Convert the object to the plan type and save in the DB
-            Toast.makeText(getBaseContext(), "SessionPlan is saved!", Toast.LENGTH_SHORT).show();
+            //Save the plan to the server
+            Toast.makeText(getBaseContext(), "Plan is created!", Toast.LENGTH_SHORT).show();
 
-            Intent intent = new Intent(this, HomeActivity.class);
+            Plan savedPlan = new Plan(
+                    SessionPlan.getSessionPlanInstance().getPlanName(),
+                    SessionPlan.getSessionPlanInstance().getPlanStartDate(),
+                    SessionPlan.getSessionPlanInstance().getPlanEndDate(),
+                    false,
+                    HelperClass.orderThePairs(SessionPlan.getSessionPlanInstance().getPairOfData()));
+
+            Intent intent = new Intent(this, YourPlanes.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             finish();
             return true;
 
         } else if (id == R.id.menu_plan_delete) {
-            //TODO Save the object of the plan to the DB
+            //Delete the plan
             Toast.makeText(getBaseContext(), "Deleted", Toast.LENGTH_SHORT).show();
             SessionPlan.getSessionPlanInstance().destroyInstance();
 

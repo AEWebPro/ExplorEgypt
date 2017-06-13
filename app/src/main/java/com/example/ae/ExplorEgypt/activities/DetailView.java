@@ -33,12 +33,14 @@ import android.widget.Toast;
 import com.example.ae.ExplorEgypt.R;
 import com.example.ae.ExplorEgypt.adapters.RecyclerAdapterPlacesWithPics;
 import com.example.ae.ExplorEgypt.adapters.RecyclerAdapterPictures;
+import com.example.ae.ExplorEgypt.infrastructure.HelperClass;
 import com.example.ae.ExplorEgypt.infrastructure.MyMapView;
 import com.example.ae.ExplorEgypt.modules.PairOfDayAndPlace;
 import com.example.ae.ExplorEgypt.modules.PlaceDataModel;
 import com.example.ae.ExplorEgypt.modules.RequestParameters;
 import com.example.ae.ExplorEgypt.modules.SessionPlan;
 import com.example.ae.ExplorEgypt.modules.TableRequest;
+import com.example.ae.ExplorEgypt.modules.User;
 import com.example.ae.ExplorEgypt.rest.OurApiClient;
 import com.example.ae.ExplorEgypt.rest.TestApiEndPoint;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -50,6 +52,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,6 +83,8 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
     private RecyclerAdapterPlacesWithPics adapterPlaces;
     private View hotelBookingVIew;
 
+    private final isFavoriteValue isFavBool = new isFavoriteValue();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,12 +110,16 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
 
 
         String[] placeImagesUrls = placeDisplayed.getImageUrl().split(",");
-        Picasso.with(this).load(placeImagesUrls[0]).placeholder(R.mipmap.ic_launcher).into(placeImage);
+        Picasso.with(this).load(placeImagesUrls[0]).placeholder(R.drawable.default_placeholder).into(placeImage);
 
         //For the Hotel booking card
         if (placeDisplayed.getGroupId() != 2) {
             hotelBookingVIew.setVisibility(View.GONE);
         }
+
+        //Checking if it's favorite for the user and change UI
+        checkIfIsFavourite();
+
 
         addressTextView.setText(placeDisplayed.getAddress());
         overViewTextView.setText(placeDisplayed.getDescription());
@@ -231,7 +240,7 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
             shareIntent.setType("text/plain");
             startActivity(Intent.createChooser(shareIntent, "Choose"));
         } else if (id == R.id.activity_detail_view_fav_button) {
-            if (!isClicked) {
+           /* if (!isClicked) {
                 isClicked = true;
                 favorite_button.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_favorite_accent_24dp, 0, 0);
             } else {
@@ -239,9 +248,15 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
                 favorite_button.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_favorite_black_24dp, 0, 0);
                 favorite_button.setTextColor(getResources().getColor(R.color.primary_text));
                 favorite_button.getBackground().clearColorFilter();
-            }
+            }*/
             //will make it work soon!!
-            //checkIfIsFavourite();
+            if(isFavBool.isFav){
+                //delete favorite
+                favorite_button.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_favorite_black_24dp, 0, 0);
+            }else {
+                addToFavourite();
+                //add favorite
+            }
 
         } else if (id == R.id.activity_detail_add_floatbtn) {
             final SessionPlan workingSessionPlan = SessionPlan.getSessionPlanInstance();
@@ -343,9 +358,9 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
                 .getClient().create(TestApiEndPoint.class);
 
         RequestParameters Parameters = new RequestParameters();
-        if(placeDisplayed.getGroupId() != 0) {
+        if (placeDisplayed.getGroupId() != 0) {
             Parameters.setGroupId(String.valueOf(placeDisplayed.getGroupId()));
-        }else{
+        } else {
             Parameters.setGroupId("4");
         }
         TableRequest tableRequest = new TableRequest("GET", "places", Parameters);
@@ -395,48 +410,31 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
     }
 
     public void checkIfIsFavourite() {
+        //final boolean[] isFav = {false};
+
         final TestApiEndPoint ourApiEndPoint = OurApiClient
                 .getClient().create(TestApiEndPoint.class);
 
         RequestParameters parameters = new RequestParameters();
-        parameters.setUser_id("700");
+        User activeUser = HelperClass.getUserFromPref(getApplicationContext(), "user");
+        parameters.setUser_id(activeUser.getId());
         parameters.setPlace_id(Integer.toString(placeDisplayed.getId()));
         TableRequest tableRequest = new TableRequest("GET", "favourite", parameters);
         String request = new Gson().toJson(tableRequest);
 
-        Call<String> mCall = ourApiEndPoint.checkIfIsFavourite(tableRequest);
-        mCall.enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                if (response.isSuccessful()) {
-                    if (response.body().isEmpty()) {
-                        addToFavourite();
-                    } else {
-                        String value = response.body().toString();
-                        Toast.makeText(getApplicationContext(), "Will be deleted", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-
-            }
-        });
-     /*   Call<ArrayList<PlaceDataModel>> mCall = ourApiEndPoint.getPlacesService(tableRequest);
+        Call<ArrayList<PlaceDataModel>> mCall = ourApiEndPoint.checkIfIsFavourite(tableRequest);
         mCall.enqueue(new Callback<ArrayList<PlaceDataModel>>() {
+
             @Override
             public void onResponse(Call<ArrayList<PlaceDataModel>> call, Response<ArrayList<PlaceDataModel>> response) {
-                if (response.isSuccessful()) {
-                    if (!response.body().isEmpty()) {
-                        //Log.d(TAG, "success---" + response.body().get(0).getName());
-                        homeRecyclerProgressPar.setVisibility(View.GONE);
-                        placesList = response.body();
-                        adapter.addPlaces(placesList);
-                        adapter.notifyDataSetChanged();
-                    }
+                if (!response.body().isEmpty()) {
+                    //is favorite
+                    isFavBool.isFav = true;
+                    favorite_button.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_favorite_accent_24dp, 0, 0);
                 } else {
-                    Log.d(TAG, "Failed---");
+                    //not favorite
+                    isFavBool.isFav = false;
+                    favorite_button.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_favorite_black_24dp, 0, 0);
                 }
             }
 
@@ -445,7 +443,6 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
 
             }
         });
-        */
 
     }
 
@@ -454,7 +451,8 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
                 .getClient().create(TestApiEndPoint.class);
 
         RequestParameters parameters = new RequestParameters();
-        parameters.setUser_id("700");
+        User activeUser = HelperClass.getUserFromPref(getApplicationContext(), "user");
+        parameters.setUser_id(activeUser.getId());
         parameters.setPlace_id(Integer.toString(placeDisplayed.getId()));
         TableRequest tableRequest = new TableRequest("POST", "favourite", parameters);
         String request = new Gson().toJson(tableRequest);
@@ -463,10 +461,55 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
         mCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if (response.isSuccessful()) {
+                String responseContent = null;
+                try {
+                    responseContent = response.body().string();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                if (responseContent.isEmpty()) {
                     favorite_button.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_favorite_accent_24dp, 0, 0);
-                    favorite_button.setTextColor(getResources().getColor(R.color.accent));
-                    favorite_button.getBackground().setColorFilter(getResources().getColor(R.color.primary), PorterDuff.Mode.MULTIPLY);
+                    //favorite_button.setTextColor(getResources().getColor(R.color.accent));
+                    //favorite_button.getBackground().setColorFilter(getResources().getColor(R.color.primary), PorterDuff.Mode.MULTIPLY);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Error try again!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
+
+    }
+
+
+    void deleteFavorite() {
+        final TestApiEndPoint ourApiEndPoint = OurApiClient
+                .getClient().create(TestApiEndPoint.class);
+
+        RequestParameters parameters = new RequestParameters();
+        User  activeUser = HelperClass.getUserFromPref(getApplicationContext(), "user");
+        parameters.setUser_id(activeUser.getId());
+        parameters.setPlace_id(Integer.toString(placeDisplayed.getId()));
+        TableRequest tableRequest = new TableRequest("DELETE", "favourite", parameters);
+        String request = new Gson().toJson(tableRequest);
+
+        Call<ResponseBody> mCall = ourApiEndPoint.sendData(tableRequest);
+        mCall.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                String responseContent = null;
+                try {
+                    responseContent = response.body().string();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                if (responseContent.isEmpty()) {
+                    favorite_button.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_favorite_accent_24dp, 0, 0);
+                    //favorite_button.setTextColor(getResources().getColor(R.color.accent));
+                    //favorite_button.getBackground().setColorFilter(getResources().getColor(R.color.primary), PorterDuff.Mode.MULTIPLY);
                 } else {
                     Toast.makeText(getApplicationContext(), "Error try again!", Toast.LENGTH_SHORT).show();
                 }
@@ -517,5 +560,9 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
     public void onResume() {
         super.onResume();
         mMapView.onResume();
+    }
+
+    private static class isFavoriteValue{
+        public  boolean isFav = false;
     }
 }
