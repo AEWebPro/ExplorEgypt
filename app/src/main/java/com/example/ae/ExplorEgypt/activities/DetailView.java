@@ -253,6 +253,7 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
             if(isFavBool.isFav){
                 //delete favorite
                 favorite_button.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_favorite_black_24dp, 0, 0);
+                isFavBool.isFav = false;
             }else {
                 addToFavourite();
                 //add favorite
@@ -469,6 +470,7 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
                 }
                 if (responseContent.isEmpty()) {
                     favorite_button.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_favorite_accent_24dp, 0, 0);
+                    isFavBool.isFav = true;
                     //favorite_button.setTextColor(getResources().getColor(R.color.accent));
                     //favorite_button.getBackground().setColorFilter(getResources().getColor(R.color.primary), PorterDuff.Mode.MULTIPLY);
                 } else {
