@@ -37,6 +37,16 @@ public class YourPlanes extends BaseActivity {
 
         getSupportActionBar().setTitle("Your Plans");
 
+        ArrayList<PlaceDataModel> d1place1 = new ArrayList<>();
+        /*d1place1.add(new PlaceDataModel("Guardian Guest House",
+                "A block from the Pyramids of Giza complex, this modest guesthouse is also a 10-minute walk from the ancient Khufu ship, now a museum." +
+                        "The simple, air-conditioned rooms offer private bathrooms, free Wi-Fi and views of the Pyramids." +
+                        " Room service is available.Freebies include breakfast tea, coffee and mineral water. " +
+                        "There's also a terrace overlooking the Pyramids and Sphinx." ,
+                "http://ucd.hwstatic.com/propertyimages/6/69554/1.jpg , https://media-cdn.tripadvisor.com/media/photo-s/09/fd/2d/88/guardian-guest-house.jpg",
+                "1 Abou al hool street, Giza, Egypt, Nazlet el Samman 12561", "Giza",
+                "29.975066,31.141047", "", "", "",0));*/
+
         ArrayList<PlaceDataModel> listOfPlaces1 = new ArrayList<>();
         listOfPlaces1.add(new PlaceDataModel("Hotel",getString(R.string.temp_text),getString(R.string.hotel_image),"","","29.967803, 31.129438","","","",0));
 

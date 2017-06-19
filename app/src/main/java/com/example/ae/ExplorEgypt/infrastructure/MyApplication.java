@@ -11,7 +11,6 @@ public class MyApplication extends Application{
 
     //public MyApplication(){}
 
-    private User user;
 
     @Override
     public void onCreate() {
@@ -19,11 +18,7 @@ public class MyApplication extends Application{
         super.onCreate();
         Log.e("onCreate: ","My application is called" );
 
-        user = new User();
-        user.setId("700");
+
     }
 
-    public User getUser() {
-        return user;
-    }
 }

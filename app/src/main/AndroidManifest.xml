@@ -66,7 +66,7 @@
         <activity android:name="com.example.ae.ExplorEgypt.activities.EmbassyInformation" />
         <activity android:name="com.example.ae.ExplorEgypt.map.HospitalsMapsActivity" android:theme="@style/AppTheme"/>
         <activity android:name="com.example.ae.ExplorEgypt.activities.HomeCatListActivity" />
-        <activity android:name=".activities.FavouriteActivity" />
+        <activity android:name="com.example.ae.ExplorEgypt.activities.FavouriteActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
