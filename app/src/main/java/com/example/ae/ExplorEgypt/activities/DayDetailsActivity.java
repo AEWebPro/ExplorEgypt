@@ -21,6 +21,7 @@ public class DayDetailsActivity extends BaseActivity {
 
     @Bind(R.id.activity_day_details_recycler)
     RecyclerView activityDayDetailsRecycler;
+    private PairOfDayAndPlace pairToDisplay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +38,7 @@ public class DayDetailsActivity extends BaseActivity {
         });
 
         Intent receivedIntent = getIntent();
-        PairOfDayAndPlace pairToDisplay = receivedIntent.getParcelableExtra("pair_details");
+        pairToDisplay = receivedIntent.getParcelableExtra("pair_details");
 
         activityDayDetailsRecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false));
         activityDayDetailsRecycler.addItemDecoration(new SimpleRecyclerDivider(this));
@@ -61,6 +62,7 @@ public class DayDetailsActivity extends BaseActivity {
 
         if(id == R.id.activity_plan_detail_map_icon){
             Intent passingIntent = new Intent(this, DayPlacesPathMapActivity.class);
+            passingIntent.putExtra("pair_map", pairToDisplay);
             startActivity(passingIntent);
             return true;
         }

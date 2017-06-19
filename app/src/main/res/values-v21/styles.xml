@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowContentTransitions">true</item>
 
         <item name="colorPrimary">@color/primary</item>
@@ -11,7 +11,7 @@
         <item name="android:textColorHint">@color/secondary_text</item>
         <item name="android:divider">@color/divider</item>
         <item name="android:icon">@color/primary_text</item>
-        <item name="android:windowBackground">@color/gray_300</item>
+        <item name="android:windowBackground">@color/white_new_window</item>
 
         <item name="android:windowDisablePreview">true</item>
         <item name="windowActionBar">false</item>
@@ -53,9 +53,7 @@
         <item name="android:textSize">16sp</item>
     </style>
 
-    <style name="PlanTheme" parent="AppTheme">
-        <item name="android:colorAccent">#ffa400</item>
-        <item name="colorAccent">#ffa400</item>
-
+    <style name="DetailTheme" parent="AppTheme">
+        <item name="android:windowBackground">@color/white</item>
     </style>
 </resources>

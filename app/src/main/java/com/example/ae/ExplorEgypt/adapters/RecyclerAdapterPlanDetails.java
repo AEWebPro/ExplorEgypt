@@ -56,7 +56,9 @@ public class RecyclerAdapterPlanDetails extends RecyclerView.Adapter<RecyclerAda
             placeImage.setLayoutParams(params);
             placeImage.setPadding(4,4,4,6);
 
-            Picasso.with(context).load(pair.getPlace().get(i).getImageUrl()).centerCrop().fit().into(placeImage);
+            String[] imagesList = pair.getPlace().get(i).getImageUrl().split(",");
+
+            Picasso.with(context).load(imagesList[0]).centerCrop().fit().into(placeImage);
 
             final int finalI = i;
             placeImage.setOnClickListener(new View.OnClickListener() {

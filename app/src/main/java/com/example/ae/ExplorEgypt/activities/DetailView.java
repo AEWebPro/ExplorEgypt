@@ -93,6 +93,9 @@ public class DetailView extends AppCompatActivity implements View.OnClickListene
         Intent intentPassed = getIntent();
         placeDisplayed = (PlaceDataModel) intentPassed.getParcelableExtra("placeClicked");
 
+        Gson gson = new Gson();
+        String data = gson.toJson(placeDisplayed);
+
         CollapsingToolbarLayout layout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
 
         layout.setTitle(placeDisplayed.getName());

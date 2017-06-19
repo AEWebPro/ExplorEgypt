@@ -41,7 +41,9 @@ public class RecyclerAdapterDayInfo extends RecyclerView.Adapter<RecyclerAdapter
         holder.placeOrder.setText(Integer.toString(position +1) + "- ");
         holder.placeTitle.setText(place.getName());
 
-        Picasso.with(context).load(place.getImageUrl()).resize(110, 110).centerCrop()
+        String[] imagesList = place.getImageUrl().split(",");
+
+        Picasso.with(context).load(imagesList[0]).resize(110, 110).centerCrop()
                 .placeholder(R.drawable.default_placeholder).into(holder.placePicture);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {

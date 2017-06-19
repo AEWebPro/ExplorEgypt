@@ -7,9 +7,9 @@
     android:layout_height="wrap_content"
     android:id="@+id/include_toolbar"
     android:background="@color/primary"
-    app:theme="@style/ThemeOverlay.AppCompat.Light"
+    app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
     app:titleTextAppearance="@style/Toolbar.TitleText"
-    app:titleTextColor="@color/accent"
+    app:titleTextColor="@color/white"
     app:subtitleTextColor="@color/secondary_text"
     android:titleTextAppearance="@style/Toolbar.TitleText"
     app:layout_scrollFlags="scroll|enterAlways|snap"/>

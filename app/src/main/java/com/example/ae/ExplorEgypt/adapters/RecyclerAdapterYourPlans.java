@@ -22,7 +22,6 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 
-
 public class RecyclerAdapterYourPlans extends RecyclerView.Adapter<RecyclerAdapterYourPlans.PlanViewHolder> {
     private ArrayList<Plan> myPlans;
     private Context context;
@@ -36,7 +35,7 @@ public class RecyclerAdapterYourPlans extends RecyclerView.Adapter<RecyclerAdapt
 
     @Override
     public PlanViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.activity_recommand_programs_list, parent,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.activity_recommand_programs_list, parent, false);
         return new PlanViewHolder(view);
     }
 
@@ -45,10 +44,12 @@ public class RecyclerAdapterYourPlans extends RecyclerView.Adapter<RecyclerAdapt
 
 
         final Plan plan = myPlans.get(position);
-        planViewHolder.planTitle.setText( plan.getPlanName());
+        planViewHolder.planTitle.setText(plan.getPlanName());
         planViewHolder.planStartDate.setText("o start date:" + plan.getPlanStartDate());
+        String[] imagesList = plan.getPairOfData().get(0).getPlace().get(0).getImageUrl().split(",");
+
         Picasso.with(context)
-                .load(plan.getPairOfData().get(0).getPlace().get(0).getImageUrl())
+                .load(imagesList[0])
                 .centerCrop()
                 .fit()
                 .into(planViewHolder.planBgImage, new Callback() {
@@ -61,7 +62,7 @@ public class RecyclerAdapterYourPlans extends RecyclerView.Adapter<RecyclerAdapt
                     public void onError() {
 
                     }
-                }) ;
+                });
        /* planViewHolder.planIsActive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -70,9 +71,21 @@ public class RecyclerAdapterYourPlans extends RecyclerView.Adapter<RecyclerAdapt
             }
         });*/
 
-        if(planViewHolder.planIsActive.isActivated()){
-            Toast.makeText(context,Integer.toString(position) +  " is clicked",Toast.LENGTH_SHORT).show();
+        if (plan.isActive()) {
+            planViewHolder.planIsActive.setChecked(true);
         }
+
+        planViewHolder.planIsActive.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (planViewHolder.planIsActive.isChecked()) {
+                    Toast.makeText(context, plan.getPlanName() + " is Activated", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context, plan.getPlanName() + " is Deactivated", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
 
         /** Change background color of the selected items in list view  **/
         planViewHolder.blackView
@@ -82,7 +95,7 @@ public class RecyclerAdapterYourPlans extends RecyclerView.Adapter<RecyclerAdapt
         planViewHolder.planBgImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent planIntent = new Intent(context,YourPlanDetails.class);
+                Intent planIntent = new Intent(context, YourPlanDetails.class);
                 planIntent.putExtra("PlanDetails", plan);
                 context.startActivity(planIntent);
             }
@@ -95,7 +108,7 @@ public class RecyclerAdapterYourPlans extends RecyclerView.Adapter<RecyclerAdapt
         return myPlans.size();
     }
 
-    public class PlanViewHolder extends RecyclerView.ViewHolder{
+    public class PlanViewHolder extends RecyclerView.ViewHolder {
         private TextView planTitle;
         private TextView planStartDate;
         private ImageView planBgImage;
@@ -138,7 +151,7 @@ public class RecyclerAdapterYourPlans extends RecyclerView.Adapter<RecyclerAdapt
         if (value) {
             mSelectedItemsIds.put(position, value);
 
-        }else
+        } else
             mSelectedItemsIds.delete(position);
 
         notifyDataSetChanged();

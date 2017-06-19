@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="primary">#7E37A2</color>
-    <color name="primary_dark">#6B0BA2</color>
-    <color name="primary_light">#9284A2</color>
-    <color name="accent">#ffa400</color> <!--0BEBC7 -->
-    <color name="primary_text">#212121</color>
-    <color name="secondary_text">#757575</color>
+    <color name="primary">#4d77c9</color>
+    <color name="primary_dark">#4269b6</color>
+    <color name="primary_light">#5a8bea</color>
+    <color name="accent">#19d19b</color> <!--0BEBC7 -->
+    <color name="primary_text">#7c8081</color>
+    <color name="secondary_text">#aaaaad</color>
     <color name="icons">#FFFFFF</color>
     <color name="divider">#BDBDBD</color>
     <color name="black">#000000</color>
@@ -15,6 +15,9 @@
     <color name="cyanDark">#00BCD4</color> <!-- 500-->
     <color name="cyanAccent">#00B8D4</color> <!-- A700-->
     <color name="cyanWhite">#E0F7FA</color> <!-- 50-->
+
+    <color name="white_new_window">#efefef</color>
+    <color name="white_new_card">#f6f7f8</color>
 
     <color name="primaryToolBar">#006775</color>
 

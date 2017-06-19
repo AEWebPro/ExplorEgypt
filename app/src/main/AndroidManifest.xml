@@ -39,7 +39,7 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name="com.example.ae.ExplorEgypt.activities.DetailView"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/DetailTheme" />
         <activity
             android:name="com.example.ae.ExplorEgypt.activities.CurrencyActivity"
             android:theme="@style/AppTheme"/>
@@ -59,12 +59,12 @@
             android:name="com.example.ae.ExplorEgypt.activities.PictureContainerActivity"
             android:screenOrientation="portrait"
             android:theme="@style/CustomDialogActivity" />
-        <activity android:name="com.example.ae.ExplorEgypt.activities.CreatePlanActivity" android:theme="@style/PlanTheme" />
+        <activity android:name="com.example.ae.ExplorEgypt.activities.CreatePlanActivity" />
         <activity android:name="com.example.ae.ExplorEgypt.activities.SelectTypeToAddActivity" />
         <activity android:name="com.example.ae.ExplorEgypt.activities.PlanItemsList" />
         <activity android:name="com.example.ae.ExplorEgypt.activities.DayDetailsActivity" />
         <activity android:name="com.example.ae.ExplorEgypt.activities.EmbassyInformation" />
-        <activity android:name="com.example.ae.ExplorEgypt.map.HospitalsMapsActivity" android:theme="@style/AppTheme"/>
+        <activity android:name="com.example.ae.ExplorEgypt.map.HospitalsMapsActivity" />
         <activity android:name="com.example.ae.ExplorEgypt.activities.HomeCatListActivity" />
         <activity android:name="com.example.ae.ExplorEgypt.activities.FavouriteActivity" />
         <!--

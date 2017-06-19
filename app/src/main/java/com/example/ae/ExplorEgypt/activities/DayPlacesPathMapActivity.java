@@ -1,5 +1,6 @@
 package com.example.ae.ExplorEgypt.activities;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.support.v4.app.FragmentActivity;
@@ -12,6 +13,7 @@ import com.directions.route.RouteException;
 import com.directions.route.Routing;
 import com.directions.route.RoutingListener;
 import com.example.ae.ExplorEgypt.R;
+import com.example.ae.ExplorEgypt.modules.PairOfDayAndPlace;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -30,13 +32,10 @@ import java.util.List;
 public class DayPlacesPathMapActivity extends FragmentActivity implements OnMapReadyCallback, RoutingListener {
 
     private GoogleMap mMap;
-    private LatLng end;
-    private LatLng start;
-    private LatLng waypoint;
+
     private List<Polyline> polylines;
-    private String destTitle;
-    private String startTitle;
-    private String waypointTitle;
+   private ArrayList<LatLng> placesLocation;
+    private ArrayList<String> placesTitles;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,19 +47,34 @@ public class DayPlacesPathMapActivity extends FragmentActivity implements OnMapR
                 .findFragmentById(R.id.map_fragment);
         mapFragment.getMapAsync(this);
 
+        Intent recievedIntent = getIntent();
+        PairOfDayAndPlace pairRecived = recievedIntent.getParcelableExtra("pair_map");
+
+        placesTitles = new ArrayList<>();
+        placesLocation = new ArrayList<>();
+        for  (int i = 0; i < pairRecived.getPlace().size(); i++){
+            placesTitles.add(pairRecived.getPlace().get(i).getName());
+            String[] latLng = pairRecived.getPlace().get(i).getLocationCoordinates().split(",");
+            double latitude = Double.parseDouble(latLng[0]);
+            double longitude = Double.parseDouble(latLng[1]);
+            placesLocation.add(new LatLng(latitude, longitude));
+        }
+
         polylines = new ArrayList<>();
-        destTitle = "Pyramids Loft Hotel";
+
+
+        /*destTitle = "";
         startTitle = "Pyramids of Giza";
         waypointTitle = "Carfore store";
 
         start = new LatLng(29.978919, 31.134891);
         waypoint = new LatLng(29.987751, 31.141250);
-        end = new LatLng(29.975050, 31.140986);
+        end = new LatLng(29.975050, 31.140986);*/
 
         Routing routing = new Routing.Builder()
                 .travelMode(Routing.TravelMode.WALKING)
                 .withListener(this)
-                .waypoints(start, waypoint, end)
+                .waypoints(placesLocation.get(0), placesLocation.get(1), placesLocation.get(2))
                 .build();
         routing.execute();
     }
@@ -71,8 +85,8 @@ public class DayPlacesPathMapActivity extends FragmentActivity implements OnMapR
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+        LatLng sydney = new LatLng(29.976316, 30.948149);
+        mMap.addMarker(new MarkerOptions().position(sydney).title(" October 6 University"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 
@@ -89,8 +103,8 @@ public class DayPlacesPathMapActivity extends FragmentActivity implements OnMapR
     @Override
     public void onRoutingSuccess(ArrayList<Route> route, int shortestRouteIndex) {
 
-        CameraUpdate center = CameraUpdateFactory.newLatLng(start);
-        CameraUpdate zoom = CameraUpdateFactory.zoomTo(16);
+        CameraUpdate center = CameraUpdateFactory.newLatLng(placesLocation.get(0));
+        CameraUpdate zoom = CameraUpdateFactory.zoomTo(13);
 
         mMap.moveCamera(center);
         mMap.animateCamera(zoom);
@@ -117,9 +131,9 @@ public class DayPlacesPathMapActivity extends FragmentActivity implements OnMapR
             Toast.makeText(getApplicationContext(),"Route "+ (i+1) +": distance - "+ route.get(i).getDistanceValue()+": duration - "+ route.get(i).getDurationValue(),Toast.LENGTH_SHORT).show();
         }
 
-        addMarker(startTitle, start);
-        addMarker(waypointTitle, waypoint);
-        addMarker(destTitle, end);
+        addMarker(placesTitles.get(0), placesLocation.get(0));
+        addMarker(placesTitles.get(1), placesLocation.get(1));
+        addMarker(placesTitles.get(2), placesLocation.get(2));
 
 
     }
