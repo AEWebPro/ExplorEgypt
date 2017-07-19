@@ -132,7 +132,7 @@ public class CurrencyActivity extends BaseActivity {
         });
     }
     private void convertCurrency(Float rate){
-        Float rateInEgp = rate / 18;
+        Float rateInEgp = rate / 18.1f;
         Float numberToDisplay = Float.parseFloat(currencyMoneyEditText.getValueString().toString()) / rateInEgp ;
         currencyMoneyTextView.setText( Float.toString(numberToDisplay));
         currencyMoneyTextView.showCurrencySymbol();

@@ -80,7 +80,8 @@
             android:inputType="numberDecimal"
             app:currency_symbol="$"
             app:show_commas="true"
-            app:show_currency="true" />
+            app:show_currency="true"
+            android:textColor="@color/primary_text"/>
     </android.support.design.widget.TextInputLayout>
     <Button
         android:layout_width="wrap_content"
@@ -90,7 +91,7 @@
         android:layout_centerHorizontal="true"
         android:layout_margin="10dp"
         android:text="Convert"
-        android:textColor="@color/green" />
+        android:textColor="@color/accent" />
 
     <TextView
         android:id="@+id/currency_after_convert_text"

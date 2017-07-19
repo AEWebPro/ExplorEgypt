@@ -1,5 +1,7 @@
 package com.example.ae.ExplorEgypt.adapters;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -15,11 +17,15 @@ import android.widget.Toast;
 
 import com.example.ae.ExplorEgypt.R;
 import com.example.ae.ExplorEgypt.activities.YourPlanDetails;
+import com.example.ae.ExplorEgypt.infrastructure.Receiver;
 import com.example.ae.ExplorEgypt.modules.Plan;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+
+import static android.content.Context.ALARM_SERVICE;
 
 
 public class RecyclerAdapterYourPlans extends RecyclerView.Adapter<RecyclerAdapterYourPlans.PlanViewHolder> {
@@ -79,6 +85,16 @@ public class RecyclerAdapterYourPlans extends RecyclerView.Adapter<RecyclerAdapt
             @Override
             public void onClick(View view) {
                 if (planViewHolder.planIsActive.isChecked()) {
+                    Calendar planAlaramDay = Calendar.getInstance();
+
+                    planAlaramDay.add(Calendar.DATE,1);
+
+                    Intent intent = new Intent(context, Receiver.class);
+                    PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 001, intent, 0);
+
+                    AlarmManager am = (AlarmManager)context.getSystemService(ALARM_SERVICE);
+                    am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 1000 * 3, pendingIntent);
+
                     Toast.makeText(context, plan.getPlanName() + " is Activated", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(context, plan.getPlanName() + " is Deactivated", Toast.LENGTH_SHORT).show();
